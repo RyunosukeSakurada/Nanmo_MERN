@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import Navbar from "../../ui/TopPage/Navbar"
 import RegisterButton from "../../ui/TopPage/RegisterButton"
 import StartButton from "../../ui/TopPage/StartButton"
@@ -12,7 +13,9 @@ const Header = () => {
           <Navbar />
         </div>
         <div className="flex items-center gap-x-3">
-          <RegisterButton /> 
+          <Link to="/register">
+            <RegisterButton /> 
+          </Link>
           <StartButton />
         </div>
       </Wrapper>
