@@ -1,7 +1,7 @@
 import {BiMapPin,BiPhone,BiLogoFacebookCircle} from 'react-icons/bi'
 import {AiFillInstagram,AiOutlineTwitter} from 'react-icons/ai'
 import {GoMail} from 'react-icons/go'
-import Wrapper from '../../model/global/Wrapper'
+import Wrapper from './Wrapper'
 
 const Footer = () => {
   return (

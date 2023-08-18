@@ -6,7 +6,7 @@ import Hero from "../../components/model/TopPage/Hero"
 import Questions from "../../components/model/TopPage/Questions"
 import Reason from "../../components/model/TopPage/Reason"
 import Wrapper from "../../components/model/global/Wrapper"
-import Footer from "../../components/ui/TopPage/Footer"
+import Footer from "../../components/model/global/Footer"
 
 const TopPage = () => {
   return (
