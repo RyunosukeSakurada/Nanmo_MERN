@@ -1,9 +1,13 @@
+import {Route,Routes} from "react-router-dom"
+import TopPage from "./pages/TopPage/TopPage"
 
 function App() {
 
   return (
     <>
-      <p className="">hi</p>
+      <Routes>
+        <Route path="/" element={ <TopPage />} />
+      </Routes>
     </>
   )
 }
