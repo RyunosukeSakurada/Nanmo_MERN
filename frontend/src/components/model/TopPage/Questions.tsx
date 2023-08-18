@@ -1,7 +1,7 @@
 import Accordion from "../../ui/TopPage/Accordion"
 import SectionHeader from "../../ui/TopPage/SectionHeader"
 
-const Question = () => {
+const Questions = () => {
   return (
     <section className='w-full'>
       <SectionHeader subtitle="- Questions" title="よくある質問"/>
@@ -10,4 +10,4 @@ const Question = () => {
   )
 }
 
-export default Question
+export default Questions

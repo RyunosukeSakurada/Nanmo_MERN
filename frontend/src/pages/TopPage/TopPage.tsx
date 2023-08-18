@@ -3,7 +3,7 @@ import ButtonSection from "../../components/model/TopPage/ButtonSection"
 import Contact from "../../components/model/TopPage/Contact"
 import Header from "../../components/model/TopPage/Header"
 import Hero from "../../components/model/TopPage/Hero"
-import Question from "../../components/model/TopPage/Questions"
+import Questions from "../../components/model/TopPage/Questions"
 import Reason from "../../components/model/TopPage/Reason"
 import Wrapper from "../../components/model/global/Wrapper"
 import Footer from "../../components/ui/TopPage/Footer"
@@ -14,11 +14,11 @@ const TopPage = () => {
       <Header />
       <Wrapper className="min-h-screen flex flex-col justify-center mt-16">
         <Hero />
-        <About />
-        <Reason />
+        <div id="about"><About /></div>
+        <div id="reason"><Reason /></div>
         <ButtonSection />
-        <Question />
-        <Contact />
+        <div id="questions"><Questions /></div>
+        <div id="contact"><Contact /></div>
       </Wrapper>
       <Footer />
     </div>
