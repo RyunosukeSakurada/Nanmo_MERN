@@ -8,7 +8,9 @@ const Header = () => {
     <header className="border-b border-zinc-700 w-full bg-zinc-200">
       <Wrapper className='flex items-center justify-between'>
         <div className="flex items-center">
-          <h1 className='text-2xl font-bold cursor-pointer'>Nanmo<span className="text-green-700">.</span></h1>
+          <Link to="/">
+            <h1 className='text-2xl font-bold cursor-pointer'>Nanmo<span className="text-green-700">.</span></h1>
+          </Link>
         </div>
         <div className="flex items-center gap-x-3">
           <Link to="/register">
