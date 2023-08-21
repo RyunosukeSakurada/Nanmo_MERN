@@ -5,22 +5,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import Button from '../../ui/global/Button';
 import AccentButton from '../../ui/global/AccentButton';
 import { Link } from 'react-router-dom';
+import {Navigate} from "react-router-dom";
 
 
-const RegisterForm = () => {
+const RegisterForm: React.FC = () => {
   const [registrationType, setRegistrationType] = useState<'user' | 'store'>('user');
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    storeName: '',
-    address: '',
-    postalCode: '',
-    detailedAddress: '',
-  });
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [storeName, setStoreName] = useState('');
+  const [address, setAddress] = useState('');
+  const [detailedAddress, setDetailedAddress] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [redirect, setRedirect] = useState(false);
 
   //toastify
-  const notifySignupSuccess = () => toast.success('登録に成功しました 🎉', 
+  const notifyRegisterSuccess = () => toast.success('登録に成功しました 🎉', 
     {
       position: "bottom-right",
       autoClose: 5000,
@@ -33,76 +33,68 @@ const RegisterForm = () => {
     }
   );
 
-  // const notifySignupFail = () => toast.error('登録に失敗しました 😫', 
-  //   {
-  //     position: "bottom-right",
-  //     autoClose: 5000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "light",
-  //   }
-  // );
+  const notifyRegisterFail = () => toast.error('登録に失敗しました 😫', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
 
-  // const notifyEmailAlreadyRegistered = () => toast.error('このメールアドレスはすでに登録されています', 
-  //   {
-  //     position: "bottom-right",
-  //     autoClose: 5000,
-  //     hideProgressBar: false,
-  //     closeOnClick: true,
-  //     pauseOnHover: true,
-  //     draggable: true,
-  //     progress: undefined,
-  //     theme: "light",
-  //   }
-  // );
-
-  //signup関数
-  // const signup = async (data: any) => {
-  //   try {
-  //     const res = await fetch('/api/register', {  
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(data)
-  //     });
-  //     const result = await res.json();
-  //     console.log(result);
-
-  //     if (res.status !== 201) {
-  //       if (result.message === 'このメールアドレスはすでに登録されています') {
-  //         notifyEmailAlreadyRegistered();
-  //       } else {
-  //         throw new Error(result.message);
-  //       }
-  //     } else {
-  //       notifySignupSuccess();
-  //     }
-      
-  //   } catch (error) {
-  //     notifySignupFail();
-  //     console.error(error)
-  //   } finally {
-  //   }
-  // };
-
-  //signup関数を呼び出す
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    notifySignupSuccess()
-  };
-
-  //formDataの状態を更新
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const notifyEmailAlreadyRegistered = () => toast.error('このメールアドレスはすでに登録されています', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
 
   //パスワードの可視性を切り替える
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); 
   };
+
+  //register関数
+  async function register(e: React.FormEvent<HTMLFormElement>){
+    e.preventDefault();
+    try {
+      const res = await fetch('http://localhost:4000/api/auth/register', {  
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({email,password,storeName,address,detailedAddress,postalCode})
+      });
+      const result = await res.json();
+      console.log(result);
+      
+      if (res.status === 200) {
+        notifyRegisterSuccess();
+        setTimeout(() => {
+          setRedirect(true);
+        }, 3000);
+      } else if (res.status === 400 && result.message.includes('このメールアドレスはすでに登録されています')) {
+        notifyEmailAlreadyRegistered();
+      } else {
+        notifyRegisterFail();
+      }
+    } catch (error) {
+      notifyRegisterFail();
+      console.error(error)
+    }
+  }
+
+  if (redirect) {
+    return <Navigate to={'/login'} />
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-200 relative">
@@ -115,7 +107,7 @@ const RegisterForm = () => {
         <Button onClick={() => setRegistrationType('user')} className="focus:bg-green-700 focus:text-white focus:border-0">ユーザーとして登録</Button>
         <Button onClick={() => setRegistrationType('store')} className="focus:bg-green-700 focus:text-white focus:border-0">店舗として登録</Button>
       </div>
-      <form onSubmit={handleSubmit} className="text-start bg-white w-[450px] p-6 rounded-lg shadow-md">
+      <form onSubmit={register} className="text-start bg-white w-[450px] p-6 rounded-lg shadow-md">
         <div className="space-y-4">
           {registrationType === 'store' && (
             <>
@@ -125,10 +117,10 @@ const RegisterForm = () => {
                   <input 
                     type="text" 
                     name="storeName" 
-                    onChange={handleChange} 
                     required 
                     className="px-2 py-1 rounded border border-gray-300 text-[12px]" 
-                    value={formData.storeName}
+                    value={storeName}
+                    onChange={e => setStoreName(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col justify-between w-1/2">
@@ -136,13 +128,13 @@ const RegisterForm = () => {
                   <input 
                     type="text" 
                     name="postalCode" 
-                    onChange={handleChange} 
                     minLength={7} 
                     maxLength={7} 
                     placeholder='ハイフンは不要です' 
                     required 
                     className="px-2 py-1 rounded border border-gray-300 text-[12px]" 
-                    value={formData.postalCode}
+                    value={postalCode}
+                    onChange={e => setPostalCode(e.target.value)}
                   />
                 </div>
               </div>
@@ -152,11 +144,11 @@ const RegisterForm = () => {
                   <input 
                     type="text" 
                     name="address" 
-                    onChange={handleChange} 
                     required 
                     placeholder="函館市..." 
                     className="px-2 py-1 rounded border border-gray-300 text-[12px]" 
-                    value={formData.address}
+                    value={address}
+                    onChange={e => setAddress(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col justify-between w-1/2">
@@ -164,9 +156,9 @@ const RegisterForm = () => {
                   <input 
                     type="text" 
                     name="detailedAddress" 
-                    onChange={handleChange} 
                     className="px-2 py-1 rounded border border-gray-300 text-[12px]" 
-                    value={formData.detailedAddress}
+                    value={detailedAddress}
+                    onChange={e => setDetailedAddress(e.target.value)}
                   />
                 </div>
               </div>
@@ -177,10 +169,10 @@ const RegisterForm = () => {
             <input 
               type="email" 
               name="email" 
-              onChange={handleChange} 
               required 
               className="px-2 py-1 rounded border border-gray-300 text-[12px]" 
-              value={formData.email}
+              value={email}
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
           <div className="flex flex-col justify-between relative">
@@ -188,10 +180,10 @@ const RegisterForm = () => {
             <input 
               type={showPassword ? "text" : "password"} 
               name="password" 
-              onChange={handleChange} 
               required 
               className="px-2 py-1 w-full rounded border border-gray-300 text-[12px]" 
-              value={formData.password}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
             <button type="button" onClick={togglePasswordVisibility} className="absolute right-2 top-12 -translate-y-1/2 ">
               {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye /> }
