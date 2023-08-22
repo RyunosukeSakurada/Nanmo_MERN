@@ -97,5 +97,34 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
 });
 
 
+//adminの追加
+router.post("/addadmin", async(req: Request<UserRequest>, res: Response) => {
+  const { email, password } = req.body;
+
+  // 既存のEメールアドレスをチェック
+  const emailExists = await User.findOne({ email }) || await Store.findOne({ email });
+  if (emailExists) {
+    return res.status(400).json({ message: "このメールアドレスはすでに登録されています" });
+  }
+  
+  // パスワードのハッシュ化
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  try {
+    // adminとして登録
+    const newAdmin = new User({
+      email,
+      password: hashedPassword,
+      isAdmin: true  // ここでisAdminをtrueに設定
+    });
+
+    const admin = await newAdmin.save();
+    return res.status(200).json(admin);
+
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
 
 module.exports = router;

@@ -4,6 +4,8 @@ import Login from "./pages/auth/Login"
 import Register from "./pages/auth/Register"
 import Nanmo from "./pages/nanmo/Nanmo"
 import StoreDetail from "./pages/nanmo/StoreDetail"
+import Admin from "./pages/admin/Admin"
+import Store from "./pages/store/Store"
 
 function App() {
 
@@ -15,6 +17,8 @@ function App() {
         <Route path="/register" element = { <Register />} />
         <Route path="/nanmo" element = {<Nanmo />} />
         <Route path="/nanmo/storeDetail" element = {<StoreDetail />} />
+        <Route path="/admin/dashboard" element = {<Admin />} />
+        <Route path="/store/dashboard" element = {<Store />} />
       </Routes>
     </>
   )

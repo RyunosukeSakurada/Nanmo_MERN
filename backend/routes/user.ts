@@ -1,0 +1,60 @@
+import { Request, Response } from "express";
+
+const router = require("express").Router();
+const User = require("../models/User");
+const Store = require("../models/Store")
+
+
+//全一般ユーザーの情報を取得
+router.get("/userslist", async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({});
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ message: "ユーザーの情報の取得に失敗しました" });
+  }
+});
+
+
+//全店舗ユーザーの情報を取得
+router.get("/storeslist", async (req: Request, res: Response) => {
+  try {
+    const stores = await Store.find({});
+    return res.status(200).json(stores);
+  } catch (error) {
+    return res.status(500).json({ message: "ユーザーの情報の取得に失敗しました" });
+  }
+});
+
+
+router.get("/suspendedusers", async (req: Request, res: Response) => {
+  try {
+    const suspendedUsers = await User.find({ suspended: true }).lean().exec();
+    const suspendedStores = await Store.find({ suspended: true }).lean().exec();
+
+    suspendedUsers.forEach((user: { type: string; }) => user.type = '一般ユーザー');
+    suspendedStores.forEach((store: { type: string; }) => store.type = '店舗ユーザー');
+
+    return res.status(200).json([...suspendedUsers, ...suspendedStores]);
+  } catch (error) {
+    return res.status(500).json({ message: "サーバーエラー", error });
+  }
+});
+
+router.get("/blockedusers", async (req: Request, res: Response) => {
+  try {
+    const blockedUsers = await User.find({ blocked: true }).lean().exec();
+    const blockedStores = await Store.find({ blocked: true }).lean().exec();
+
+    blockedUsers.forEach((user: { type: string; }) => user.type = '一般ユーザー');
+    blockedStores.forEach((store: { type: string; }) => store.type = '店舗ユーザー');
+
+    return res.status(200).json([...blockedUsers, ...blockedStores]);
+  } catch (error) {
+    return res.status(500).json({ message: "サーバーエラー", error });
+  }
+});
+
+
+
+module.exports = router;

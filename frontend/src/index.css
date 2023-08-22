@@ -23,3 +23,7 @@ section{
   align-items:center;
   margin:120px auto 0;
 }
+
+li{
+  list-style:none;
+}
