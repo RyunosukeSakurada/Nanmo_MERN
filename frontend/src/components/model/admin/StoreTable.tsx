@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 interface Store {
   _id: string;
   email: string;
@@ -15,85 +14,162 @@ interface Store {
 const StoreTable = () => {
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(false); 
-  const notifyGetStoresFail = () => toast.error('店舗ユーザーの情報の取得に失敗しました', 
-  {
-    position: "bottom-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  }
-);
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+  const [targetStoreId, setTargetStoreId] = useState<string | null>(null);
 
-useEffect(() => {
-  async function fetchStores() {
+  const notifyGetStoresFail = () => toast.error('店舗ユーザーの情報の取得に失敗しました', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+
+  const deleteStoreSuccess = () => toast.success('店舗の削除に成功しました', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+
+  const deleteStorefailed = () => toast.error('店舗の削除に失敗しました', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+
+  useEffect(() => {
+    async function fetchStores() {
+      try {
+        setLoading(true);
+        const res = await fetch('http://localhost:4000/api/user/storeslist', {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' }
+        });
+      
+        const result = await res.json();
+      
+        if (res.status === 200) {
+          setStores(result);
+        } else {
+          console.error(result.message); 
+        }
+      } catch (error) {
+        notifyGetStoresFail()
+        console.error("店舗ユーザー情報の取得に失敗しました:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStores();
+  }, []);
+
+  // 店舗削除機能
+  const deleteStore = async (id: string) => { 
     try {
-      setLoading(true);
-      const res = await fetch('http://localhost:4000/api/user/storeslist', {
-        method: 'GET',
+      const res = await fetch(`http://localhost:4000/api/user/deletestore/${id}`, {
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       });
-    
-      const result = await res.json();
-    
+  
       if (res.status === 200) {
-        setStores(result);
+        deleteStoreSuccess()
+        setStores(prevStores => prevStores.filter(store => store._id !== id));
       } else {
-        console.error(result.message); 
+        const result = await res.json();
+        console.error(result.message);
+        deleteStorefailed()
       }
     } catch (error) {
-      notifyGetStoresFail()
-      console.error("ユーザー情報の取得に失敗しました:", error);
-    } finally {
-      setLoading(false);
+      console.error("店舗の削除に失敗しました:", error);
+      deleteStorefailed()
     }
   }
 
-  fetchStores();
-}, []);
+  const handleDeleteRequest = (storeId: string) => {
+    setTargetStoreId(storeId);
+    setIsDeleteConfirmationOpen(true);
+  }
+
+  const handleDeleteConfirmation = async () => {
+    if (targetStoreId) {
+      await deleteStore(targetStoreId);
+    }
+    setIsDeleteConfirmationOpen(false);
+  }
 
   return (
     <>
       <ToastContainer />
       {loading ? (
-          <div className="flex justify-center items-center p-[15%]">
-            <h1 className="bold text-zinc-500">ローディング中</h1>
+        <div className="flex justify-center items-center p-[15%]">
+          <h1 className="bold text-zinc-500">ローディング中</h1>
+        </div>
+      ) : stores.length === 0 ? ( 
+        <div className="flex justify-center items-center p-[15%]">
+          <h1 className="bold text-zinc-500">店舗ユーザーが存在しません</h1>
+        </div>
+      ) : ( 
+        <table className="min-w-full divide-y divide-gray-200 mt-8">
+          <thead>
+              <tr className="text-center">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">一時利用停止</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ブロック</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">承認</th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
+              </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 text-center text-[12px]">
+            {stores.map(store => (
+              <tr key={store._id}>
+                <td className="px-6 py-4 whitespace-nowrap">{store._id}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{store.email}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{store.suspended.toString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{store.blocked.toString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{store.approved.toString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{new Date(store.createdAt).toLocaleDateString()}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <button onClick={() => handleDeleteRequest(store._id)} className="text-red-500">削除</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      {isDeleteConfirmationOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[400px] break-words">
+            <h3 className="mb-4 text-center">本当にこの店舗を削除しますか？</h3>
+            <div className="text-center">
+              <button onClick={handleDeleteConfirmation} className="mr-4 bg-red-500 text-white px-4 py-2 rounded">削除</button>
+              <button onClick={() => setIsDeleteConfirmationOpen(false)} className="bg-gray-500 text-white px-4 py-2 rounded">キャンセル</button>
+            </div>
           </div>
-        ) : stores.length === 0 ? ( 
-          <div className="flex justify-center items-center p-[15%]">
-            <h1 className="bold text-zinc-500">店舗ユーザーが存在しません</h1>
-          </div>
-        ) : ( 
-          <table className="min-w-full divide-y divide-gray-200 mt-8">
-            <thead>
-                <tr className="text-center">
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">一時利用停止</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ブロック</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">承認</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
-                </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 text-center text-[12px]">
-              {stores.map(store => (
-                <tr key={store._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{store._id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{store.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{store.suspended.toString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{store.blocked.toString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{store.approved.toString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{new Date(store.createdAt).toLocaleDateString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+        </div>
+      )}
     </>
-  )
+  );
 }
 
-export default StoreTable
+export default StoreTable;

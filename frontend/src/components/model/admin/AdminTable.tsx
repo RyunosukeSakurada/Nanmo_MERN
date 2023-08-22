@@ -3,7 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-interface Admin {
+export interface Admin {
   _id: string;
   email: string;
   suspended: boolean;
@@ -12,7 +12,7 @@ interface Admin {
   createdAt: Date;
 }
 
-const AdminTable = () => {
+const AdminTable: React.FC<{ newAdmin: Admin | null }> = ({ newAdmin }) => {
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState(false); 
   const notifyGetAdminsFail = () => toast.error('Adminの情報の取得に失敗しました', 
@@ -52,9 +52,12 @@ useEffect(() => {
       setLoading(false);
     }
   }
-
+  
   fetchAdmins();
-}, []);
+  if (newAdmin) {
+    setAdmins(prevAdmins => [newAdmin, ...prevAdmins]);
+  }
+}, [newAdmin]);
 
   return (
     <>

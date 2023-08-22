@@ -2,9 +2,10 @@ import { useState } from 'react';
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Admin } from '../../model/admin/AdminTable';
 
 
-const AddAdminInput: React.FC  = () => {
+const AddAdminInput: React.FC<{ onAdminAdded: (admin:Admin) => void }>  = ({ onAdminAdded }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -68,6 +69,7 @@ const AddAdminInput: React.FC  = () => {
         notifyAddAdminSuccess();
         setEmail('');
         setPassword('');
+        onAdminAdded(result);
       } else if (res.status === 400  && result.message.includes('このメールアドレスはすでに登録されています')) {
         notifyEmailAlreadyRegistered();
       } else {

@@ -66,5 +66,27 @@ router.get("/blockedusers", async (req: Request, res: Response) => {
 });
 
 
+// ユーザー削除
+router.delete("/deleteuser/:userId", async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    await User.findByIdAndDelete(userId);
+    return res.status(200).json({ message: "ユーザーを削除しました" });
+  } catch (error) {
+    return res.status(500).json({ message: "ユーザーの削除に失敗しました", error });
+  }
+});
+
+//店舗ユーザー削除
+router.delete("/deletestore/:storeId", async (req: Request, res: Response) => {
+  try {
+    const { storeId } = req.params;
+    await Store.findByIdAndDelete(storeId);
+    return res.status(200).json({ message: "店舗ユーザーを削除しました" });
+  } catch (error) {
+    return res.status(500).json({ message: "店舗ユーザーの削除に失敗しました", error });
+  }
+});
+
 
 module.exports = router;
