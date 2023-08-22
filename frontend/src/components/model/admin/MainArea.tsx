@@ -1,7 +1,13 @@
+import { TabSelection } from "../../../Types/types";
+import AddAdmin from "./AddAdmin";
 import UserList from "./UserList"
 import {AiOutlineCalendar} from "react-icons/ai"
 
-const MainArea = () => {
+interface MainAreaProps {
+  selectedTab: TabSelection;
+}
+
+const MainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
   // 現在の日付を取得
   const currentDate = new Date();
   // 月の名前の配列を作成
@@ -25,7 +31,8 @@ const MainArea = () => {
       </div>
 
       <div>
-        <UserList />
+        {selectedTab === 'users' && <UserList />}
+        {selectedTab === 'addAdmin' && <AddAdmin />}
       </div>
     </div>
   )

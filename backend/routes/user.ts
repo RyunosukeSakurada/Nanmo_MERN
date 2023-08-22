@@ -27,6 +27,16 @@ router.get("/storeslist", async (req: Request, res: Response) => {
 });
 
 
+router.get("/adminusers", async (req: Request, res: Response) => {
+  try {
+    const adminUsers = await User.find({ isAdmin: true }).lean().exec();
+    return res.status(200).json(adminUsers);
+  } catch (error) {
+    return res.status(500).json({ message: "Adminユーザーの情報の取得に失敗しました", error });
+  }
+});
+
+
 router.get("/suspendedusers", async (req: Request, res: Response) => {
   try {
     const suspendedUsers = await User.find({ suspended: true }).lean().exec();
