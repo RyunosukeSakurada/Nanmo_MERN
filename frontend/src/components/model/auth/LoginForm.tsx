@@ -12,7 +12,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email,setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [redirect, setRedirect] = useState(false);
+  const [redirect, setRedirect] = useState<string | null>(null);
 
   //パスワードの可視性を切り替える
   const togglePasswordVisibility = () => {
@@ -45,38 +45,43 @@ const LoginForm = () => {
     }
   );
 
-
-  //login関数
-  async function login(e: React.FormEvent<HTMLFormElement>){
-    e.preventDefault();
-    try {
-      const res = await fetch('http://localhost:4000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({email,password})  
-      });
-      
-      const result = await res.json();
-      
-      if (res.status === 200) {
-        notifyLoginSuccess();
+//login関数
+async function login(e: React.FormEvent<HTMLFormElement>){
+  e.preventDefault();
+  try {
+    const res = await fetch('http://localhost:4000/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({email,password})  
+    });
+    
+    const result = await res.json();
+    
+    if (res.status === 200) {
+      notifyLoginSuccess();
         setTimeout(() => {
-          setRedirect(true);
-        }, 3000);
-      } else {
-        notifyLoginFail();
-        console.error(result.message); 
-      }
-    } catch (error) {
+            if(result.type === 'store') {
+                setRedirect('/store/dashboard');
+            } else if (result.type === 'admin') {
+                setRedirect('/admin/dashboard');
+            } else {
+                setRedirect('/nanmo');
+            }
+      }, 3000);
+    } else {
       notifyLoginFail();
-      console.error(error);
+      console.error(result.message); 
     }
+  } catch (error) {
+    notifyLoginFail();
+    console.error(error);
   }
+}
 
-  //ログインしたユーザーがuser/store/adminのどれかに分類→ /nanmoか各dashboardにRedirect
-  if (redirect) {
-    return <Navigate to={'/nanmo'} />
-  }
+//ログインしたユーザーがuser/store/adminのどれかに分類→ /nanmoか各dashboardにRedirect
+if (redirect) {
+  return <Navigate to={redirect} />;
+}
     
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-200 relative">

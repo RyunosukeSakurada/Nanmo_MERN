@@ -65,7 +65,7 @@ router.post("/register", async(req: Request<UserRequest> | Request<StoreRequest>
 });
 
 
-//ログイン
+// ログイン
 router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
   try {
     const { email, password } = req.body;
@@ -75,7 +75,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
     if (user) {
       // ハッシュ化されたパスワードを検証
       if(await bcrypt.compare(password, user.password)) {
-        return res.status(200).json(user);
+        return res.status(200).json({ ...user._doc, type: user.isAdmin ? 'admin' : 'user' });
       }
     }
 
@@ -84,7 +84,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
     if (store) {
       // ハッシュ化されたパスワードを検証
       if(await bcrypt.compare(password, store.password)) {
-        return res.status(200).json(store);
+        return res.status(200).json({ ...store._doc, type: 'store' });
       }
     }
 
@@ -95,6 +95,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
     return res.status(500).json({ message: "サーバーエラー" }); 
   }
 });
+
 
 
 //adminの追加
