@@ -1,11 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"; 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AccentButton from '../../ui/global/AccentButton';
 import { Link } from 'react-router-dom';
 import {Navigate} from "react-router-dom";
+import { UserContext } from '../../../context/UserContext';
 
 
 const LoginForm = () => {
@@ -13,6 +14,7 @@ const LoginForm = () => {
   const [email,setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState<string | null>(null);
+  const {setUserInfo} = useContext(UserContext)
 
   //パスワードの可視性を切り替える
   const togglePasswordVisibility = () => {
@@ -45,6 +47,8 @@ const LoginForm = () => {
     }
   );
 
+
+
 //login関数
 async function login(e: React.FormEvent<HTMLFormElement>){
   e.preventDefault();
@@ -52,21 +56,23 @@ async function login(e: React.FormEvent<HTMLFormElement>){
     const res = await fetch('http://localhost:4000/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({email,password})  
+      body: JSON.stringify({email,password}),
+      credentials: 'include',
     });
     
     const result = await res.json();
     
     if (res.status === 200) {
+      setUserInfo(result)
       notifyLoginSuccess();
-        setTimeout(() => {
-            if(result.type === 'store') {
-                setRedirect('/store/dashboard');
-            } else if (result.type === 'admin') {
-                setRedirect('/admin/dashboard');
-            } else {
-                setRedirect('/nanmo');
-            }
+      setTimeout(() => {
+        if(result.type === 'store') {
+            setRedirect('/store/dashboard');
+        } else if (result.type === 'admin') {
+            setRedirect('/admin/dashboard');
+        } else {
+            setRedirect('/nanmo');
+        }
       }, 3000);
     } else {
       notifyLoginFail();
@@ -77,6 +83,8 @@ async function login(e: React.FormEvent<HTMLFormElement>){
     console.error(error);
   }
 }
+
+
 
 //ログインしたユーザーがuser/store/adminのどれかに分類→ /nanmoか各dashboardにRedirect
 if (redirect) {

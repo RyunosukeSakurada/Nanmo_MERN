@@ -6,6 +6,8 @@ require("dotenv").config();
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/user')
 const cors = require('cors');
+const cookieParser = require('cookie-parser')
+
 
 // DB接続
 mongoose
@@ -17,8 +19,9 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors());
+app.use(cors({credentials:true ,origin:"http://localhost:5173"}));
 app.use(express.json())
+app.use(cookieParser())
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
   

@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
-import bcrypt from 'bcrypt';
 
+
+const bcrypt = require('bcrypt');
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store");
 const salt = bcrypt.genSaltSync(10); 
-
+const jwt = require('jsonwebtoken');
+const SECRET_TOKEN = "fmcnirweruiqedkjfchf813";
 
 interface UserRequest {
   email: string;
@@ -71,20 +73,34 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
     const { email, password } = req.body;
 
     // メールアドレスでユーザーを検索
-    const user = await User.findOne({ email });
-    if (user) {
+    const userDoc = await User.findOne({ email });
+    if (userDoc) {
       // ハッシュ化されたパスワードを検証
-      if(await bcrypt.compare(password, user.password)) {
-        return res.status(200).json({ ...user._doc, type: user.isAdmin ? 'admin' : 'user' });
+      const passOk = await bcrypt.compare(password, userDoc.password)
+      if(passOk){
+        jwt.sign({id:userDoc._id, type: userDoc.isAdmin ? 'admin' : 'user'},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+          if (err) throw err;
+          res.cookie('token', token).json({
+            id:userDoc._id,
+            email,
+          });
+        })
       }
     }
 
     // メールアドレスでストアを検索
-    const store = await Store.findOne({ email });
-    if (store) {
+    const storeDoc = await Store.findOne({ email });
+    if (storeDoc) {
       // ハッシュ化されたパスワードを検証
-      if(await bcrypt.compare(password, store.password)) {
-        return res.status(200).json({ ...store._doc, type: 'store' });
+      const passOk = await bcrypt.compare(password, storeDoc.password)
+      if(passOk){
+        jwt.sign({id:storeDoc._id,type:'store'},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+          if (err) throw err;
+          res.cookie('token', token).json({
+            id:storeDoc._id,
+            email,
+          });
+        })
       }
     }
 
@@ -96,6 +112,11 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
   }
 });
 
+
+//ログアウト
+router.post("/logout", async(req: Request, res: Response)=> {
+  res.cookie('token','').json('ok')
+})
 
 
 //adminの追加
@@ -125,6 +146,18 @@ router.post("/addadmin", async(req: Request<UserRequest>, res: Response) => {
   } catch (error) {
     return res.status(500).json(error);
   }
+});
+
+
+//token認証
+router.get("/profile", async(req: Request, res: Response) => {
+  const {token} = req.cookies;
+  jwt.verify(token, SECRET_TOKEN, {}, (err:Error, info:string) => {
+    if (err) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+    res.json(info);
+  });
 });
 
 

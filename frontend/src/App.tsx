@@ -6,11 +6,13 @@ import Nanmo from "./pages/nanmo/Nanmo"
 import StoreDetail from "./pages/nanmo/StoreDetail"
 import Admin from "./pages/admin/Admin"
 import Store from "./pages/store/Store"
+import { UserContextProvider } from "./context/UserContext"
 
 function App() {
 
   return (
     <>
+    <UserContextProvider>
       <Routes>
         <Route path="/" element={ <TopPage />} />
         <Route path="/login" element = { <Login />} />
@@ -20,6 +22,7 @@ function App() {
         <Route path="/admin/dashboard" element = {<Admin />} />
         <Route path="/store/dashboard" element = {<Store />} />
       </Routes>
+    </UserContextProvider>
     </>
   )
 }
