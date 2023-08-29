@@ -26,21 +26,27 @@ interface LoginRequest {
   password: string;
 }
 
-//ユーザー登録
-router.post("/register", async(req: Request<UserRequest> | Request<StoreRequest>, res: Response) => {
-  const { email, password, storeName, address, detailedAddress, postalCode } = req.body;
+
+router.post("/register", async(req: Request, res: Response) => {
+  const userType = req.body.userType;
 
   // 既存のEメールアドレスをチェック
-  const emailExists = await User.findOne({ email }) || await Store.findOne({ email });
+  const emailExists = await User.findOne({ email: req.body.email }) || await Store.findOne({ email: req.body.email });
   if (emailExists) {
     return res.status(400).json({ message: "このメールアドレスはすでに登録されています" });
   }
-  
+
   // パスワードのハッシュ化
-  const hashedPassword = await bcrypt.hash(password, salt);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
   try {
-    if (storeName) {
+    if (userType === 'store') {
+      const { email, password: hashedPassword, storeName, address, detailedAddress, postalCode } = req.body;
+
+      if (!storeName || !address || !detailedAddress || !postalCode) {
+        return res.status(400).json({ message: "店舗情報が不完全です" });
+      }
+
       // 店舗ユーザーとして登録
       const newStore = new Store({
         email,
@@ -48,23 +54,29 @@ router.post("/register", async(req: Request<UserRequest> | Request<StoreRequest>
         storeName,
         address,
         detailedAddress,
-        postalCode
+        postalCode,
       });
       const store = await newStore.save();
       return res.status(200).json(store);
-    } else {
+    } else if (userType === 'user') {
+      const { email, password: hashedPassword } = req.body;
+
       // 一般ユーザーもしくはadminとして登録
       const newUser = new User({
         email,
-        password: hashedPassword
+        password: hashedPassword,
       });
       const user = await newUser.save();
       return res.status(200).json(user);
+    } else {
+      return res.status(400).json({ message: "無効なユーザータイプ" });
     }
   } catch (error) {
     return res.status(500).json(error);
   }
 });
+
+
 
 
 // ログイン
@@ -78,13 +90,14 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, userDoc.password)
       if(passOk){
-        jwt.sign({id:userDoc._id, type: userDoc.isAdmin ? 'admin' : 'user'},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+        jwt.sign({id:userDoc._id, type: userDoc.isAdmin ? 'admin' : 'user',email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:userDoc._id,
             email,
           });
         })
+        return; // Exit the function after sending response
       }
     }
 
@@ -94,21 +107,22 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, storeDoc.password)
       if(passOk){
-        jwt.sign({id:storeDoc._id,type:'store'},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+        jwt.sign({id:storeDoc._id,type:'store',email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:storeDoc._id,
             email,
           });
         })
+        return; // Exit the function after sending response
       }
     }
 
     return res.status(404).json({ message: "無効なメールアドレスもしくはパスワードです" });
 
   } catch (error) {
-    console.error("Failed to load resource: " + (error as any).message); 
-    return res.status(500).json({ message: "サーバーエラー" }); 
+    console.error("Failed to load resource: " + (error as any).message);
+    return res.status(500).json({ message: "サーバーエラー" });
   }
 });
 

@@ -68,11 +68,19 @@ const RegisterForm: React.FC = () => {
   async function register(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault();
     try {
+      let body;
+      if(registrationType === 'user') {
+        body = JSON.stringify({email, password, userType: 'user'});
+      } else {
+        body = JSON.stringify({email, password, storeName, address, detailedAddress, postalCode, userType: 'store'});
+      }
+
       const res = await fetch('http://localhost:4000/api/auth/register', {  
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({email,password,storeName,address,detailedAddress,postalCode})
+        body: body
       });
+
       const result = await res.json();
       console.log(result);
       
@@ -91,6 +99,7 @@ const RegisterForm: React.FC = () => {
       console.error(error)
     }
   }
+
 
   if (redirect) {
     return <Navigate to={'/login'} />

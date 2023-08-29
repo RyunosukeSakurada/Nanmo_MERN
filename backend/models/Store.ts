@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 const StoreSchema = new mongoose.Schema({
   storeName:{
     type: String,
-    require: true,
     min: 1,
     max: 25,
     unique:true,
+    sparse: true
   },
   address: {
     type: String,
