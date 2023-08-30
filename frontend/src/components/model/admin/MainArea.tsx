@@ -1,7 +1,9 @@
+import { useContext, useEffect } from "react";
 import { TabSelection } from "../../../Types/types";
 import AddAdmin from "./AddAdmin";
 import UserList from "./UserList"
 import {AiOutlineCalendar} from "react-icons/ai"
+import { UserContext } from "../../../context/UserContext";
 
 interface MainAreaProps {
   selectedTab: TabSelection;
@@ -15,6 +17,19 @@ const MainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
   // 日付をフォーマット
   const formattedDate = `${currentDate.getDate()} ${monthNames[currentDate.getMonth()]}`;
 
+  const {userInfo, setUserInfo} = useContext(UserContext)
+  const email = userInfo?.email
+
+  useEffect(() => {
+    fetch("http://localhost:4000/api/auth/profile",{
+      credentials:"include",
+    }).then(response => {
+      response.json().then(userInfo => {
+        setUserInfo(userInfo)
+      })
+    })
+  },[setUserInfo])
+
   return (
     <div className="">
       <div className="bg-white shadow rounded-lg p-4 flex items-center justify-between mb-6">
@@ -26,7 +41,7 @@ const MainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
           </div>
         </div>
         <div>
-          <p className="text-sm">testuser1@gmail.com</p>
+          <p className="text-sm">{email}</p>
         </div>
       </div>
 

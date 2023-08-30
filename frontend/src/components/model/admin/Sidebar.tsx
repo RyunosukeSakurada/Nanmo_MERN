@@ -7,7 +7,7 @@ interface SidebarProps {
   onTabSelect: (tab: TabSelection) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onTabSelect }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onTabSelect}) => {
   return (
     <div className="bg-white py-4 px-6 shadow rounded-lg">
       <Link to="/">
