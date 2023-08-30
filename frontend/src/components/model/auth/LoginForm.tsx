@@ -48,7 +48,6 @@ const LoginForm = () => {
   );
 
 
-
 //login関数
 async function login(e: React.FormEvent<HTMLFormElement>){
   e.preventDefault();
@@ -61,16 +60,18 @@ async function login(e: React.FormEvent<HTMLFormElement>){
     });
     
     const result = await res.json();
+    console.log(result);
+    
     
     if (res.status === 200) {
       setUserInfo(result)
       notifyLoginSuccess();
       setTimeout(() => {
-        if(result.type === 'store') {
+        if(result.isStore === true) {
             setRedirect('/store/dashboard');
-        } else if (result.type === 'admin') {
+        } else if (result.isAdmin === true && result.isStore === false) {
             setRedirect('/admin/dashboard');
-        } else {
+        } else if (result.isAdmin === false && result.isStore === false) {
             setRedirect('/nanmo');
         }
       }, 3000);
@@ -83,8 +84,6 @@ async function login(e: React.FormEvent<HTMLFormElement>){
     console.error(error);
   }
 }
-
-
 
 //ログインしたユーザーがuser/store/adminのどれかに分類→ /nanmoか各dashboardにRedirect
 if (redirect) {

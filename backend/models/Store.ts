@@ -46,6 +46,10 @@ const StoreSchema = new mongoose.Schema({
   approved: {
     type: Boolean,
     default: false
+  },
+  isStore:{
+    type: Boolean,
+    default: true
   }
 },
 

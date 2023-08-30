@@ -14,19 +14,12 @@ interface UserRequest {
   password: string;
 }
 
-interface StoreRequest extends UserRequest {
-  storeName: string;
-  address: string;
-  detailedAddress: string;
-  postalCode: string;
-}
-
 interface LoginRequest {
   email: string;
   password: string;
 }
 
-
+//ユーザー登録
 router.post("/register", async(req: Request, res: Response) => {
   const userType = req.body.userType;
 
@@ -41,7 +34,7 @@ router.post("/register", async(req: Request, res: Response) => {
 
   try {
     if (userType === 'store') {
-      const { email, password: hashedPassword, storeName, address, detailedAddress, postalCode } = req.body;
+      const { email, storeName, address, detailedAddress, postalCode } = req.body;
 
       if (!storeName || !address || !detailedAddress || !postalCode) {
         return res.status(400).json({ message: "店舗情報が不完全です" });
@@ -59,7 +52,7 @@ router.post("/register", async(req: Request, res: Response) => {
       const store = await newStore.save();
       return res.status(200).json(store);
     } else if (userType === 'user') {
-      const { email, password: hashedPassword } = req.body;
+      const { email } = req.body;
 
       // 一般ユーザーもしくはadminとして登録
       const newUser = new User({
@@ -77,8 +70,6 @@ router.post("/register", async(req: Request, res: Response) => {
 });
 
 
-
-
 // ログイン
 router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
   try {
@@ -90,14 +81,17 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, userDoc.password)
       if(passOk){
-        jwt.sign({id:userDoc._id, type: userDoc.isAdmin ? 'admin' : 'user',email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+        jwt.sign({id:userDoc._id, email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:userDoc._id,
             email,
+            type: 'user',
+            isAdmin: userDoc.isAdmin,
+            isStore: userDoc.isStore
           });
         })
-        return; // Exit the function after sending response
+        return; 
       }
     }
 
@@ -107,14 +101,16 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, storeDoc.password)
       if(passOk){
-        jwt.sign({id:storeDoc._id,type:'store',email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+        jwt.sign({id:storeDoc._id,email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:storeDoc._id,
             email,
+            type: 'store',
+            isStore: storeDoc.isStore,
           });
         })
-        return; // Exit the function after sending response
+        return; 
       }
     }
 
