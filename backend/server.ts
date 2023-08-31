@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 require("dotenv").config();
 const authRoute = require('./routes/auth')
 const userRoute = require('./routes/user')
+const productRoute = require('./routes/product')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
@@ -24,6 +25,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
+app.use("/api/product", productRoute)
   
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))

@@ -1,6 +1,6 @@
 import {  useState } from "react";
-import MainArea from "../../model/admin/MainArea"
-import Sidebar from "../../model/admin/Sidebar"
+import MainArea from "../../model/admin/AddminMainArea"
+import Sidebar from "../../model/admin/AdminSidebar"
 import { TabSelection } from "../../../Types/types";
 
 

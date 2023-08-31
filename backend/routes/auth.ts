@@ -19,6 +19,11 @@ interface LoginRequest {
   password: string;
 }
 
+export interface TokenPayload {
+  id: string;
+  email: string;
+}
+
 //ユーザー登録
 router.post("/register", async(req: Request, res: Response) => {
   const userType = req.body.userType;
@@ -81,7 +86,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, userDoc.password)
       if(passOk){
-        jwt.sign({id:userDoc._id, email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+        jwt.sign({id:userDoc._id, email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:userDoc._id,
@@ -101,7 +106,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, storeDoc.password)
       if(passOk){
-        jwt.sign({id:storeDoc._id,email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token:string) => {
+        jwt.sign({id:storeDoc._id,email},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:storeDoc._id,
