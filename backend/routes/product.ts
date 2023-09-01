@@ -73,4 +73,22 @@ router.get("/getProduct/:id", async (req: Request, res: Response) => {
   }
 });
 
+
+// 特定の店舗の商品を取得
+router.get("/getProductsByStore", async (req: Request, res: Response) => {
+  try {
+    const {token} = req.cookies;
+    jwt.verify(token, SECRET_TOKEN, {}, async(err:Error, info: TokenPayload) => {
+      if (err) throw err;
+      const products = await Product.find({store: info.id}).populate('store', 'storeName address detailedAddress -_id');
+      if (!products) {
+        return res.status(404).json({ message: "商品が見つかりません" });
+      }
+      res.json(products);
+    });
+  } catch (error) {
+    return res.status(500).json({ message: "商品の取得に失敗しました" });
+  }
+});
+
 module.exports = router;
