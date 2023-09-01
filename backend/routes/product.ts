@@ -54,10 +54,9 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
   }
 });
 
-//商品の取得
-router.get("/getProducts",async (req: Request, res: Response) => {
-  res.json(await Product.find().populate('store', 'storeName address -_id detailedAddress'))
+//全商品の取得
+router.get("/getProducts", async (req: Request, res: Response) => {
+  res.json(await Product.find().populate('store', 'storeName address detailedAddress -_id'))
 })
-
 
 module.exports = router;

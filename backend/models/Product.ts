@@ -16,6 +16,10 @@ const ProductSchema = new mongoose.Schema({
     max: 50,
     required: true,
   },
+  stocks:{
+    type: Number,
+    required: true,
+  },
   price:{
     type: Number,
     required: true,

@@ -5,6 +5,8 @@ import { TabSelection } from "../../../Types/types";
 import { AiOutlineMail,AiOutlineCheckSquare,AiOutlineLogout} from "react-icons/ai"
 import {BiTransfer} from "react-icons/bi"
 import {BsBoxSeam} from "react-icons/bs"
+import {RiFileList2Line} from "react-icons/ri"
+import { Link } from 'react-router-dom';
 
 
 interface NavbarProps {
@@ -58,6 +60,12 @@ const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
             <BiTransfer size={20} className="mr-3" />
             <span className="text-md hover:text-zinc-500">取引履歴</span>
           </li>
+          <Link to="/nanmo">
+            <li className="flex items-center cursor-pointer">
+              <RiFileList2Line size={20} className="mr-3" />
+              <span className="text-md hover:text-zinc-500">ストア</span>
+            </li>
+          </Link>
           <li className="flex items-center cursor-pointer">
             <AiOutlineLogout size={20} className="mr-3" />
             <span className="text-md hover:text-zinc-500" onClick={logout}>ログアウト</span>
