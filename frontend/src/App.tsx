@@ -18,7 +18,7 @@ function App() {
         <Route path="/login" element = { <Login />} />
         <Route path="/register" element = { <Register />} />
         <Route path="/nanmo" element = {<Nanmo />} />
-        <Route path="/nanmo/storeDetail" element = {<StoreDetail />} />
+        <Route path="/nanmo/storeDetail/:id" element = {<StoreDetail />} />
         <Route path="/admin/dashboard" element = {<Admin />} />
         <Route path="/store/dashboard" element = {<Store />} />
       </Routes>

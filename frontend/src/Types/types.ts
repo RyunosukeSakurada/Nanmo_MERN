@@ -4,6 +4,8 @@ export interface Product {
   _id: string;
   name: string;
   stocks: number;
+  description:string;
+  productImage:string;
   pickupDate: string;
   pickupTime: { start: string; end: string };
   price: number;

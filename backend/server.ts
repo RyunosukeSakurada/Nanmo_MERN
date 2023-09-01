@@ -26,6 +26,7 @@ app.use(cookieParser())
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
 app.use("/api/product", productRoute)
+app.use('/uploads', express.static(__dirname + '/uploads'));
   
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))

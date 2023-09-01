@@ -28,7 +28,7 @@ const StoreList: React.FC = () => {
         </div> 
         :
         products.map((product) => (
-          <Link to="/nanmo/StoreDetail" key={product._id}>
+          <Link to={`/nanmo/StoreDetail/${product._id}`} key={product._id}>
             <Store product={product} />
           </Link>
       ))}

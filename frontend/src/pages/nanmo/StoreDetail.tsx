@@ -1,7 +1,7 @@
 import Footer from "../../components/model/global/Footer"
 import Wrapper from "../../components/model/global/Wrapper"
 import Header from "../../components/model/nanmo/Header"
-import StoreDetailContent from "../../components/page/nanmo/StoreDetailContent"
+import StoreDetailContent from "../../components/page/nanmo/StoreDetail"
 
 const StoreDetail = () => {
   return (
