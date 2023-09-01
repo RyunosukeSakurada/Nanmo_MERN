@@ -3,7 +3,14 @@ import Button from "../global/Button"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const AddProduct = () => {
+
+
+interface Props {
+  setUpdateProductList: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
+const AddProduct = ({ setUpdateProductList }: Props) => {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [files, setFiles] = useState<FileList | null>(null);
@@ -101,6 +108,8 @@ const notifyFail = () => toast.error('商品の追加に失敗しました 😫'
         setStocks("");
         setPrice("");
         setOriginalPrice("");
+
+        setUpdateProductList((prev: boolean) => !prev)
       } else {
         notifyFail();
       }

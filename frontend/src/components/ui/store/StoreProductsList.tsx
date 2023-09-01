@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react';
 import StoreProducts from "./StoreProducts"
 import { Product } from '../../../Types/types';
 
-const StoreProductsList = () => {
+
+interface Props {
+  updateProductList: boolean;
+}
+
+const StoreProductsList = ({ updateProductList }:Props) => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
@@ -19,7 +24,7 @@ const StoreProductsList = () => {
       }
     };
     getProducts();
-  }, []);
+  }, [updateProductList]);
 
   return (
     <div className="flex-[1]">
