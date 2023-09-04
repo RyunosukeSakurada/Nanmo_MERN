@@ -9,6 +9,9 @@ import {AiOutlineLogout} from "react-icons/ai"
 const Header = () => {
   const {userInfo, setUserInfo} = useContext(UserContext)
   const email = userInfo?.email
+  const isAdmin = userInfo?.isAdmin;
+  const isStore = userInfo?.isStore;
+
 
   useEffect(() => {
     fetch("http://localhost:4000/api/auth/profile",{
@@ -16,6 +19,7 @@ const Header = () => {
     }).then(response => {
       response.json().then(userInfo => {
         setUserInfo(userInfo)
+        console.log(userInfo)
       })
     })
   },[setUserInfo])
@@ -50,6 +54,20 @@ const Header = () => {
           )}
           {email && (
             <>
+              {isAdmin && (
+                <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                  <Link to="/admin/dashboard">
+                    Dashboard
+                  </Link>
+                </div>
+              )}
+              {isStore && (
+                <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                  <Link to="/store/dashboard">
+                    Dashboard
+                  </Link>
+                </div>
+              )}
               <div className="flex items-center gap-x-1 group">
                 <a onClick={logout} className="cursor-pointer text-[8px] hover:text-zinc-500">
                   logout

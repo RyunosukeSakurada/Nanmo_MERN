@@ -47,10 +47,22 @@ const StoreSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  requested:{
+    type: Boolean,
+    default: false
+  },
+  requestDeclined:{
+    type: Boolean,
+    default: false
+  },
   isStore:{
     type: Boolean,
     default: true
-  }
+  },
+  isAdmin:{
+    type: Boolean,
+    default:false,
+  },
 },
 
   {timestamps: true}

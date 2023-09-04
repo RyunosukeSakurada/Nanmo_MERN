@@ -40,6 +40,11 @@ const ProductSchema = new mongoose.Schema({
     start: {type: String, required: true},
     end: {type: String, required: true}
   },
+  isSold: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   store:{type:Schema.Types.ObjectId, ref:'Store'},
 },
 

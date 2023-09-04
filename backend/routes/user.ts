@@ -89,4 +89,59 @@ router.delete("/deletestore/:storeId", async (req: Request, res: Response) => {
 });
 
 
+// 店舗の承認申請ステータスを更新
+router.put("/requestapproval/:storeId", async (req: Request, res: Response) => {
+  try {
+    const { storeId } = req.params;
+    const store = await Store.findById(storeId).lean().exec();
+
+    if (!store) {
+      return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
+    }
+    if (store.requested) {
+      return res.status(400).json({ message: "承認申請はすでに送信されています" });
+    }
+    
+    const updatedStore = await Store.findByIdAndUpdate(storeId, { requested: true }, { new: true });
+    return res.status(200).json(updatedStore);
+  } catch (error) {
+    return res.status(500).json({ message: "承認申請の処理に失敗しました", error });
+  }
+});
+
+
+// 店舗の承認申請ステータスを確認
+router.get("/checkapproval/:storeId", async (req: Request, res: Response) => {
+  try {
+    const { storeId } = req.params;
+    const store = await Store.findById(storeId).lean().exec();
+
+    if (!store) {
+      return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
+    }
+
+    return res.status(200).json({ requested: store.requested });
+  } catch (error) {
+    return res.status(500).json({ message: "承認申請ステータスの取得に失敗しました", error });
+  }
+});
+
+// 店舗の承認ステータスをtrueに更新
+router.put("/approveStore/:storeId", async (req: Request, res: Response) => {
+  try {
+    const { storeId } = req.params;
+
+    const updatedStore = await Store.findByIdAndUpdate(storeId, { approved: true }, { new: true });
+
+    if (!updatedStore) {
+      return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
+    }
+
+    return res.status(200).json(updatedStore);
+  } catch (error) {
+    return res.status(500).json({ message: "店舗の承認に失敗しました", error });
+  }
+});
+
+
 module.exports = router;

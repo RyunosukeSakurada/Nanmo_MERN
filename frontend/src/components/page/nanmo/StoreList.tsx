@@ -27,7 +27,7 @@ const StoreList: React.FC = () => {
           <p className="text-zinc-500 text-xl">商品がありません😫</p>
         </div> 
         :
-        products.map((product) => (
+        products.filter(product => !product.isSold).map((product) => (
           <Link to={`/nanmo/StoreDetail/${product._id}`} key={product._id}>
             <Store product={product} />
           </Link>

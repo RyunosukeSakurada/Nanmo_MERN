@@ -46,7 +46,10 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
               <span className="w-[10px] h-[10px] bg-red-500 rounded-full absolute -left-5"></span>
             </span>
           </li>
-          <li className="flex items-center cursor-pointer">
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('approvedRequestTable')} 
+          >
             <AiOutlineCheckSquare size={20} className="mr-3"/>
             <span className="text-md hover:text-zinc-500 relative">
               店舗承認申請

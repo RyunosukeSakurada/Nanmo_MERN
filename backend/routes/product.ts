@@ -32,7 +32,7 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
     const {token} = req.cookies;
     jwt.verify(token, SECRET_TOKEN, {}, async(err:Error, info: TokenPayload) => {
       if (err) throw err
-      const { name, description, stocks, price, originalPrice, pickupDate, pickupTimeStart, pickupTimeEnd  } = req.body;
+      const { name, description, stocks, price, originalPrice, pickupDate, pickupTimeStart, pickupTimeEnd,isSold  } = req.body;
       const productDoc = await Product.create({
         name,
         description,
@@ -45,7 +45,8 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
         pickupTime: {
           start: pickupTimeStart,
           end: pickupTimeEnd
-        }
+        },
+        isSold,
       });
       res.json(productDoc);
     });

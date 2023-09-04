@@ -1,5 +1,5 @@
 import {  useState } from "react";
-import MainArea from "../../model/admin/AddminMainArea"
+import AdminMainArea from "../../model/admin/AdminMainArea"
 import Sidebar from "../../model/admin/AdminSidebar"
 import { TabSelection } from "../../../Types/types";
 
@@ -13,7 +13,7 @@ const AdminDashBoard = () => {
         <Sidebar onTabSelect={setSelectedTab}  />
       </div>
       <div className="flex-[6] p-4">
-        <MainArea selectedTab={selectedTab} />
+        <AdminMainArea selectedTab={selectedTab} />
       </div>
     </div>
   )

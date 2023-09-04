@@ -1,11 +1,11 @@
 import { useState } from "react";
 import MainAreaForStore from "../../model/store/StoreMainArea"
 import SidebarForStore from "../../model/store/StoreSidebar"
-import { TabSelection } from "../../../Types/types";
+import { TabSelectionForStore } from "../../../Types/types";
 
 
 const StoreDashBoard = () => {
-  const [selectedTab, setSelectedTab] = useState<TabSelection>('users');
+  const [selectedTab, setSelectedTab] = useState<TabSelectionForStore>('products');
 
   return (
     <div className="flex flex-row min-h-screen">

@@ -4,12 +4,13 @@ import AddAdmin from "./AddAdmin";
 import UserList from "./UserList"
 import {AiOutlineCalendar} from "react-icons/ai"
 import { UserContext } from "../../../context/UserContext";
+import ApprovedRequestTable from "./ApprovedRequestTable";
 
 interface MainAreaProps {
   selectedTab: TabSelection;
 }
 
-const MainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
+const AdminMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
   // 現在の日付を取得
   const currentDate = new Date();
   // 月の名前の配列を作成
@@ -48,9 +49,10 @@ const MainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       <div>
         {selectedTab === 'users' && <UserList />}
         {selectedTab === 'addAdmin' && <AddAdmin />}
+        {selectedTab === 'approvedRequestTable' && <ApprovedRequestTable />}
       </div>
     </div>
   )
 }
 
-export default MainArea
+export default AdminMainArea

@@ -11,14 +11,18 @@ const StoreDetail = () => {
   const [quantity, setQuantity] = useState(1); // 購入する数量の状態を追加
   const [product, setProduct] = useState<Product | null>(null);
   const { id } = useParams<{ id: string }>();
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const getProduct = async () => {
+      setLoading(true);
       try {
         const response = await fetch(`http://localhost:4000/api/product/getProduct/${id}`);
         const data = await response.json();
         setProduct(data);
         console.log(data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -69,7 +73,13 @@ const StoreDetail = () => {
         </div>
       </Link>
 
-      {product && (
+      {loading && (
+        <div className="flex justify-center items-center h-screen">
+          <p>Loading...</p>
+        </div>
+      )}
+
+      {!loading && product && (
         <div className='bg-white rounded-lg p-4 mt-4 break-words relative'>
           <div>
             <div className='flex items-center gap-4'>

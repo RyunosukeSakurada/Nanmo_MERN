@@ -3,6 +3,9 @@ import { createContext, useState, ReactNode, Dispatch, SetStateAction } from "re
 interface UserInfo {
   _id?:string
   email?: string;
+  isAdmin?: boolean;
+  isStore?: boolean;
+  id:string
 }
 
 interface UserContextProps {

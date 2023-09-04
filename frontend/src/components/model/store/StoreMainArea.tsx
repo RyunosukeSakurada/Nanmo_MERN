@@ -1,16 +1,16 @@
 import { useContext, useEffect } from "react";
 import { UserContext } from "../../../context/UserContext";
 import {AiOutlineCalendar} from "react-icons/ai"
-import { TabSelection } from "../../../Types/types";
+import { TabSelectionForStore } from "../../../Types/types";
 import ManageProducts from "./ManageProducts";
-
+import StoreApprovalRequest from "./StoreApprovalRequest";
 
 
 interface MainAreaProps {
-  selectedTab: TabSelection;
+  selectedTab: TabSelectionForStore;
 }
 
-const MainAreaForStore: React.FC<MainAreaProps>  = ({ selectedTab }) => {
+const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
     // 現在の日付を取得
     const currentDate = new Date();
     // 月の名前の配列を作成
@@ -20,7 +20,8 @@ const MainAreaForStore: React.FC<MainAreaProps>  = ({ selectedTab }) => {
   
     const {userInfo, setUserInfo} = useContext(UserContext)
     const email = userInfo?.email
-  
+    const storeId = userInfo?.id;
+      
     useEffect(() => {
       fetch("http://localhost:4000/api/auth/profile",{
         credentials:"include",
@@ -47,10 +48,11 @@ const MainAreaForStore: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       </div>
 
       <div>
-        {selectedTab === 'users' && <ManageProducts />}
+        {selectedTab === 'products' && <ManageProducts />}
+        {selectedTab === 'approvalRequest' && storeId && <StoreApprovalRequest storeId={storeId} />}
       </div>
     </div>
   )
 }
 
-export default MainAreaForStore
+export default StoreMainArea

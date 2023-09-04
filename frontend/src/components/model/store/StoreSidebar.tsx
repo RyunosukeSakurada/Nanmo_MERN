@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import NavbarForStore from "../../ui/store/StoreNavbar";
-import { TabSelection } from "../../../Types/types";
+import StoreNavbar from "../../ui/store/StoreNavbar";
+import { TabSelectionForStore } from "../../../Types/types";
 
 
 interface SidebarProps {
-  onTabSelect: (tab: TabSelection) => void;
+  onTabSelect: (tab: TabSelectionForStore) => void;
 }
 
 const SidebarForStore: React.FC<SidebarProps> = ({ onTabSelect}) => {
@@ -13,7 +13,7 @@ const SidebarForStore: React.FC<SidebarProps> = ({ onTabSelect}) => {
       <Link to="/">
         <h1 className="text-xl bold text-center mb-10">Nanmo <span className="text-green-700">.</span></h1>
       </Link>
-      <NavbarForStore onTabSelect={onTabSelect} />
+      <StoreNavbar onTabSelect={onTabSelect} />
     </div>
   )
 }
