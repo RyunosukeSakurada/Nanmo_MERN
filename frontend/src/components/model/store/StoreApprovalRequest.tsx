@@ -1,17 +1,14 @@
 import AccentButton from "../../ui/global/AccentButton";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserContext } from "../../../context/UserContext";
-import { useContext } from "react";
 
 
 interface StoreApprovalRequestProps {
-  storeId: string; 
+  storeId?: string; 
+  approved?: boolean;
 }
 
-const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId }) => {
-  const { userInfo } = useContext(UserContext);
-  console.log(userInfo);
+const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId,approved }) => {
   
   const details = [
     { title: "1. 商品の掲載・販売", description: "当サービス上で、売れ残ってしまった商品を割引価格で掲載し、多くの顧客に販売することができます。" },
@@ -110,28 +107,34 @@ const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId }) 
       <ToastContainer />
         <div className="">
           <h3 className="bold">店舗承認申請</h3>
-              <>
-                <div className="mt-12 px-4">
-                  <p>Q. 承認申請とは?</p>
-                  <p className="mt-4 text-justify text-[12px]">A. 私たちのサービスの主な目的は、まだ食べられるのに売れ残り、廃棄の危機に瀕している食品をお客様にお得にお届けすることです。このような商品の取り扱いには、食品の安全性と品質を常に最前線に保つ責任が伴います。私たちはお客様に安全で品質の高い商品を提供するため、参加するすべての店舗様が当サービスの基準と価値観を共有していることを確認するための店舗申請を設けています。これは、私たちの共通の目的に向けて一緒に歩んでいくための第一歩です。</p>
-                </div>
-                <div className="mt-12 px-4">
-                  <p>Q.申請が承認されたら、何ができるの？</p>
-                  {details.map((detail, index) => (
-                    <div key={index} className="mt-4 text-justify text-[12px]">
-                      <h2>{detail.title}</h2>
-                      <ul>
-                        <li>{detail.description}</li>
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-        
-                <div className="mt-12 flex justify-center">
-                  <AccentButton onClick={handleSubmit}>承認申請する</AccentButton>
-                </div>
-              </>
-
+          {approved ? (
+            <>
+              <p className="text-center my-16 text-zinc-500">すでに承認申請済みです</p>
+            </>
+          ) : 
+          (
+            <>
+              <div className="mt-12 px-4">
+                <p>Q. 承認申請とは?</p>
+                <p className="mt-4 text-justify text-[12px]">A. 私たちのサービスの主な目的は、まだ食べられるのに売れ残り、廃棄の危機に瀕している食品をお客様にお得にお届けすることです。このような商品の取り扱いには、食品の安全性と品質を常に最前線に保つ責任が伴います。私たちはお客様に安全で品質の高い商品を提供するため、参加するすべての店舗様が当サービスの基準と価値観を共有していることを確認するための店舗申請を設けています。これは、私たちの共通の目的に向けて一緒に歩んでいくための第一歩です。</p>
+              </div>
+              <div className="mt-12 px-4">
+                <p>Q.申請が承認されたら、何ができるの？</p>
+                {details.map((detail, index) => (
+                  <div key={index} className="mt-4 text-justify text-[12px]">
+                    <h2>{detail.title}</h2>
+                    <ul>
+                      <li>{detail.description}</li>
+                    </ul>
+                  </div>
+                ))}
+              </div>
+      
+              <div className="mt-12 flex justify-center">
+                <AccentButton onClick={handleSubmit}>承認申請する</AccentButton>
+              </div>
+            </>
+          )}
         </div>
     </div>
   )

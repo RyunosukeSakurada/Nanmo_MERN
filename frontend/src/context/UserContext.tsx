@@ -5,6 +5,7 @@ interface UserInfo {
   email?: string;
   isAdmin?: boolean;
   isStore?: boolean;
+  approved?:boolean;
   id:string
 }
 

@@ -6,11 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 interface Props {
+  approved?: boolean;
   setUpdateProductList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 
-const AddProduct = ({ setUpdateProductList }: Props) => {
+const AddProduct = ({ setUpdateProductList, approved }: Props) => {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [files, setFiles] = useState<FileList | null>(null);
@@ -121,88 +122,94 @@ const notifyFail = () => toast.error('商品の追加に失敗しました 😫'
   return (
     <div className="flex-[1]">
       <ToastContainer />
-      <span className="text-zinc-500">新規商品の追加</span>
+    <span className="text-zinc-500">新規商品の追加</span>
+      {!approved ? (
+        <>
+          <p className="mt-6 text-zinc-500 text-[12px]">この機能は店舗承認申請を許可された後利用可能です</p>
+        </>
+      ) : (
+        <form className="flex flex-col mt-4 gap-y-4 p-4" onSubmit={addNewProduct}>
+          <input 
+            type="name" 
+            placeholder="商品名" 
+            className="border p-2" 
+            value={name} 
+            onChange={e => setName(e.target.value)}
+          />
+          <textarea
+            placeholder="商品詳細(80文字まで)" 
+            className="border p-2"
+            maxLength={80}
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+          />
+          <input 
+            type="file" 
+            onChange={e => setFiles(e.target.files)} 
+          />
+          <input 
+            type="number" 
+            placeholder="在庫数" 
+            className="border p-2"
+            value={stocks}
+            onChange={e => setStocks(e.target.value)}
+          />
+          <input 
+            type="number" 
+            placeholder="値段" 
+            className="border p-2"
+            value={price}
+            onChange={e => setPrice(e.target.value)}
+          />
+          <input
+            type="number" 
+            placeholder="元の値段" 
+            className="border p-2"
+            value={originalPrice}
+            onChange={e => setOriginalPrice(e.target.value)}
+          />
+          <div className="border p-2">
+              <span className="text-zinc-400">受け取り可能日: </span>
+              <select
+                value={pickupDate}
+                onChange={e => setPickupDate(e.target.value)}
+                required
+              >
+                <option value="" disabled>選択してください</option>
+                <option value="today">今日</option>
+                <option value="tomorrow">明日</option>
+              </select>
+          </div>
+          <div className="border p-2">
+              <span className="text-zinc-400">受け取り可能開始時間: </span>
+              <select
+                value={pickupTimeStart}
+                onChange={e => setPickupTimeStart(e.target.value)}
+                required
+              >
+                <option value="" disabled>選択してください</option>
+                {Array.from({length: 24}, (_, i) => i).map(i => (
+                  <option key={i} value={`${i.toString().padStart(2, '0')}:00`}>{i}:00</option>
+                ))}
+              </select>
+          </div>
+          <div className="border p-2">
+              <span className="text-zinc-400">受け取り可能締切時間: </span>
+              <select
+                value={pickupTimeEnd}
+                onChange={e => setPickupTimeEnd(e.target.value)}
+                required
+              >
+                <option value="" disabled>選択してください</option>
+                {Array.from({length: 24}, (_, i) => i).map(i => (
+                  <option key={i} value={`${i.toString().padStart(2, '0')}:00`}>{i}:00</option>
+                ))}
+              </select>
+          </div>
+          <Button>追加</Button>
+        </form>
+      )}
 
-      <form className="flex flex-col mt-4 gap-y-4 p-4" onSubmit={addNewProduct}>
-        <input 
-          type="name" 
-          placeholder="商品名" 
-          className="border p-2" 
-          value={name} 
-          onChange={e => setName(e.target.value)}
-        />
-        <textarea
-          placeholder="商品詳細(80文字まで)" 
-          className="border p-2"
-          maxLength={80}
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-        />
-        <input 
-          type="file" 
-          onChange={e => setFiles(e.target.files)} 
-        />
-        <input 
-          type="number" 
-          placeholder="在庫数" 
-          className="border p-2"
-          value={stocks}
-          onChange={e => setStocks(e.target.value)}
-        />
-        <input 
-          type="number" 
-          placeholder="値段" 
-          className="border p-2"
-          value={price}
-          onChange={e => setPrice(e.target.value)}
-        />
-        <input
-          type="number" 
-          placeholder="元の値段" 
-          className="border p-2"
-          value={originalPrice}
-          onChange={e => setOriginalPrice(e.target.value)}
-        />
-        <div className="border p-2">
-            <span className="text-zinc-400">受け取り可能日: </span>
-            <select
-              value={pickupDate}
-              onChange={e => setPickupDate(e.target.value)}
-              required
-            >
-              <option value="" disabled>選択してください</option>
-              <option value="today">今日</option>
-              <option value="tomorrow">明日</option>
-            </select>
-        </div>
-        <div className="border p-2">
-            <span className="text-zinc-400">受け取り可能開始時間: </span>
-            <select
-              value={pickupTimeStart}
-              onChange={e => setPickupTimeStart(e.target.value)}
-              required
-            >
-              <option value="" disabled>選択してください</option>
-              {Array.from({length: 24}, (_, i) => i).map(i => (
-                <option key={i} value={`${i.toString().padStart(2, '0')}:00`}>{i}:00</option>
-              ))}
-            </select>
-        </div>
-        <div className="border p-2">
-            <span className="text-zinc-400">受け取り可能締切時間: </span>
-            <select
-              value={pickupTimeEnd}
-              onChange={e => setPickupTimeEnd(e.target.value)}
-              required
-            >
-              <option value="" disabled>選択してください</option>
-              {Array.from({length: 24}, (_, i) => i).map(i => (
-                <option key={i} value={`${i.toString().padStart(2, '0')}:00`}>{i}:00</option>
-              ))}
-            </select>
-        </div>
-        <Button>追加</Button>
-      </form>
     </div>
   )
 }

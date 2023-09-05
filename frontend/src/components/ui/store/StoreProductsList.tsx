@@ -30,9 +30,15 @@ const StoreProductsList = ({ updateProductList }:Props) => {
     <div className="flex-[1]">
       <span className="text-zinc-500">商品一覧</span>
       <div className="flex flex-col gap-y-4 mt-4">
-        {products.map(product => (
-          <StoreProducts key={product._id} product={product}/>
-        ))}
+        {products.length === 0 ? (
+          <>
+            <p className='text-zinc-500 mt-2 text-[12px]'>まだ商品を出品していません</p>
+          </>
+        ) : (
+          products.map(product => (
+            <StoreProducts key={product._id} product={product}/>
+          ))
+        )}
       </div>
     </div>
   )

@@ -113,7 +113,7 @@ const StoreDetail = () => {
               <img 
                 src={`http://localhost:4000/${product.productImage}`} 
                 alt=""
-                className='w-[70%] h-[450px] py-4 object-fill'
+                className='w-[70%] h-[450px] mt-8 object-cover rounded'
               />
             </div>
           ) : (<></>)}

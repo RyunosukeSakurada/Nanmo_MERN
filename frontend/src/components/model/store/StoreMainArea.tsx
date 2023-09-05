@@ -21,6 +21,8 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
     const {userInfo, setUserInfo} = useContext(UserContext)
     const email = userInfo?.email
     const storeId = userInfo?.id;
+    const approved = userInfo?.approved;
+
       
     useEffect(() => {
       fetch("http://localhost:4000/api/auth/profile",{
@@ -48,8 +50,8 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       </div>
 
       <div>
-        {selectedTab === 'products' && <ManageProducts />}
-        {selectedTab === 'approvalRequest' && storeId && <StoreApprovalRequest storeId={storeId} />}
+        {selectedTab === 'products' && <ManageProducts approved={approved}/>}
+        {selectedTab === 'approvalRequest' && <StoreApprovalRequest storeId={storeId} approved={approved} />}
       </div>
     </div>
   )

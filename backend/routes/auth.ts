@@ -19,6 +19,7 @@ interface LoginRequest {
   password: string;
   isAdmin?: boolean;
   isStore?: boolean;
+  approved?:boolean;
 }
 
 export interface TokenPayload {
@@ -26,6 +27,7 @@ export interface TokenPayload {
   email: string;
   isAdmin?: boolean;
   isStore?: boolean;
+  approved?:boolean;
 }
 
 
@@ -46,7 +48,7 @@ router.post("/register", async(req: Request, res: Response) => {
     if (userType === 'store') {
       const { email, storeName, address, detailedAddress, postalCode } = req.body;
 
-      if (!storeName || !address || !detailedAddress || !postalCode) {
+      if (!storeName || !address || !postalCode) {
         return res.status(400).json({ message: "店舗情報が不完全です" });
       }
 
@@ -91,14 +93,14 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, userDoc.password)
       if(passOk){
-        jwt.sign({id:userDoc._id, email,isAdmin: userDoc.isAdmin, isStore: false},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
+        jwt.sign({id:userDoc._id, email,isAdmin: userDoc.isAdmin, isStore: false,},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:userDoc._id,
             email,
             type: 'user',
             isAdmin: userDoc.isAdmin,
-            isStore: userDoc.isStore
+            isStore: userDoc.isStore,
           });
         })
         return; 
@@ -111,13 +113,14 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, storeDoc.password)
       if(passOk){
-        jwt.sign({id:storeDoc._id,email,isStore: true},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
+        jwt.sign({id:storeDoc._id,email,isStore: true,approved:storeDoc.approved},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:storeDoc._id,
             email,
             type: 'store',
             isStore: true,
+            approved:storeDoc.approved
           });
         })
         return; 

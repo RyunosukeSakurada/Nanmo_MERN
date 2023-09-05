@@ -61,21 +61,23 @@ const changeStatusfailed = () => toast.error('変更に失敗しました',
       const response = await fetch(`http://localhost:4000/api/user/approveStore/${storeId}`, {
         method: 'PUT'
       });
-
+  
       if (!response.ok) {
         throw new Error('店舗の承認に失敗しました。');
       }
-
+  
       const updatedStore = await response.json();
-
-      // ステートの店舗リストを更新
-      setStores(stores => stores.map(store => store._id === updatedStore._id ? updatedStore : store));
+  
+      // この店舗をリストからフィルタリングアウトして削除します
+      setStores(stores => stores.filter(store => store._id !== updatedStore._id));
+      
       changeStatusSuccess()
     } catch (error) {
       console.error(error);
       changeStatusfailed();
     }
   };
+  
 
   return (
     <div className="bg-white p-4 rounded-lg">
@@ -96,6 +98,7 @@ const changeStatusfailed = () => toast.error('変更に失敗しました',
             <tr className="text-center">
               <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
               <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">店舗名</th>
+              <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">住所</th>
               <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
               <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">一時利用停止</th>
               <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ブロック</th>
@@ -106,6 +109,7 @@ const changeStatusfailed = () => toast.error('変更に失敗しました',
               <tr key={store._id}>
                 <td className="px-6 py-4 whitespace-nowrap">{store._id}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{store.storeName}</td>
+                <td className="px-6 py-4 whitespace-nowrap">{store.address} {store.detailedAddress}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{store.email}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{store.suspended.toString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{store.blocked.toString()}</td>

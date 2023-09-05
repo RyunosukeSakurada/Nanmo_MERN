@@ -2,7 +2,12 @@ import { useState } from "react";
 import AddProduct from "../../ui/store/AddProduct"
 import StoreProductsList from "../../ui/store/StoreProductsList"
 
-const ManageProducts = () => {
+
+interface ManageProductsProps {
+  approved?: boolean;
+}
+
+const ManageProducts: React.FC<ManageProductsProps> = ({approved}) => {
   const [updateProductList, setUpdateProductList] = useState<boolean>(false);
 
   return (
@@ -11,7 +16,7 @@ const ManageProducts = () => {
         <h3 className="bold">商品管理</h3>
 
         <div className="flex mt-8 gap-x-4">
-          <AddProduct setUpdateProductList={setUpdateProductList} />
+          <AddProduct setUpdateProductList={setUpdateProductList} approved={approved}/>
           <StoreProductsList updateProductList={updateProductList} />
         </div>
       </div>

@@ -1,8 +1,6 @@
-import React, { useContext, useState } from 'react'
-import { Navigate } from 'react-router'
-import { UserContext } from '../../../context/UserContext'
+import React from 'react'
 import { TabSelectionForStore } from "../../../Types/types";
-import { AiOutlineMail,AiOutlineCheckSquare,AiOutlineLogout} from "react-icons/ai"
+import { AiOutlineMail,AiOutlineCheckSquare} from "react-icons/ai"
 import {BiTransfer} from "react-icons/bi"
 import {BsBoxSeam} from "react-icons/bs"
 import {RiFileList2Line} from "react-icons/ri"
@@ -14,21 +12,6 @@ interface NavbarProps {
 }
 
 const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
-  const {setUserInfo} = useContext(UserContext)
-  const [redirect,setRedirect] = useState(false)
-
-  function logout(){
-    fetch("http://localhost:4000/api/auth/logout",{
-      credentials:'include',
-      method: 'POST',
-    })
-    setUserInfo(null)
-    setRedirect(true)
-  }
-
-  if (redirect) {
-    return <Navigate to="/nanmo" />;
-  }
 
   return (
     <div className="mb-6">
@@ -71,10 +54,6 @@ const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
               <span className="text-md hover:text-zinc-500">ストア</span>
             </li>
           </Link>
-          <li className="flex items-center cursor-pointer">
-            <AiOutlineLogout size={20} className="mr-3" />
-            <span className="text-md hover:text-zinc-500" onClick={logout}>ログアウト</span>
-          </li>
         </nav>
       </div>
     </div>
