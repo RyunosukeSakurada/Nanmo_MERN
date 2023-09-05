@@ -7,6 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 const ApprovedRequestTable = () => {
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(false); 
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [currentStoreId, setCurrentStoreId] = useState<string | null>(null);
+
 
   const changeStatusSuccess = () => toast.success('変更に成功しました', 
   {
@@ -77,6 +80,18 @@ const changeStatusfailed = () => toast.error('変更に失敗しました',
       changeStatusfailed();
     }
   };
+
+  const showConfirmation = (storeId: string) => {
+    setCurrentStoreId(storeId);
+    setIsConfirmOpen(true);
+  };
+
+  const handleConfirmApproval = async () => {
+    if(currentStoreId) {
+      handleApprove(currentStoreId);
+    }
+    setIsConfirmOpen(false);
+  };
   
 
   return (
@@ -114,13 +129,28 @@ const changeStatusfailed = () => toast.error('変更に失敗しました',
                 <td className="px-6 py-4 whitespace-nowrap">{store.suspended.toString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{store.blocked.toString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <button className="text-green-500" onClick={() => handleApprove(store._id)}>許可</button>
+                  <button className="text-green-500" onClick={() => showConfirmation(store._id)}>許可</button>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <button className="text-red-500">却下</button>
                 </td>
               </tr>
             ))}
+              {isConfirmOpen && (
+                <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex items-center justify-center">
+                  <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[400px] break-words">
+                    <h3 className="mb-4 text-center">本当に許可しますか？</h3>
+                    <div className="flex justify-center items-center">
+                      <button className="bg-green-500 text-white px-4 py-2 rounded-lg mt-4 mr-2" onClick={handleConfirmApproval}>
+                        許可する
+                      </button>
+                      <button className="border text-gray-700 px-4 py-2 rounded-lg mt-4 ml-2" onClick={() => setIsConfirmOpen(false)}>
+                        戻る
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
           </tbody>
         </table>
       )}

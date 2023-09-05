@@ -32,9 +32,8 @@ const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
             onClick={() => onTabSelect('approvalRequest')} 
           >
             <AiOutlineCheckSquare size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500 relative">
+            <span className="text-md hover:text-zinc-500">
               店舗承認申請
-              <span className="w-[10px] h-[10px] bg-red-500 rounded-full absolute -left-5"></span>
             </span>
           </li>
           <li 
