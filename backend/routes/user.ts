@@ -126,7 +126,7 @@ router.get("/checkapproval/:storeId", async (req: Request, res: Response) => {
   }
 });
 
-// 店舗の承認ステータスをtrueに更新
+// 店舗の承認を許可
 router.put("/approveStore/:storeId", async (req: Request, res: Response) => {
   try {
     const { storeId } = req.params;
@@ -140,6 +140,24 @@ router.put("/approveStore/:storeId", async (req: Request, res: Response) => {
     return res.status(200).json(updatedStore);
   } catch (error) {
     return res.status(500).json({ message: "店舗の承認に失敗しました", error });
+  }
+});
+
+// 店舗の承認を却下
+router.put("/declineStore/:storeId", async (req: Request, res: Response) => {
+  try {
+    const { storeId } = req.params;
+
+    // requestDeclined を true にし、requested を false に設定
+    const updatedStore = await Store.findByIdAndUpdate(storeId, { requestDeclined: true, requested: false }, { new: true });
+
+    if (!updatedStore) {
+      return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
+    }
+
+    return res.status(200).json(updatedStore);
+  } catch (error) {
+    return res.status(500).json({ message: "店舗の却下に失敗しました", error });
   }
 });
 

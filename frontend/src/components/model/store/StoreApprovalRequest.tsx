@@ -6,9 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 interface StoreApprovalRequestProps {
   storeId?: string; 
   approved?: boolean;
+  requestDeclined?:boolean;
 }
 
-const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId,approved }) => {
+const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId,approved,requestDeclined }) => {
   
   const details = [
     { title: "1. 商品の掲載・販売", description: "当サービス上で、売れ残ってしまった商品を割引価格で掲載し、多くの顧客に販売することができます。" },
@@ -130,8 +131,16 @@ const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId,app
                 ))}
               </div>
       
-              <div className="mt-12 flex justify-center">
-                <AccentButton onClick={handleSubmit}>承認申請する</AccentButton>
+              <div className="mt-12">
+                {requestDeclined ? (
+                  <>
+                    <p className="text-[8px] text-red-500 text-center">承認申請が却下されました。再度申請してください。質問がございましたらお問い合わせください。</p>
+                  </>
+                  ) : (<></>)
+                }
+                <div className="flex justify-center">
+                  <AccentButton onClick={handleSubmit}>承認申請する</AccentButton>
+                </div>
               </div>
             </>
           )}

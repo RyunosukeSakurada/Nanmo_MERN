@@ -6,6 +6,7 @@ interface UserInfo {
   isAdmin?: boolean;
   isStore?: boolean;
   approved?:boolean;
+  requestDeclined?:boolean;
   id:string
 }
 

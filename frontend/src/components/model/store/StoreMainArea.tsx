@@ -22,6 +22,7 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
     const email = userInfo?.email
     const storeId = userInfo?.id;
     const approved = userInfo?.approved;
+    const requestDeclined = userInfo?.requestDeclined;
 
       
     useEffect(() => {
@@ -51,7 +52,7 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
 
       <div>
         {selectedTab === 'products' && <ManageProducts approved={approved}/>}
-        {selectedTab === 'approvalRequest' && <StoreApprovalRequest storeId={storeId} approved={approved} />}
+        {selectedTab === 'approvalRequest' && <StoreApprovalRequest storeId={storeId} approved={approved} requestDeclined={requestDeclined}/>}
       </div>
     </div>
   )
