@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import StoreProducts from "./StoreProducts"
 import { Product } from '../../../Types/types';
 
@@ -9,6 +9,12 @@ interface Props {
 
 const StoreProductsList = ({ updateProductList }:Props) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isProductDeleted, setIsProductDeleted] = useState<boolean>(false);
+
+  // 商品の削除後のcallback関数
+  const onProductDeleted = useCallback(() => {
+    setIsProductDeleted(!isProductDeleted);
+  }, [isProductDeleted]);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -24,7 +30,7 @@ const StoreProductsList = ({ updateProductList }:Props) => {
       }
     };
     getProducts();
-  }, [updateProductList]);
+  }, [updateProductList,isProductDeleted]);
 
   return (
     <div className="flex-[1]">
@@ -36,7 +42,7 @@ const StoreProductsList = ({ updateProductList }:Props) => {
           </>
         ) : (
           products.map(product => (
-            <StoreProducts key={product._id} product={product}/>
+            <StoreProducts key={product._id} product={product} onDeleted={onProductDeleted}/>
           ))
         )}
       </div>

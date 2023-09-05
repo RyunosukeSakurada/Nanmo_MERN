@@ -92,4 +92,19 @@ router.get("/getProductsByStore", async (req: Request, res: Response) => {
   }
 });
 
+// 特定の商品の削除
+router.delete("/deleteProduct/:id", async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const deletedProduct = await Product.findByIdAndDelete(id);
+    if (!deletedProduct) {
+      return res.status(404).json({ message: "指定された商品が見つかりませんでした" });
+    }
+    return res.status(200).json({ message: "商品を削除しました" });
+  } catch (error) {
+    return res.status(500).json({ message: "商品の削除に失敗しました" });
+  }
+});
+
+
 module.exports = router;
