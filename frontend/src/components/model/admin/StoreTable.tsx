@@ -16,7 +16,13 @@ const StoreTable = () => {
   const [loading, setLoading] = useState(false); 
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
   const [targetStoreId, setTargetStoreId] = useState<string | null>(null);
+  const [isEditingOpen,setIsEditingOpen] = useState(false);
+  const [editingStoreEmail, setEditingStoreEmail] = useState<string | null>(null);
+  const [editSuspended, setEditSuspended] = useState(false);
+  const [editBlocked, setEditBlocked] = useState(false);
 
+
+  //toastify
   const notifyGetStoresFail = () => toast.error('店舗ユーザーの情報の取得に失敗しました', 
     {
       position: "bottom-right",
@@ -44,6 +50,32 @@ const StoreTable = () => {
   );
 
   const deleteStorefailed = () => toast.error('店舗の削除に失敗しました', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+
+  const ChangeStoreStatusSuccess = () => toast.success('ステータスの変更に成功しました', 
+  {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+  }
+  );
+
+  const ChangeStoreStatusfailed = () => toast.error('ステータスの変更に失敗しました', 
     {
       position: "bottom-right",
       autoClose: 5000,
@@ -117,6 +149,41 @@ const StoreTable = () => {
     setIsDeleteConfirmationOpen(false);
   }
 
+  const handleEditRequest = (storeId: string, email: string, suspended: boolean, blocked: boolean) => {
+    setTargetStoreId(storeId);
+    setEditingStoreEmail(email);
+    setEditSuspended(suspended);
+    setEditBlocked(blocked);
+    setIsEditingOpen(true);
+  }
+
+  const handleUpdateStoreStatus = async () => {
+    try {
+      const res = await fetch(`http://localhost:4000/api/auth/updatestorestatus/${targetStoreId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          suspended: editSuspended,
+          blocked: editBlocked
+        })
+      });
+
+      const data = await res.json();
+      if (res.status !== 200) {
+        throw new Error(data.message);
+      }
+
+      // ユーザーリストを更新
+      setStores(prevStores => prevStores.map(store => store._id === targetStoreId ? data : store));
+      setIsEditingOpen(false);
+      ChangeStoreStatusSuccess()
+    } catch (error) {
+      console.error("店舗ユーザー情報の更新に失敗しました:", error);
+      ChangeStoreStatusfailed()
+    }
+  }
+
+
   return (
     <>
       <ToastContainer />
@@ -150,6 +217,9 @@ const StoreTable = () => {
                 <td className="px-6 py-4 whitespace-nowrap">{store.approved.toString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap">{new Date(store.createdAt).toLocaleDateString()}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
+                  <button onClick={() => handleEditRequest(store._id,store.email,store.suspended,store.blocked)} className="text-green-500">編集</button>
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap">
                   <button onClick={() => handleDeleteRequest(store._id)} className="text-red-500">削除</button>
                 </td>
               </tr>
@@ -166,6 +236,47 @@ const StoreTable = () => {
               <button onClick={() => setIsDeleteConfirmationOpen(false)} className="bg-gray-500 text-white px-4 py-2 rounded">キャンセル</button>
             </div>
           </div>
+        </div>
+      )}
+      {isEditingOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex items-center justify-center">
+            <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[500px] break-words">
+                <h3 className="mb-4 text-center">店舗ユーザーのステータスを更新</h3>
+                <table className="min-w-full divide-y divide-gray-200 mt-8">
+                    <thead>
+                        <tr className="text-center text-[8px]">
+                            <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">メールアドレス</th>
+                            <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">一時利用停止</th>
+                            <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">ブロック</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 text-center text-[8px]">
+                        <tr className="text-center">
+                            <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{editingStoreEmail}</td>
+                            <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
+                                <select value={editSuspended.toString()} onChange={(e) => setEditSuspended(e.target.value === "true")}>
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </td>
+                            <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
+                                <select value={editBlocked.toString()} onChange={(e) => setEditBlocked(e.target.value === "true")}>
+                                    <option value="true">true</option>
+                                    <option value="false">false</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div className="flex justify-center items-center">
+                    <button className="bg-green-700 text-white px-4 py-2 rounded-lg mt-4 mr-2" onClick={handleUpdateStoreStatus}>
+                        確定
+                    </button>
+                    <button className="border text-gray-700 px-4 py-2 rounded-lg mt-4 ml-2" onClick={() => setIsEditingOpen(false)}>
+                        キャンセル
+                    </button>
+                </div>
+            </div>
         </div>
       )}
     </>

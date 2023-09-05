@@ -186,5 +186,50 @@ router.get("/profile", async(req: Request, res: Response) => {
   });
 });
 
+// 一般ユーザーの状態の更新(Admin Dashboard)
+router.put("/updateuserstatus/:userId", async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const { suspended, blocked } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId, 
+      { suspended, blocked },
+      { new: true } 
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "ユーザーが見つかりませんでした" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
+// 店舗ユーザーの状態の更新(Admin Dashboard)
+router.put("/updatestorestatus/:storeId", async (req: Request, res: Response) => {
+  const { storeId } = req.params;
+  const { suspended, blocked } = req.body;
+
+  try {
+    const store = await Store.findByIdAndUpdate(
+      storeId, 
+      { suspended, blocked },
+      { new: true } 
+    );
+
+    if (!store) {
+      return res.status(404).json({ message: "店舗ユーザーが見つかりませんでした" });
+    }
+
+    return res.status(200).json(store);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
+
 
 module.exports = router;
