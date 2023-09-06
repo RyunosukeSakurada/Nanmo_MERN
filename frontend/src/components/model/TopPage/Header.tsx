@@ -3,8 +3,37 @@ import Navbar from "../../ui/TopPage/Navbar"
 import RegisterButton from "../../ui/TopPage/RegisterButton"
 import StartButton from "../../ui/TopPage/StartButton"
 import Wrapper from "../global/Wrapper"
+import { useContext, useEffect } from "react"
+import { UserContext } from "../../../context/UserContext"
+import {AiOutlineLogout} from "react-icons/ai"
+
 
 const Header = () => {
+  const {userInfo, setUserInfo} = useContext(UserContext)
+  const email = userInfo?.email
+  const isAdmin = userInfo?.isAdmin;
+  const isStore = userInfo?.isStore;
+
+
+  useEffect(() => {
+    fetch("http://localhost:4000/api/auth/profile",{
+      credentials:"include",
+    }).then(response => {
+      response.json().then(userInfo => {
+        setUserInfo(userInfo)
+        console.log(userInfo)
+      })
+    })
+  },[setUserInfo])
+
+  function logout(){
+    fetch("http://localhost:4000/api/auth/logout",{
+      credentials:'include',
+      method: 'POST',
+    })
+    setUserInfo(null )
+  }
+
   return (
     <header className="border-b border-zinc-700 fixed w-full z-10 top-0 bg-zinc-200">
       <Wrapper className='flex items-center justify-between'>
@@ -15,12 +44,45 @@ const Header = () => {
           <Navbar />
         </div>
         <div className="flex items-center gap-x-3">
-          <Link to="/register">
-            <RegisterButton /> 
-          </Link>
-          <Link to="/nanmo">
-            <StartButton />
-          </Link>
+          {!email && (
+            <>
+              <Link to="/register">
+                <RegisterButton /> 
+              </Link>
+              <Link to="/nanmo">
+                <StartButton />
+              </Link>
+            </>
+          )}
+          {email && (
+            <>
+              <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                <Link to="/nanmo">
+                  ストア
+                </Link>
+              </div>
+              {isAdmin && (
+                <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                  <Link to="/admin/dashboard">
+                    管理者画面
+                  </Link>
+                </div>
+              )}
+              {isStore && (
+                <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                  <Link to="/store/dashboard">
+                    管理者画面
+                  </Link>
+                </div>
+              )}
+              <div className="flex items-center gap-x-1 group">
+                <a onClick={logout} className="cursor-pointer text-[8px] hover:text-zinc-500">
+                  ログアウト
+                </a>
+                <AiOutlineLogout size={12} className="hidden group-hover:block"/>
+              </div>
+            </>
+          )}
         </div>
       </Wrapper>
     </header>
