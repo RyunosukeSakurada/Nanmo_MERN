@@ -5,6 +5,7 @@ import UserList from "./UserList"
 import {AiOutlineCalendar} from "react-icons/ai"
 import { UserContext } from "../../../context/UserContext";
 import ApprovedRequestTable from "./ApprovedRequestTable";
+import AdminFAQ from "./AdminFAQ";
 
 interface MainAreaProps {
   selectedTab: TabSelection;
@@ -50,6 +51,7 @@ const AdminMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
         {selectedTab === 'users' && <UserList />}
         {selectedTab === 'addAdmin' && <AddAdmin />}
         {selectedTab === 'approvedRequestTable' && <ApprovedRequestTable />}
+        {selectedTab === 'faq' && <AdminFAQ />}
       </div>
     </div>
   )

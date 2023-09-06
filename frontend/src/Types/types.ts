@@ -1,4 +1,4 @@
-export type TabSelection = 'users' | 'addAdmin' | 'approvedRequestTable';
+export type TabSelection = 'users' | 'addAdmin' | 'approvedRequestTable' | 'faq';
 export type TabSelectionForStore = "products" | "approvalRequest";
 
 export interface Product {

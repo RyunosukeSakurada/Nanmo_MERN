@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store");
+const FAQ = require("../models/FAQ")
 const salt = bcrypt.genSaltSync(10); 
 const jwt = require('jsonwebtoken');
 const SECRET_TOKEN = "fmcnirweruiqedkjfchf813";
@@ -30,6 +31,11 @@ export interface TokenPayload {
   isStore?: boolean;
   approved?:boolean;
   requestDeclined?:boolean;
+}
+
+interface FAQRequest {
+  question: string;
+  answer: string;
 }
 
 
@@ -225,6 +231,43 @@ router.put("/updatestorestatus/:storeId", async (req: Request, res: Response) =>
     }
 
     return res.status(200).json(store);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
+
+router.post("/addfaq", async (req: Request<FAQRequest>, res: Response) => {
+  const { question, answer } = req.body;
+
+  if (!question || !answer) {
+    return res.status(400).json({ message: "質問と回答は必須です" });
+  }
+
+  try {
+    const newFAQ = new FAQ({ question, answer });
+    const savedFAQ = await newFAQ.save();
+    return res.status(200).json(savedFAQ);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
+router.get("/getfaqs", async (req: Request<FAQRequest>, res: Response) => {
+  try {
+    const faqs = await FAQ.find({});
+    return res.status(200).json(faqs);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
+
+router.delete("/deletefaq/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    await FAQ.findByIdAndDelete(id);
+    return res.status(200).json({ message: "FAQが削除されました" });
   } catch (error) {
     return res.status(500).json(error);
   }

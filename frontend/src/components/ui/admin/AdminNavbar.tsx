@@ -47,7 +47,10 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
             <AiOutlineKey size={20} className="mr-3"/>
             <span className="text-md hover:text-zinc-500">Admin追加</span>
           </li>
-          <li className="flex items-center cursor-pointer">
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('faq')}
+          >
             <AiOutlineQuestionCircle size={20} className="mr-3"/>
             <span className="text-md hover:text-zinc-500">FAQ</span>
           </li>
