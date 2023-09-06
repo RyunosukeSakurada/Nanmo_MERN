@@ -273,6 +273,22 @@ router.delete("/deletefaq/:id", async (req: Request, res: Response) => {
   }
 });
 
+router.put("/editfaq/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { question, answer } = req.body;
 
+  try {
+    const faq = await FAQ.findById(id);
+    if (!faq) {
+      return res.status(404).json({ message: "FAQが見つかりません" });
+    }
+    faq.question = question;
+    faq.answer = answer;
+    await faq.save();
+    return res.status(200).json({ message: "FAQが更新されました", faq });
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+});
 
 module.exports = router;

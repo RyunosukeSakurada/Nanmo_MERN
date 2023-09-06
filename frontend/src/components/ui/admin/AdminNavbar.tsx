@@ -1,5 +1,5 @@
 import {AiOutlineUser,AiOutlineMail,AiOutlineCheckSquare,AiOutlineKey,AiOutlineQuestionCircle} from "react-icons/ai"
-import {RiCoupon2Line} from "react-icons/ri"
+// import {RiCoupon2Line} from "react-icons/ri"
 import { TabSelection } from "../../../Types/types";
 import { Link } from "react-router-dom";
 import {RiFileList2Line} from "react-icons/ri"
@@ -54,10 +54,11 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
             <AiOutlineQuestionCircle size={20} className="mr-3"/>
             <span className="text-md hover:text-zinc-500">FAQ</span>
           </li>
-          <li className="flex items-center cursor-pointer">
+          {/* optional function */}
+          {/* <li className="flex items-center cursor-pointer">
             <RiCoupon2Line size={20} className="mr-3" />
             <span className="text-md hover:text-zinc-500">クーポン</span>
-          </li>
+          </li> */}
           <Link to="/nanmo">
             <li className="flex items-center cursor-pointer">
               <RiFileList2Line size={20} className="mr-3" />
