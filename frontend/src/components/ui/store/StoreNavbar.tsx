@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabSelectionForStore } from "../../../Types/types";
-import { AiOutlineMail,AiOutlineCheckSquare} from "react-icons/ai"
+import { AiOutlineCheckSquare} from "react-icons/ai"
 import {BiTransfer} from "react-icons/bi"
 import {BsBoxSeam} from "react-icons/bs"
 import {RiFileList2Line} from "react-icons/ri"
@@ -18,15 +18,6 @@ const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
       <div>
         <h3 className="bold mb-2 text-sm text-zinc-500">Menu</h3>
         <nav className="flex flex-col gap-y-3">
-          <li 
-            className="flex items-center cursor-pointer"
-          >
-            <AiOutlineMail size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500 relative">
-              メッセージ
-              <span className="w-[10px] h-[10px] bg-red-500 rounded-full absolute -left-5"></span>
-            </span>
-          </li>
           <li 
             className="flex items-center cursor-pointer"
             onClick={() => onTabSelect('approvalRequest')} 

@@ -1,16 +1,47 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import {AiOutlineClose} from 'react-icons/ai'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const ContactForm = () => {
   const initialFormState = {
     name: '',
-    store: '',
+    storeName: '',
     email: '',
     message: '',
   };
   const [formState, setFormState] = useState(initialFormState);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+
+    //toastify
+    const SentMessageSuccess = () => toast.success('お問い合わせの送信に成功しました 🎉', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+
+  const SentMessageFail = () => toast.error('お問い合わせの送信に失敗しました 😫', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -25,14 +56,36 @@ const ContactForm = () => {
     setIsConfirmationOpen(true);
   };
 
-  const handleConfirmation = () => {
-    setIsConfirmationOpen(false);
-    setIsSubmitted(true);
-    setFormState(initialFormState); 
+  const handleConfirmation = async () => {
+    try {
+        const response = await fetch('http://localhost:4000/api/user/submitContact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formState),
+        });
+
+        if (!response.ok) {
+            throw new Error('お問い合わせの送信に失敗しました');
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setIsConfirmationOpen(false);
+        setIsSubmitted(true);
+        setFormState(initialFormState);
+        SentMessageSuccess()
+    } catch (error) {
+        console.error("Error:", error);
+        SentMessageFail()
+    }
   };
+
 
   return (
     <div>
+      <ToastContainer />
       <form onSubmit={handleSubmit} className='border p-4 rounded-lg shadow-lg bg-zinc-100 break-words'>
           <div className="mb-4">
             <label htmlFor="name" className="block text-sm font-bold mb-2">お名前 <span className="text-[6px] text-red-500">※必須</span></label>
@@ -46,11 +99,11 @@ const ContactForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="store" className="block text-sm font-bold mb-2">店舗名 <span className="text-[6px]">※個人の場合は「個人」と入力してください</span></label>
+            <label htmlFor="storeName" className="block text-sm font-bold mb-2">店舗名 <span className="text-[6px] text-red-500">※必須</span><span className="text-[6px]">※個人の場合は「個人」と入力してください</span></label>
             <input
               type="text"
-              name="store"
-              value={formState.store}
+              name="storeName"
+              value={formState.storeName}
               onChange={handleChange}
               className="w-full border rounded px-3 py-2"
             />
@@ -90,7 +143,7 @@ const ContactForm = () => {
             </div>
             <div className='mt-2'>
               店舗名 
-              <p className='border rounded px-3 py-2'>{formState.store}</p>
+              <p className='border rounded px-3 py-2'>{formState.storeName}</p>
             </div>
             <div className='mt-2'>メールアドレス 
               <p className='border rounded px-3 py-2'>{formState.email}</p>

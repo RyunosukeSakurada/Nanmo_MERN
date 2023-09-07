@@ -23,11 +23,13 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
             <AiOutlineUser size={20} className="mr-3"/>
             <span className="text-md hover:text-zinc-500">ユーザー管理</span>
           </li>
-          <li className="flex items-center cursor-pointer">
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('contact')} 
+          >
             <AiOutlineMail size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500 relative">
-              メッセージ
-              <span className="w-[10px] h-[10px] bg-red-500 rounded-full absolute -left-5"></span>
+            <span className="text-md hover:text-zinc-500">
+              お問い合わせ
             </span>
           </li>
           <li 
@@ -35,9 +37,8 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
             onClick={() => onTabSelect('approvedRequestTable')} 
           >
             <AiOutlineCheckSquare size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500 relative">
+            <span className="text-md hover:text-zinc-500">
               店舗承認申請
-              <span className="w-[10px] h-[10px] bg-red-500 rounded-full absolute -left-5"></span>
             </span>
           </li>
           <li 

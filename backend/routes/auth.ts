@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store");
-const FAQ = require("../models/FAQ")
+const FAQ = require("../models/FAQ");
+const Contact = require("../models/Contact");
 const salt = bcrypt.genSaltSync(10); 
 const jwt = require('jsonwebtoken');
 const SECRET_TOKEN = "fmcnirweruiqedkjfchf813";
@@ -290,5 +291,49 @@ router.put("/editfaq/:id", async (req: Request, res: Response) => {
     return res.status(500).json(error);
   }
 });
+
+
+// お問い合わせ情報を全て取得
+router.get("/getAllContacts", async (req: Request, res: Response) => {
+  try {
+    const contacts = await Contact.find();
+    return res.status(200).json(contacts);
+  } catch (error) {
+    return res.status(500).json({ message: "お問い合わせの取得に失敗しました", error });
+  }
+});
+
+//お問い合わせの未読を既読に変える
+router.post("/toggleReadStatus/:contactId", async (req: Request, res: Response) => {
+  try {
+    const { contactId } = req.params;
+    const contact = await Contact.findById(contactId);
+    if (!contact) {
+      return res.status(404).json({ message: "お問い合わせが見つかりませんでした" });
+    }
+    contact.isRead = !contact.isRead; // 現在の状態を反転
+    await contact.save();
+    return res.status(200).json(contact);
+  } catch (error) {
+    return res.status(500).json({ message: "お問い合わせの更新に失敗しました", error });
+  }
+});
+
+//お問い合わせの未読を既読に変える
+router.post("/toggleHandleStatus/:contactId", async (req: Request, res: Response) => {
+  try {
+    const { contactId } = req.params;
+    const contact = await Contact.findById(contactId);
+    if (!contact) {
+      return res.status(404).json({ message: "お問い合わせが見つかりませんでした" });
+    }
+    contact.isHandled = !contact.isHandled; // 現在の状態を反転
+    await contact.save();
+    return res.status(200).json(contact);
+  } catch (error) {
+    return res.status(500).json({ message: "お問い合わせの更新に失敗しました", error });
+  }
+});
+
 
 module.exports = router;

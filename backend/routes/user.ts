@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store")
-
+const Contact = require("../models/Contact");
 
 //全一般ユーザーの情報を取得
 router.get("/userslist", async (req: Request, res: Response) => {
@@ -158,6 +158,17 @@ router.put("/declineStore/:storeId", async (req: Request, res: Response) => {
     return res.status(200).json(updatedStore);
   } catch (error) {
     return res.status(500).json({ message: "店舗の却下に失敗しました", error });
+  }
+});
+
+// お問い合わせ情報の保存
+router.post("/submitContact", async (req: Request, res: Response) => {
+  try {
+    const contact = new Contact(req.body);
+    await contact.save();
+    return res.status(201).json({ message: "お問い合わせを保存しました" });
+  } catch (error) {
+    return res.status(500).json({ message: "お問い合わせの保存に失敗しました", error });
   }
 });
 
