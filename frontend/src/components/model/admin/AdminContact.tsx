@@ -1,55 +1,18 @@
 import { useEffect, useState } from "react";
-import {BiSolidDownArrow,BiSolidUpArrow} from 'react-icons/bi'
+import { BiSolidDownArrow, BiSolidUpArrow } from 'react-icons/bi';
 import { Contact } from "../../../Types/types";
 
+interface ContactItemProps {
+    contact: Contact;
+    toggleReadStatus: (id: string) => void;
+    toggleHandleStatus: (id: string) => void;
+}
 
-const AdminContact = () => {
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+const ContactItem: React.FC<ContactItemProps> = ({ contact, toggleReadStatus, toggleHandleStatus }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    fetch("http://localhost:4000/api/auth/getAllContacts")
-      .then(response => response.json())
-      .then(data => setContacts(data))
-      .catch(error => console.error("API Error:", error));
-  }, []);
-
-  const toggleReadStatus = (contactId: string) => {
-    fetch(`http://localhost:4000/api/auth/toggleReadStatus/${contactId}`, {
-      method: "POST",
-    })
-    .then(response => response.json())
-    .then(updatedContact => {
-      const updatedContacts = contacts.map(contact => 
-        contact._id === updatedContact._id ? updatedContact : contact
-      );
-      setContacts(updatedContacts);
-    })
-    .catch(error => console.error("API Error:", error));
-  }
-
-  const toggleHandleStatus = (contactId: string) => {
-    fetch(`http://localhost:4000/api/auth/toggleHandleStatus/${contactId}`, {
-      method: "POST",
-    })
-    .then(response => response.json())
-    .then(updatedContact => {
-      const updatedContacts = contacts.map(contact => 
-        contact._id === updatedContact._id ? updatedContact : contact
-      );
-      setContacts(updatedContacts);
-    })
-    .catch(error => console.error("API Error:", error));
-  }
-
-  return (
-    <div className="bg-white p-4 rounded-lg">
-      <div>
-        <h3 className="bold">お問い合わせ</h3>
-      </div>
-
-      {contacts.map((contact, index) => (
-        <div key={index} className="mt-8">
+    return (
+        <div className="mt-8">
           <div className="border p-4 shadow flex items-center justify-between">
             <div className="flex">
               <div className="flex gap-x-2">
@@ -66,13 +29,61 @@ const AdminContact = () => {
                 <p>{contact.email}</p>
               </div>
             </div>
-            <span onClick={() => setIsOpen(!isOpen)}>{isOpen ? <BiSolidUpArrow /> : <BiSolidDownArrow /> }</span>
-          </div>
-          {isOpen && <div className="py-3 px-4 bg-zinc-300">{contact.message}</div>}
+          <span onClick={() => setIsOpen(!isOpen)}>{isOpen ? <BiSolidUpArrow /> : <BiSolidDownArrow /> }</span>
         </div>
-      ))}
-    </div>
-  )
+        {isOpen && <div className="py-3 px-4 bg-zinc-300">{contact.message}</div>}
+      </div>
+    );
+};
+
+const AdminContact: React.FC = () => {
+    const [contacts, setContacts] = useState<Contact[]>([]);
+
+    useEffect(() => {
+        fetch("http://localhost:4000/api/auth/getAllContacts")
+            .then(response => response.json())
+            .then(data => setContacts(data))
+            .catch(error => console.error("API Error:", error));
+    }, []);
+
+    const toggleReadStatus = (contactId: string) => {
+      fetch(`http://localhost:4000/api/auth/toggleReadStatus/${contactId}`, {
+        method: "POST",
+      })
+      .then(response => response.json())
+      .then(updatedContact => {
+        const updatedContacts = contacts.map(contact => 
+          contact._id === updatedContact._id ? updatedContact : contact
+        );
+        setContacts(updatedContacts);
+      })
+      .catch(error => console.error("API Error:", error));
+    }
+  
+    const toggleHandleStatus = (contactId: string) => {
+      fetch(`http://localhost:4000/api/auth/toggleHandleStatus/${contactId}`, {
+        method: "POST",
+      })
+      .then(response => response.json())
+      .then(updatedContact => {
+        const updatedContacts = contacts.map(contact => 
+          contact._id === updatedContact._id ? updatedContact : contact
+        );
+        setContacts(updatedContacts);
+      })
+      .catch(error => console.error("API Error:", error));
+    }
+
+    return (
+        <div className="bg-white p-4 rounded-lg">
+            <div>
+                <h3 className="bold">お問い合わせ</h3>
+            </div>
+            {contacts.map((contact, index) => (
+                <ContactItem key={index} contact={contact} toggleReadStatus={toggleReadStatus} toggleHandleStatus={toggleHandleStatus} />
+            ))}
+        </div>
+    );
 }
 
-export default AdminContact
+export default AdminContact;

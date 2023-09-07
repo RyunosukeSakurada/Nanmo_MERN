@@ -161,7 +161,7 @@ router.put("/declineStore/:storeId", async (req: Request, res: Response) => {
   }
 });
 
-// お問い合わせ情報の保存
+// お問い合わせ情報の送信
 router.post("/submitContact", async (req: Request, res: Response) => {
   try {
     const contact = new Contact(req.body);
