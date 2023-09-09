@@ -11,10 +11,10 @@ const ContactForm = () => {
     email: '',
     message: '',
   };
+
   const [formState, setFormState] = useState(initialFormState);
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
 
     //toastify
     const SentMessageSuccess = () => toast.success('お問い合わせの送信に成功しました 🎉', 

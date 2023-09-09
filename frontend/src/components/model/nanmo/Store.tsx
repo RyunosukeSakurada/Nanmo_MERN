@@ -13,7 +13,7 @@ const Store: React.FC<Props> = ({ product }) => {
         <div className='flex items-center gap-4'>
           <div>
             <img 
-              src={"/images/logo.png"}
+              src= {product.store.storeLogo ? `http://localhost:4000/${product.store.storeLogo}` : "/images/logo.png"}
               alt={"ロゴ画像"}
               width={60}
               height={60}

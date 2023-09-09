@@ -1,7 +1,7 @@
 import React from 'react'
 import { TabSelectionForStore } from "../../../Types/types";
 import { AiOutlineCheckSquare} from "react-icons/ai"
-import {BiTransfer} from "react-icons/bi"
+import {BiTransfer,BiStore} from "react-icons/bi"
 import {BsBoxSeam} from "react-icons/bs"
 import {RiFileList2Line} from "react-icons/ri"
 import { Link } from 'react-router-dom';
@@ -37,6 +37,13 @@ const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
           <li className="flex items-center cursor-pointer">
             <BiTransfer size={20} className="mr-3" />
             <span className="text-md hover:text-zinc-500">取引履歴</span>
+          </li>
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('storeInformation')} 
+          >
+            <BiStore size={20} className="mr-3" />
+            <span className="text-md hover:text-zinc-500">店舗情報</span>
           </li>
           <Link to="/nanmo">
             <li className="flex items-center cursor-pointer">

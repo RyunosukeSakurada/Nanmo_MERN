@@ -4,6 +4,7 @@ import {AiOutlineCalendar} from "react-icons/ai"
 import { TabSelectionForStore } from "../../../Types/types";
 import ManageProducts from "./ManageProducts";
 import StoreApprovalRequest from "./StoreApprovalRequest";
+import StoreInformation from "./StoreInformation";
 
 
 interface MainAreaProps {
@@ -24,6 +25,11 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
     const approved = userInfo?.approved;
     const requestDeclined = userInfo?.requestDeclined;
 
+    const address = userInfo?.address;
+    const detailedAddress = userInfo?.detailedAddress;
+    const storeName = userInfo?.storeName;
+    const postalCode = userInfo?.postalCode;
+
       
     useEffect(() => {
       fetch("http://localhost:4000/api/auth/profile",{
@@ -31,9 +37,11 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       }).then(response => {
         response.json().then(userInfo => {
           setUserInfo(userInfo)
+          console.log(userInfo);
         })
       })
     },[setUserInfo])
+
 
   return (
     <div className="">
@@ -53,6 +61,7 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       <div>
         {selectedTab === 'products' && <ManageProducts approved={approved}/>}
         {selectedTab === 'approvalRequest' && <StoreApprovalRequest storeId={storeId} approved={approved} requestDeclined={requestDeclined}/>}
+        {selectedTab === 'storeInformation' && <StoreInformation storeId={storeId} email={email} address={address} detailedAddress={detailedAddress} storeName={storeName} postalCode={postalCode} />}
       </div>
     </div>
   )

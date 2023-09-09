@@ -1,5 +1,5 @@
-export type TabSelection = 'users' | 'addAdmin' | 'approvedRequestTable' | 'faq' | 'contact';
-export type TabSelectionForStore = "products" | "approvalRequest";
+export type TabSelection = 'users' | 'addAdmin' | 'approvedRequestTable' | 'faq' | 'contact' ;
+export type TabSelectionForStore = "products" | "approvalRequest" | "storeInformation";
 
 export interface Product {
   _id: string;
@@ -12,9 +12,11 @@ export interface Product {
   price: number;
   originalPrice: number;
   store: {
+    _id:string;
     storeName: string;
     address: string;
     detailedAddress: string;
+    storeLogo:string;
   };
   isSold:boolean;
 }

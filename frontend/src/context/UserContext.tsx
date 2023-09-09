@@ -6,6 +6,11 @@ interface UserInfo {
   isAdmin?: boolean;
   isStore?: boolean;
   approved?:boolean;
+  address?:string;
+  detailedAddress?:string;
+  postalCode?:string;
+  storeLogo?:string;
+  storeName?:string;
   requestDeclined?:boolean;
   id:string
 }

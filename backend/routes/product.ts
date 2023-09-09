@@ -57,14 +57,14 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
 
 //全商品の取得
 router.get("/getProducts", async (req: Request, res: Response) => {
-  res.json(await Product.find().populate('store', 'storeName address detailedAddress -_id'))
+  res.json(await Product.find().populate('store', 'storeName address detailedAddress storeLogo -_id'))
 })
 
 
 // 特定の商品の取得
 router.get("/getProduct/:id", async (req: Request, res: Response) => {
   try {
-    const product = await Product.findById(req.params.id).populate('store', 'storeName address detailedAddress -_id');
+    const product = await Product.findById(req.params.id).populate('store', 'storeName address detailedAddress storeLogo -_id');
     if (!product) {
       return res.status(404).json({ message: "商品が見つかりません" });
     }
@@ -81,7 +81,7 @@ router.get("/getProductsByStore", async (req: Request, res: Response) => {
     const {token} = req.cookies;
     jwt.verify(token, SECRET_TOKEN, {}, async(err:Error, info: TokenPayload) => {
       if (err) throw err;
-      const products = await Product.find({store: info.id}).populate('store', 'storeName address detailedAddress -_id');
+      const products = await Product.find({store: info.id}).populate('store', 'storeName address detailedAddress storeLogo -_id');
       if (!products) {
         return res.status(404).json({ message: "商品が見つかりません" });
       }

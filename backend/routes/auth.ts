@@ -23,6 +23,7 @@ interface LoginRequest {
   isStore?: boolean;
   approved?:boolean;
   requestDeclined?:boolean;
+  storeLogo?:string,
 }
 
 export interface TokenPayload {
@@ -32,6 +33,7 @@ export interface TokenPayload {
   isStore?: boolean;
   approved?:boolean;
   requestDeclined?:boolean;
+  storeLogo?:string,
 }
 
 interface FAQRequest {
@@ -122,7 +124,18 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, storeDoc.password)
       if(passOk){
-        jwt.sign({id:storeDoc._id,email,isStore: true,approved:storeDoc.approved,requestDeclined:storeDoc.requestDeclined},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
+        jwt.sign({
+          id:storeDoc._id,
+          email,
+          isStore: true,
+          approved:storeDoc.approved,
+          requestDeclined:storeDoc.requestDeclined,
+          address:storeDoc.address,
+          detailedAddress:storeDoc.detailedAddress,
+          postalCode:storeDoc.postalCode,
+          storeName:storeDoc.storeName,
+          storeLogo:storeDoc.storeLogo,
+        },SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           res.cookie('token', token).json({
             id:storeDoc._id,
@@ -131,6 +144,8 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
             isStore: true,
             approved:storeDoc.approved,
             requestDeclined:storeDoc.requestDeclined,
+            storeName:storeDoc.storeName,
+            storeLogo:storeDoc.storeLogo,
           });
         })
         return; 

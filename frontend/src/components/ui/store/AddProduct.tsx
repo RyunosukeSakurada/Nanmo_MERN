@@ -4,7 +4,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-
 interface Props {
   approved?: boolean;
   setUpdateProductList: React.Dispatch<React.SetStateAction<boolean>>;

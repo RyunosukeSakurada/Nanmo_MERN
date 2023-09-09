@@ -1,9 +1,18 @@
 import { Request, Response } from "express";
+import multer from "multer";
 
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store")
 const Contact = require("../models/Contact");
+const uploadMiddleware = multer({dest: 'uploads/'})
+const fs = require("fs")
+
+declare module 'express' {
+  interface Request {
+      file: Express.Multer.File;
+  }
+}
 
 //全一般ユーザーの情報を取得
 router.get("/userslist", async (req: Request, res: Response) => {
@@ -171,6 +180,88 @@ router.post("/submitContact", async (req: Request, res: Response) => {
     return res.status(500).json({ message: "お問い合わせの保存に失敗しました", error });
   }
 });
+
+
+//店舗情報の更新
+router.put("/updateStore/:storeId", async (req: Request, res: Response) => {
+  try {
+    const { storeId } = req.params;
+    const updatedData = req.body;
+
+    // 更新されたstoreNameが存在する場合、重複をチェック
+    if (updatedData.storeName) {
+      const existingStore = await Store.findOne({ storeName: updatedData.storeName });
+
+      // 既存の店舗で同じstoreNameが見つかった場合、エラーレスポンスを返す
+      if (existingStore && String(existingStore._id) !== storeId) {
+        return res.status(400).json({ message: "指定された店舗名は既に存在しています" });
+      }
+    }
+
+    // 更新されたemailが存在する場合、重複をチェック
+    if (updatedData.email) {
+      const existingStoreWithEmail = await Store.findOne({ email: updatedData.email });
+
+      // 既存の店舗で同じemailが見つかった場合、エラーレスポンスを返す
+      if (existingStoreWithEmail && String(existingStoreWithEmail._id) !== storeId) {
+        return res.status(400).json({ message: "指定されたメールアドレスは既に存在しています" });
+      }
+    }
+
+    const updatedStore = await Store.findByIdAndUpdate(storeId, updatedData, { new: true });
+
+    if (!updatedStore) {
+      return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
+    }
+
+    return res.status(200).json(updatedStore);
+  } catch (error) {
+    return res.status(500).json({ message: "店舗情報の更新に失敗しました", error });
+  }
+});
+
+
+//店舗ユーザーのロゴをアップデート
+router.post("/uploadStoreLogo/:storeId", uploadMiddleware.single('file'), async (req: Request, res: Response) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "ファイルがアップロードされていません" });
+    }
+
+    const { originalname, path } = req.file;
+    const parts = originalname.split(".");
+    const ext = parts[parts.length - 1];
+    const newPath = path + "." + ext;
+    fs.renameSync(path, newPath);
+
+    const storeId = req.params.storeId;
+    const updatedStore = await Store.findByIdAndUpdate(storeId, { storeLogo: newPath }, { new: true });
+
+    if (!updatedStore) {
+      return res.status(404).json({ message: "指定された店舗が見つかりません" });
+    }
+
+    res.json(updatedStore);
+  } catch (error) {
+    return res.status(500).json({ message: "店舗のロゴの更新に失敗しました" });
+  }
+});
+
+router.get("/getStoreLogo/:storeId", async (req: Request, res: Response) => {
+  try {
+    const storeId = req.params.storeId;
+    const store = await Store.findById(storeId);
+
+    if (!store) {
+      return res.status(404).json({ message: "指定された店舗が見つかりません" });
+    }
+
+    res.json({ storeLogo: store.storeLogo });
+  } catch (error) {
+    return res.status(500).json({ message: "店舗のロゴの取得に失敗しました" });
+  }
+});
+
 
 
 module.exports = router;
