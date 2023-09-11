@@ -3,26 +3,77 @@ import { Order } from '../../Types/types';
 import Header from '../../components/model/nanmo/Header';
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import CheckoutForm from '../../components/ui/payment/CheckoutForm';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Navigate } from 'react-router';
+
 
 const Payment = () => {
   const stripe = useStripe();
   const elements = useElements();
-  
   const [orders, setOrders] = useState<Order[]>([]); 
   const [loading, setLoading] = useState(false);
+  const [redirect, setRedirect] = useState("");
+
+  //toastify
+  const checkoutSuccess = () => toast.success('決済に成功しました 🎉', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+  const checkoutFail = () => toast.error('決済に失敗しました 😫', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+  const loginFirst = () => toast.error('先にログインしてください 😫', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
+  const getCardInfoFail = () => toast.error('カード情報の取得に失敗しました 😫', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
 
   const getCurrentUser = async () => {
     const response = await fetch(`http://localhost:4000/api/auth/profile`, {
       credentials: 'include', 
     });
-  
     const data = await response.json();
-      
     if (data.error) {
       console.error(data.error);
       return null;
     }
-  
     return data;
   };
 
@@ -30,7 +81,7 @@ const Payment = () => {
     const fetchOrders = async () => {
       const user = await getCurrentUser(); 
       if (!user) {
-        alert('ログインしてください');
+        loginFirst()
         return;
       }
 
@@ -57,7 +108,7 @@ const Payment = () => {
     const cardElement = elements.getElement(CardElement);
   
     if (!cardElement) {
-      alert("カード情報の取得に失敗しました");
+      getCardInfoFail()
       return;
     }
   
@@ -88,17 +139,22 @@ const Payment = () => {
 
     const data = await response.json();
     if (data.success) {
-      alert("決済成功!");
+      checkoutSuccess()
       setTimeout(() => {
-        window.location.href = "/nanmo";
+        setRedirect("/nanmo");
       }, 3000);
     } else {
-      alert("決済失敗: " + data.message);
+      checkoutFail()
     }
   };
 
+  if (redirect) {
+    return <Navigate to={redirect} />;
+  }
+
   return (
     <div>
+      <ToastContainer />
       <Header/>
       {/* Loading表示 */}
       {loading && (
