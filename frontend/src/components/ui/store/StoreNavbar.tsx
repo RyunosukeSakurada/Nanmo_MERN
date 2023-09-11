@@ -34,7 +34,10 @@ const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
             <BsBoxSeam size={20} className="mr-3" />
             <span className="text-md hover:text-zinc-500">商品管理</span>
           </li>
-          <li className="flex items-center cursor-pointer">
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('order')} 
+          >
             <BiTransfer size={20} className="mr-3" />
             <span className="text-md hover:text-zinc-500">取引履歴</span>
           </li>

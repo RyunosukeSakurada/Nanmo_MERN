@@ -14,11 +14,24 @@ router.post("/createOrder", async (req: Request, res: Response) => {
   }
 });
 
-// ユーザーIDとstatusに基づいてOrderを取得
+
+// ユーザーIDとstatus:pendingに基づいてOrderを取得
 router.get("/getOrdersByUser/:userId", async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
     const orders = await Order.find({ user: userId, status: 'pending' }).populate('items.product');
+    return res.status(200).json(orders);
+  } catch (error) {
+    console.error("Error when fetching orders: ", error);
+    return res.status(500).json({ message: "注文の取得に失敗しました", error: (error as any).message });
+  }
+});
+
+//店舗ユーザーのIDに基づいてorderを取得
+router.get("/getOrdersByUser/:storeId", async (req: Request, res: Response) => {
+  try {
+    const { storeId } = req.params;
+    const orders = await Order.find({ store: storeId}).populate('items.product').populate('user');
     return res.status(200).json(orders);
   } catch (error) {
     console.error("Error when fetching orders: ", error);

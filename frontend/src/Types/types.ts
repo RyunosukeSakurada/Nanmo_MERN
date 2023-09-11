@@ -1,5 +1,12 @@
 export type TabSelection = 'users' | 'addAdmin' | 'approvedRequestTable' | 'faq' | 'contact' ;
-export type TabSelectionForStore = "products" | "approvalRequest" | "storeInformation";
+export type TabSelectionForStore = "products" | "approvalRequest" | "storeInformation" | "order";
+
+
+export interface User{
+  _id: string;
+  email:string,
+  password:string,
+}
 
 export interface Product {
   _id: string;
@@ -51,7 +58,7 @@ export interface Contact{
 
 export interface Order {
   _id?: string;  
-  user: string;  
+  user: User;  
   store: Store; 
   items: {
       product: Product;  
