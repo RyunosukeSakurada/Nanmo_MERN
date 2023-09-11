@@ -26,4 +26,22 @@ router.get("/getOrdersByUser/:userId", async (req: Request, res: Response) => {
   }
 });
 
+//orderのstatus
+router.put("/updateOrderStatus/:orderId", async (req: Request, res: Response) => {
+  try {
+    const { orderId } = req.params;
+    const order = await Order.findById(orderId);
+    if(!order) {
+      return res.status(404).json({ message: "注文が見つかりません" });
+    }
+    order.status = 'done';
+    await order.save();
+    return res.status(200).json(order);
+  } catch (error) {
+    console.error("Error when updating order status: ", error);
+    return res.status(500).json({ message: "注文のステータスの更新に失敗しました", error: (error as any).message });
+  }
+});
+
+
 module.exports = router;

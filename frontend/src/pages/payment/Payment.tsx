@@ -77,6 +77,24 @@ const Payment = () => {
     return data;
   };
 
+  const updateOrderStatus = async (orderId: string) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/order/updateOrderStatus/${orderId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if(response.ok) {
+        console.log("注文のステータスが更新されました");
+      } else {
+        console.error("注文のステータスの更新に失敗しました");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   useEffect(() => {
     const fetchOrders = async () => {
       const user = await getCurrentUser(); 
@@ -128,7 +146,6 @@ const Payment = () => {
       }, 0);
     }, 0) * 100; 
 
-    // ここでサーバーサイドにpaymentMethod.idを送信して実際の決済を行います。
     const response = await fetch(`http://localhost:4000/api/stripe/payment`, {
       method: 'POST',
       headers: {
@@ -140,9 +157,14 @@ const Payment = () => {
     const data = await response.json();
     if (data.success) {
       checkoutSuccess()
+      for(const order of orders) {
+        if(order._id){
+          await updateOrderStatus(order._id); 
+        }
+      }
       setTimeout(() => {
-        setRedirect("/nanmo");
-      }, 3000);
+        setRedirect("/payment-success");
+      }, 2000);
     } else {
       checkoutFail()
     }
@@ -163,39 +185,43 @@ const Payment = () => {
         </div>
       )}
 
+
       {/* Orders表示 */}
       {!loading && (
         <div className='flex flex-row gap-x-8 p-4 mt-8 max-w-[1000px] mx-auto'>
           <div className='flex-[2] flex flex-col bg-white rounded-lg p-4'>
             <p className="text-zinc-500 text-[8px] mb-4">注文</p>
 
-            {orders.map(order => (
-              <div key={order._id}>
-                {/* ここに表示したいOrderの情報を追加します。例えば、 */}
-                {order.items.map(item => (
-                  <div key={item.product._id} className='flex flex-row gap-x-4 p-4 shadow items-center'>
-                    <img 
-                      src={`http://localhost:4000/${item.product.productImage}`} 
-                      alt=""
-                      className='h-[80px] w-[80px] rounded-full'
-                    />
-                    <div className=''>
-                      <p className='text-xl'>商品名: {item.product.name}</p>
-                      <div className='flex gap-x-5'>
-                        <p className='text-zinc-500'>数量: {item.quantity}</p>
-                        <p className='text-zinc-500'>値段: {item.product.price}円</p>
+            {orders.length === 0 ? (
+              <p className='p-4 text-zinc-500'>何もありません</p>
+            ) : (
+              orders.map(order => (
+                <div key={order._id}>
+                  {order.items.map(item => (
+                    <div key={item.product._id} className='flex flex-row gap-x-4 p-4 shadow items-center'>
+                      <img 
+                        src={`http://localhost:4000/${item.product.productImage}`} 
+                        alt="商品の画像"
+                        className='h-[80px] w-[80px] rounded-full'
+                      />
+                      <div className=''>
+                        <p className='text-xl'>商品名: {item.product.name}</p>
+                        <div className='flex gap-x-5'>
+                          <p className='text-zinc-500'>数量: {item.quantity}</p>
+                          <p className='text-zinc-500'>値段: {item.product.price}円</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            ))}
+                  ))}
+                </div>
+              ))
+            )}
           </div>
           <CheckoutForm handlePurchase={handlePurchase} />
         </div>
       )}
-    </div>
-  );
+    </div>  
+  )
 }
 
 export default Payment;

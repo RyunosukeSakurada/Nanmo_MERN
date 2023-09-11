@@ -119,7 +119,19 @@ const StoreDetail = () => {
         const data = await response.json();
         if (response.status === 201) {
           console.log("注文が完了しました");
-          Success()
+          Success();
+
+          // todo : 注文が成功したら、Productのstocksからquantityをマイナスする
+          setProduct(prevProduct => {
+            if (prevProduct) {
+              return {
+                ...prevProduct,
+                stocks: prevProduct.stocks - quantity
+              };
+            }
+            return prevProduct;
+          });
+
           setTimeout(() => {
             setRedirect('/nanmo/payment');
           },3000)
