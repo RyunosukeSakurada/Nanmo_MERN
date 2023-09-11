@@ -4,6 +4,7 @@ import multer from "multer";
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store")
+const Order = require("../models/Order");
 const Contact = require("../models/Contact");
 const uploadMiddleware = multer({dest: 'uploads/'})
 const fs = require("fs")
@@ -261,6 +262,7 @@ router.get("/getStoreLogo/:storeId", async (req: Request, res: Response) => {
     return res.status(500).json({ message: "店舗のロゴの取得に失敗しました" });
   }
 });
+
 
 
 

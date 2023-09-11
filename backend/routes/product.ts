@@ -40,7 +40,7 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
         stocks,
         price,
         originalPrice,
-        store:info.id,
+        store: info.id,
         pickupDate,
         pickupTime: {
           start: pickupTimeStart,
@@ -64,7 +64,7 @@ router.get("/getProducts", async (req: Request, res: Response) => {
 // 特定の商品の取得
 router.get("/getProduct/:id", async (req: Request, res: Response) => {
   try {
-    const product = await Product.findById(req.params.id).populate('store', 'storeName address detailedAddress storeLogo -_id');
+    const product = await Product.findById(req.params.id).populate('store', '_id storeName address detailedAddress storeLogo');
     if (!product) {
       return res.status(404).json({ message: "商品が見つかりません" });
     }
@@ -73,7 +73,6 @@ router.get("/getProduct/:id", async (req: Request, res: Response) => {
     return res.status(500).json({ message: "商品の取得に失敗しました" });
   }
 });
-
 
 // 特定の店舗の商品を取得
 router.get("/getProductsByStore", async (req: Request, res: Response) => {

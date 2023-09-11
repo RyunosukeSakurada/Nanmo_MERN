@@ -48,3 +48,14 @@ export interface Contact{
   isRead:boolean,
   isHandled:boolean,
 }
+
+export interface Order {
+  _id?: string;  
+  user: string;  
+  store: Store; 
+  items: {
+      product: Product;  
+      quantity: number;
+  }[];
+  status: 'pending' | 'done';
+}

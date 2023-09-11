@@ -45,7 +45,11 @@ const ProductSchema = new mongoose.Schema({
     default: false,
     required: true,
   },
-  store:{type:Schema.Types.ObjectId, ref:'Store'},
+  store:{
+    type: Schema.Types.ObjectId,
+    ref: 'Store',
+    required: true,
+  }
 },
 
   {timestamps: true}

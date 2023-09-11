@@ -1,53 +1,32 @@
 import { useEffect, useState } from 'react'
 import {AiOutlineArrowLeft,AiOutlineMinus,AiOutlinePlus} from "react-icons/ai"
-import { Link, useParams } from 'react-router-dom';
-import AccentButton from '../../ui/global/AccentButton';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import { Product } from '../../../Types/types';
+import Button from '../../ui/global/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Product } from '../../../Types/types';
 
 
 const StoreDetail = () => {
-  const [quantity, setQuantity] = useState(1); // 購入する数量の状態を追加
+  const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState<Product | null>(null);
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
+  const [redirect, setRedirect] = useState('')
 
-
-  useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`http://localhost:4000/api/product/getProduct/${id}`);
-        const data = await response.json();
-        setProduct(data);
-        console.log(data);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getProduct();
-  }, [id]);
-
-  const handlePurchase = () => {
-    notifyPurchaseSuccess()
-  }
-
-  // 数量を増やす関数
-  const increaseQuantity = () => {
-    setQuantity(prevQuantity => prevQuantity + 1);
-  }
-
-  // 数量を減らす関数
-  const decreaseQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(prevQuantity => prevQuantity - 1);
+  const Success = () => toast.success('注文に成功しました 🎉', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
     }
-  }
-
-    //toastify
-    const notifyPurchaseSuccess = () => toast.success(`購入が完了しました 🎉`, 
+  );
+  const Fail = () => toast.error('注文に失敗しました 😫', 
     {
       position: "bottom-right",
       autoClose: 5000,
@@ -60,10 +39,108 @@ const StoreDetail = () => {
     }
   );
 
+  useEffect(() => {
+    const getProduct = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`http://localhost:4000/api/product/getProduct/${id}`);
+        const data = await response.json();
+        console.log(data);
+        setProduct(data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getProduct();
+  }, [id]);
+
+
+  // 数量を増やす関数
+  const increaseQuantity = () => {
+    if(product){
+      if(quantity <= product.stocks - 1){
+        setQuantity(prevQuantity => prevQuantity + 1);
+      }
+    }
+  }
+
+  // 数量を減らす関数
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(prevQuantity => prevQuantity - 1);
+    }
+  }
+
+  const getCurrentUser = async () => {
+    const response = await fetch(`http://localhost:4000/api/auth/profile`, {
+      credentials: 'include', 
+    });
+  
+    const data = await response.json();
+      
+    if (data.error) {
+      console.error(data.error);
+      return null;
+    }
+  
+    return data;
+  };
+
+  
+  const handleOrder = async () => {
+    const user = await getCurrentUser();
+    if (!user) {
+      alert('ログインしてください');
+      return;
+    }
+
+    try {
+      if(product){
+        const order = {
+          user: user.id,  
+          store: product.store._id,
+          items: [{
+            product: product._id,
+            quantity: quantity
+          }]
+        };
+
+        console.log("Sending order:", order);
+
+        const response = await fetch(`http://localhost:4000/api/order/createOrder`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(order)
+        });
+
+        const data = await response.json();
+        if (response.status === 201) {
+          console.log("注文が完了しました");
+          Success()
+          setTimeout(() => {
+            setRedirect('/nanmo/payment');
+          },3000)
+        } else {
+          Fail()
+          console.error(`Error ${response.status}: ${data.message}`);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      Fail()
+    }
+  }
+
+  if(redirect){
+    return <Navigate to={redirect} />;
+  }
+
   return (
     <div>
       <ToastContainer />
-
       <Link to="/nanmo">
         <div className="flex items-center gap-x-1 group">
           <div className='p-2 group-hover:bg-white duration-300 rounded-full inline-block w-[40px] h-[40px]'>
@@ -131,11 +208,7 @@ const StoreDetail = () => {
               <span>{quantity}</span>
               <button onClick={increaseQuantity}><AiOutlinePlus /></button>
             </div>
-            <AccentButton 
-              onClick={handlePurchase}
-            >
-              購入する
-            </AccentButton>
+            <Button onClick={handleOrder}>購入</Button>
           </div>
         </div>
       )}

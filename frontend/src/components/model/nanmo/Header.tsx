@@ -54,23 +54,33 @@ const Header = () => {
           )}
           {email && (
             <>
+              <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                <Link to="/nanmo/payment">
+                  注文
+                </Link>
+              </div>
+              <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                <Link to="/nanmo">
+                  ストア
+                </Link>
+              </div>
               {isAdmin && (
                 <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
                   <Link to="/admin/dashboard">
-                    Dashboard
+                    ダッシュボード
                   </Link>
                 </div>
               )}
               {isStore && (
                 <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
                   <Link to="/store/dashboard">
-                    Dashboard
+                    ダッシュボード
                   </Link>
                 </div>
               )}
               <div className="flex items-center gap-x-1 group">
                 <a onClick={logout} className="cursor-pointer text-[8px] hover:text-zinc-500">
-                  logout
+                  ログアウト
                 </a>
                 <AiOutlineLogout size={12} className="hidden group-hover:block"/>
               </div>

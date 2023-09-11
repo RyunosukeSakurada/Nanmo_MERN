@@ -9,7 +9,6 @@ interface Props {
   setUpdateProductList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
 const AddProduct = ({ setUpdateProductList, approved }: Props) => {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
