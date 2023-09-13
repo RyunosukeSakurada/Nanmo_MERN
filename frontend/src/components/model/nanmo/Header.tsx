@@ -54,11 +54,13 @@ const Header = () => {
           )}
           {email && (
             <>
-              <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
-                <Link to="/nanmo/payment">
-                  注文
-                </Link>
-              </div>
+              {!isStore && (
+                <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
+                  <Link to="/nanmo/payment">
+                    注文
+                  </Link>
+                </div>
+              )}
               <div className="text-[8px] hover:text-zinc-500 cursor-pointer">
                 <Link to="/nanmo">
                   ストア

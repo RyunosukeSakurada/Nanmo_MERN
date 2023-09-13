@@ -7,6 +7,8 @@ import { UserContext } from "../../../context/UserContext";
 import ApprovedRequestTable from "./ApprovedRequestTable";
 import AdminFAQ from "./AdminFAQ";
 import AdminContact from "./AdminContact";
+import AdminOrder from "../../model/admin/AdminOrder";
+import AdminHome from "./AdminHome";
 
 interface MainAreaProps {
   selectedTab: TabSelection;
@@ -49,11 +51,13 @@ const AdminMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       </div>
 
       <div>
+        {selectedTab === 'home' && <AdminHome />}
         {selectedTab === 'users' && <UserList />}
         {selectedTab === 'addAdmin' && <AddAdmin />}
         {selectedTab === 'approvedRequestTable' && <ApprovedRequestTable />}
         {selectedTab === 'faq' && <AdminFAQ />}
         {selectedTab === 'contact' && <AdminContact />}
+        {selectedTab === 'order' && <AdminOrder />}
       </div>
     </div>
   )

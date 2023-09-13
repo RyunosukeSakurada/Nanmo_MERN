@@ -10,7 +10,7 @@ const StoreOrderList:React.FC<storeProps> = ({storeId}) => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch(`http://localhost:4000/api/order/getOrdersByUser/${storeId}`);
+      const response = await fetch(`http://localhost:4000/api/order/getOrdersByStore/${storeId}`);
       const data = await response.json();
       console.log(data);
       
@@ -36,7 +36,7 @@ const StoreOrderList:React.FC<storeProps> = ({storeId}) => {
           {orders.map(order => (
             <tr key={order._id} className="text-center">
               <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{order._id}</td>
-              <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{order.user.email}</td>
+              <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{order.user ? order.user.email : '-'} </td>
               <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
                 {order.items.map(item => item.product.name).join(', ')}
               </td>
@@ -45,6 +45,7 @@ const StoreOrderList:React.FC<storeProps> = ({storeId}) => {
               </td>
               <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{order.status}</td>
               <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
+                {new Date(order.createdAt).toLocaleDateString()}
               </td>
             </tr>
           ))}

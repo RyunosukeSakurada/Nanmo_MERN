@@ -185,7 +185,7 @@ router.post("/addadmin", async(req: Request<UserRequest>, res: Response) => {
     const newAdmin = new User({
       email,
       password: hashedPassword,
-      isAdmin: true  // ここでisAdminをtrueに設定
+      isAdmin: true
     });
 
     const admin = await newAdmin.save();

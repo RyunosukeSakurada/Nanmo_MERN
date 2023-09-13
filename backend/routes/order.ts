@@ -9,11 +9,9 @@ router.post("/createOrder", async (req: Request, res: Response) => {
     await order.save();
     return res.status(201).json(order);
   } catch (error) {
-    console.error("Error when creating order: ", error);   
     return res.status(500).json({ message: "注文の作成に失敗しました", error: (error as any).message });
   }
 });
-
 
 // ユーザーIDとstatus:pendingに基づいてOrderを取得
 router.get("/getOrdersByUser/:userId", async (req: Request, res: Response) => {
@@ -28,10 +26,10 @@ router.get("/getOrdersByUser/:userId", async (req: Request, res: Response) => {
 });
 
 //店舗ユーザーのIDに基づいてorderを取得
-router.get("/getOrdersByUser/:storeId", async (req: Request, res: Response) => {
+router.get("/getOrdersByStore/:storeId", async (req: Request, res: Response) => {
   try {
     const { storeId } = req.params;
-    const orders = await Order.find({ store: storeId}).populate('items.product').populate('user');
+    const orders = await Order.find({ store: storeId}).populate('items.product').populate('user'); ;
     return res.status(200).json(orders);
   } catch (error) {
     console.error("Error when fetching orders: ", error);
@@ -56,5 +54,15 @@ router.put("/updateOrderStatus/:orderId", async (req: Request, res: Response) =>
   }
 });
 
+// 全てのOrderを取得
+router.get("/getAllOrders", async (req: Request, res: Response) => {
+  try {
+    const orders = await Order.find({}).populate('items.product').populate('user').populate('store');
+    return res.status(200).json(orders);
+  } catch (error) {
+    console.error("Error when fetching all orders: ", error);
+    return res.status(500).json({ message: "全ての注文の取得に失敗しました", error: (error as any).message });
+  }
+});
 
 module.exports = router;

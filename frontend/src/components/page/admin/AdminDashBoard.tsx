@@ -5,7 +5,7 @@ import { TabSelection } from "../../../Types/types";
 
 
 const AdminDashBoard = () => {
-  const [selectedTab, setSelectedTab] = useState<TabSelection>('users');
+  const [selectedTab, setSelectedTab] = useState<TabSelection>('home');
 
   return (
     <div className="flex flex-row min-h-screen">

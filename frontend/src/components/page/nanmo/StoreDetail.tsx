@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {AiOutlineArrowLeft,AiOutlineMinus,AiOutlinePlus} from "react-icons/ai"
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { Product } from '../../../Types/types';
 import Button from '../../ui/global/Button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from '../../../context/UserContext';
 
 
 const StoreDetail = () => {
@@ -13,6 +14,7 @@ const StoreDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(false);
   const [redirect, setRedirect] = useState('')
+  const { userInfo } = useContext(UserContext);
 
   const Success = () => toast.success('注文に成功しました 🎉', 
     {
@@ -72,25 +74,9 @@ const StoreDetail = () => {
     }
   }
 
-  const getCurrentUser = async () => {
-    const response = await fetch(`http://localhost:4000/api/auth/profile`, {
-      credentials: 'include', 
-    });
-  
-    const data = await response.json();
-      
-    if (data.error) {
-      console.error(data.error);
-      return null;
-    }
-  
-    return data;
-  };
 
-  
   const handleOrder = async () => {
-    const user = await getCurrentUser();
-    if (!user) {
+    if (!userInfo) {
       alert('ログインしてください');
       return;
     }
@@ -98,7 +84,7 @@ const StoreDetail = () => {
     try {
       if(product){
         const order = {
-          user: user.id,  
+          user: userInfo.id,  
           store: product.store._id,
           items: [{
             product: product._id,
@@ -212,16 +198,19 @@ const StoreDetail = () => {
             <p><span className='font-bold text-3xl'>¥{product.price}</span><span className='text-[16px] ml-1 line-through p-0.5'>¥{product.originalPrice}</span></p>
           </div>
 
-
-          <div className="absolute top-[5%] right-[5%] flex items-center gap-x-4">
-            {/* 数量操作のセクションを追加 */}
-            <div className='flex items-center gap-4 mt-1'>
-              <button onClick={decreaseQuantity}><AiOutlineMinus /></button>
-              <span>{quantity}</span>
-              <button onClick={increaseQuantity}><AiOutlinePlus /></button>
+          {userInfo?.isStore ? (
+            <></>
+          ) : (
+            <div className="absolute top-[5%] right-[5%] flex items-center gap-x-4">
+              {/* 数量操作のセクションを追加 */}
+              <div className='flex items-center gap-4 mt-1'>
+                <button onClick={decreaseQuantity}><AiOutlineMinus /></button>
+                <span>{quantity}</span>
+                <button onClick={increaseQuantity}><AiOutlinePlus /></button>
+              </div>
+              <Button onClick={handleOrder}>購入</Button>
             </div>
-            <Button onClick={handleOrder}>購入</Button>
-          </div>
+          )}
         </div>
       )}
     </div>

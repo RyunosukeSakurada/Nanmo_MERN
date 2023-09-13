@@ -1,4 +1,4 @@
-export type TabSelection = 'users' | 'addAdmin' | 'approvedRequestTable' | 'faq' | 'contact' ;
+export type TabSelection = 'users' | 'addAdmin' | 'approvedRequestTable' | 'faq' | 'contact' | 'order' | 'home';
 export type TabSelectionForStore = "products" | "approvalRequest" | "storeInformation" | "order";
 
 
@@ -6,6 +6,9 @@ export interface User{
   _id: string;
   email:string,
   password:string,
+  suspended: boolean;
+  blocked: boolean;
+  createdAt: Date;
 }
 
 export interface Product {
@@ -65,4 +68,5 @@ export interface Order {
       quantity: number;
   }[];
   status: 'pending' | 'done';
+  createdAt: Date;
 }

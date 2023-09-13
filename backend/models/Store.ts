@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const {Schema,model} = mongoose;
 
 const StoreSchema = new mongoose.Schema({
   storeName:{
@@ -68,4 +69,4 @@ const StoreSchema = new mongoose.Schema({
   {timestamps: true}
 );
 
-module.exports = mongoose.model("Store", StoreSchema);
+module.exports = model("Store", StoreSchema);

@@ -1,7 +1,6 @@
 import { createContext, useState, ReactNode, Dispatch, SetStateAction } from "react";
 
 interface UserInfo {
-  _id?:string
   email?: string;
   isAdmin?: boolean;
   isStore?: boolean;

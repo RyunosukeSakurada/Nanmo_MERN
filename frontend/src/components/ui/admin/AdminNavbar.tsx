@@ -1,8 +1,10 @@
-import {AiOutlineUser,AiOutlineMail,AiOutlineCheckSquare,AiOutlineKey,AiOutlineQuestionCircle} from "react-icons/ai"
+import {AiOutlineUser,AiOutlineMail,AiOutlineCheckSquare,AiOutlineKey,AiOutlineQuestionCircle,AiOutlineHome} from "react-icons/ai"
 // import {RiCoupon2Line} from "react-icons/ri"
 import { TabSelection } from "../../../Types/types";
 import { Link } from "react-router-dom";
 import {RiFileList2Line} from "react-icons/ri"
+import {BiTransfer} from "react-icons/bi"
+
 
 
 interface NavbarProps {
@@ -16,6 +18,13 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
       <div>
         <h3 className="bold mb-2 text-sm text-zinc-500">Menu</h3>
         <nav className="flex flex-col gap-y-3">
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('home')} 
+          >
+            <AiOutlineHome size={20} className="mr-3"/>
+            <span className="text-md hover:text-zinc-500">ホーム</span>
+          </li>
           <li 
             className="flex items-center cursor-pointer"
             onClick={() => onTabSelect('users')} 
@@ -40,6 +49,13 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
             <span className="text-md hover:text-zinc-500">
               店舗承認申請
             </span>
+          </li>
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('order')} 
+          >
+            <BiTransfer size={20} className="mr-3" />
+            <span className="text-md hover:text-zinc-500">取引履歴</span>
           </li>
           <li 
             className="flex items-center cursor-pointer"

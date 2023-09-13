@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-interface User {
-  _id: string;
-  email: string;
-  suspended: boolean;
-  blocked: boolean;
-  createdAt: Date;
-}
+import { User } from "../../../Types/types";
 
 const UserTable = () => {
   const [users, setUsers] = useState<User[]>([]);
