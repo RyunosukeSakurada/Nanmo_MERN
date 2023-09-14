@@ -77,7 +77,7 @@ const AdminHome = () => {
             </div>
           </div>
           <div className="shadow w-1/2 p-4">
-            <p className="text-[12px] text-zinc-500">総取引金額</p>
+            <p className="text-[12px] text-zinc-500">総売上金額</p>
             <div className="my-8 text-center">
               <p className="text-3xl">{totalOrderPrice}<span className="text-[8px] ml-2">円</span></p>
             </div>

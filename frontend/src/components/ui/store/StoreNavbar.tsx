@@ -1,6 +1,6 @@
 import React from 'react'
 import { TabSelectionForStore } from "../../../Types/types";
-import { AiOutlineCheckSquare} from "react-icons/ai"
+import { AiOutlineCheckSquare,AiOutlineHome} from "react-icons/ai"
 import {BiTransfer,BiStore} from "react-icons/bi"
 import {BsBoxSeam} from "react-icons/bs"
 import {RiFileList2Line} from "react-icons/ri"
@@ -18,6 +18,13 @@ const NavbarForStore: React.FC<NavbarProps> = ({ onTabSelect }) => {
       <div>
         <h3 className="bold mb-2 text-sm text-zinc-500">Menu</h3>
         <nav className="flex flex-col gap-y-3">
+          <li 
+            className="flex items-center cursor-pointer"
+            onClick={() => onTabSelect('home')} 
+          >
+            <AiOutlineHome size={20} className="mr-3"/>
+            <span className="text-md hover:text-zinc-500">ホーム</span>
+          </li>
           <li 
             className="flex items-center cursor-pointer"
             onClick={() => onTabSelect('approvalRequest')} 

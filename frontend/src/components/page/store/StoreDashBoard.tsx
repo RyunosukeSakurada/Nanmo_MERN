@@ -5,7 +5,7 @@ import { TabSelectionForStore } from "../../../Types/types";
 
 
 const StoreDashBoard = () => {
-  const [selectedTab, setSelectedTab] = useState<TabSelectionForStore>('products');
+  const [selectedTab, setSelectedTab] = useState<TabSelectionForStore>('home');
 
   return (
     <div className="flex flex-row min-h-screen">

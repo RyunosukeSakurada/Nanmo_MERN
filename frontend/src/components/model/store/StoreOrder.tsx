@@ -2,7 +2,6 @@ import StoreOrderList from "../../ui/store/StoreOrderList"
 
 interface storeProps{
   storeId? : string
-
 }
 
 const StoreOrder:React.FC<storeProps> = ({storeId}) => {

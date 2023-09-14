@@ -6,6 +6,7 @@ import ManageProducts from "./ManageProducts";
 import StoreApprovalRequest from "./StoreApprovalRequest";
 import StoreInformation from "./StoreInformation";
 import StoreOrder from "./StoreOrder";
+import StoreHome from "./StoreHome";
 
 
 interface MainAreaProps {
@@ -60,7 +61,8 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       </div>
 
       <div>
-        {selectedTab === 'products' && <ManageProducts approved={approved}/>}
+        {selectedTab === 'home' && <StoreHome storeId={storeId}/>}
+        {selectedTab === 'products' && <ManageProducts approved={approved} />}
         {selectedTab === 'approvalRequest' && <StoreApprovalRequest storeId={storeId} approved={approved} requestDeclined={requestDeclined}/>}
         {selectedTab === 'storeInformation' && <StoreInformation storeId={storeId} email={email} address={address} detailedAddress={detailedAddress} storeName={storeName} postalCode={postalCode} />}
         {selectedTab === 'order' && <StoreOrder storeId={storeId}/>}
