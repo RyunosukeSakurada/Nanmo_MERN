@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store");
+const Order = require("../models/Order")
 const FAQ = require("../models/FAQ");
 const Contact = require("../models/Contact");
 const salt = bcrypt.genSaltSync(10); 
@@ -349,6 +350,55 @@ router.post("/toggleHandleStatus/:contactId", async (req: Request, res: Response
     return res.status(500).json({ message: "お問い合わせの更新に失敗しました", error });
   }
 });
+
+//総利用者数を取得
+router.get("/userscount", async (req: Request, res: Response) => {
+  try {
+    const count = await User.countDocuments({});
+    return res.status(200).json({ count });
+  } catch (error) {
+    return res.status(500).json({ message: "ユーザーの情報の取得に失敗しました" });
+  }
+});
+
+//総店舗数を取得
+router.get("/storescount", async (req: Request, res: Response) => {
+  try {
+    const count = await Store.countDocuments({});
+    return res.status(200).json({ count });
+  } catch (error) {
+    return res.status(500).json({ message: "店舗ユーザーの情報の取得に失敗しました" });
+  }
+});
+
+//総店舗数を取得
+router.get("/orderscount", async (req: Request, res: Response) => {
+  try {
+    const count = await Order.countDocuments({});
+    return res.status(200).json({ count });
+  } catch (error) {
+    return res.status(500).json({ message: "取引の情報の取得に失敗しました" });
+  }
+});
+
+
+router.get("/totalorderprice", async (req: Request, res: Response) => {
+  try {
+    const orders = await Order.find().populate('items.product');  // Orderから全ての注文を取得して、関連するproductもpopulateする
+
+    let total = 0;
+    for (let order of orders) {
+      for (let item of order.items) {
+        total += item.product.price * item.quantity;  // 各アイテムの価格と数量をかけて、合計金額に追加
+      }
+    }
+
+    return res.status(200).json({ total });
+  } catch (error) {
+    return res.status(500).json({ message: "取引の合計金額の取得に失敗しました" });
+  }
+});
+
 
 
 module.exports = router;
