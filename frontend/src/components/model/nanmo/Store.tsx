@@ -7,8 +7,10 @@ interface Props {
 }
 
 const Store: React.FC<Props> = ({ product }) => {
+  const isSoldOut = product.stocks === 0;
+
   return (
-    <div className='bg-white p-4 border shadow-lg h-[280px] w-[250px] hover:scale-110 duration-300 overflow-hidden rounded-lg break-words flex flex-col justify-between'>
+    <div className={`bg-white p-4 border shadow-lg h-[280px] w-[250px] hover:scale-110 duration-300 overflow-hidden rounded-lg break-words flex flex-col justify-between ${isSoldOut ? 'relative' : ''}`}>
       <div>
         <div className='flex items-center gap-4'>
           <div>
@@ -41,6 +43,12 @@ const Store: React.FC<Props> = ({ product }) => {
         {/* <p className='text-[6px] flex items-center gap-x-1'><CiStar size={20}/>3.8 (120)</p> */}
         <p><span className='font-bold text-lg'>¥{product.price}</span><span className='text-[10px] ml-1 line-through p-0.5'>¥{product.originalPrice}</span></p>
       </div>
+
+      {isSoldOut && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+          <span className="text-white font-bold text-xl">売り切れ</span>
+        </div>
+      )}
     </div>
   );
 };

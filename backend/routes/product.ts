@@ -105,5 +105,32 @@ router.delete("/deleteProduct/:id", async (req: Request, res: Response) => {
   }
 });
 
+// Productのstocksを更新
+router.put("/updateProductStock/:productId", async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const { quantity } = req.body;
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(404).json({ message: "製品が見つかりません" });
+    }
+
+    if (product.stocks - quantity < 0) {
+      return res.status(400).json({ message: "在庫が足りません" });
+    }
+
+    product.stocks -= quantity;
+    await product.save();
+
+    return res.status(200).json(product);
+
+  } catch (error) {
+    console.error("Error when updating product stocks: ", error);
+    return res.status(500).json({ message: "製品の在庫の更新に失敗しました", error: (error as any).message });
+  }
+});
+
 
 module.exports = router;

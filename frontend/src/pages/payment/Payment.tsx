@@ -208,7 +208,7 @@ const Payment = () => {
                         <p className='text-xl'>商品名: {item.product.name}</p>
                         <div className='flex gap-x-5'>
                           <p className='text-zinc-500'>数量: {item.quantity}</p>
-                          <p className='text-zinc-500'>値段: {item.product.price}円</p>
+                          <p className='text-zinc-500'>値段: {item.product.price * item.quantity}円</p>
                         </div>
                       </div>
                     </div>

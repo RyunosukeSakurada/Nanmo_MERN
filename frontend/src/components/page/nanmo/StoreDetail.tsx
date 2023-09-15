@@ -108,15 +108,33 @@ const StoreDetail = () => {
           Success();
 
           // todo : 注文が成功したら、Productのstocksからquantityをマイナスする
-          setProduct(prevProduct => {
-            if (prevProduct) {
-              return {
-                ...prevProduct,
-                stocks: prevProduct.stocks - quantity
-              };
+          try {
+            const updateStocksResponse = await fetch(`http://localhost:4000/api/product/updateProductStock/${product._id}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ quantity })
+            });
+    
+            if (updateStocksResponse.status !== 200) {
+              console.error("製品の在庫の更新に失敗しました");
+              return;
             }
-            return prevProduct;
-          });
+    
+            setProduct(prevProduct => {
+              if (prevProduct) {
+                return {
+                  ...prevProduct,
+                  stocks: prevProduct.stocks - quantity
+                };
+              }
+              return prevProduct;
+            });
+    
+          } catch (error) {
+            console.error("製品の在庫の更新中にエラーが発生しました", error);
+          }
 
           setTimeout(() => {
             setRedirect('/nanmo/payment');
@@ -135,6 +153,7 @@ const StoreDetail = () => {
   if(redirect){
     return <Navigate to={redirect} />;
   }
+
 
   return (
     <div>
@@ -198,7 +217,7 @@ const StoreDetail = () => {
             <p><span className='font-bold text-3xl'>¥{product.price}</span><span className='text-[16px] ml-1 line-through p-0.5'>¥{product.originalPrice}</span></p>
           </div>
 
-          {userInfo?.isStore ? (
+          {userInfo?.isStore || product.stocks <= 0 ? (
             <></>
           ) : (
             <div className="absolute top-[5%] right-[5%] flex items-center gap-x-4">
@@ -213,6 +232,7 @@ const StoreDetail = () => {
           )}
         </div>
       )}
+
     </div>
   )
 }
