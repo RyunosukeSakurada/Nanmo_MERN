@@ -14,9 +14,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className='flex items-center list-none ml-8 gap-x-3 text-sm cursor-pointer'>
+    <nav className='flex flex-col md:flex-row md:items-center md:ml-8  gap-y-4 md:gap-y-0 gap-x-3 text-[8px] md:text-sm cursor-pointer'>
       {links.map((link, index) => (
-        <li key={index} className='hover:text-green-700 hover:-translate-y-1 duration-300'>
+        <li key={index} className='hover:text-green-700 md:hover:-translate-y-1 duration-300 bg-white md:bg-transparent p-2 md:p-0 rounded-lg md:rounded-none'>
           <span  onClick={() => handleScrollTo(link.id)}>{link.label}</span>
         </li>
       ))}

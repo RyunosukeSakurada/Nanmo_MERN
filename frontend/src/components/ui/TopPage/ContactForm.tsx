@@ -88,7 +88,7 @@ const ContactForm = () => {
       <ToastContainer />
       <form onSubmit={handleSubmit} className='border p-4 rounded-lg shadow-lg bg-zinc-100 break-words'>
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-bold mb-2">お名前 <span className="text-[6px] text-red-500">※必須</span></label>
+            <label htmlFor="name" className="block text-[8px] md:text-sm font-bold mb-2">お名前 <span className="text-[6px] text-red-500">※必須</span></label>
             <input
               type="text"
               name="name"
@@ -99,7 +99,10 @@ const ContactForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="storeName" className="block text-sm font-bold mb-2">店舗名 <span className="text-[6px] text-red-500">※必須</span><span className="text-[6px]">※個人の場合は「個人」と入力してください</span></label>
+            <div className='flex flex-col md:flex-row gap-x-2'>
+              <label htmlFor="storeName" className="block text-[8px] md:text-sm font-bold mb-2">店舗名 <span className="text-[6px] text-red-500">※必須</span></label>
+              <span className="text-[6px] -mt-4 md:mt-0">※個人の場合は「個人」と入力してください</span>
+            </div>
             <input
               type="text"
               name="storeName"
@@ -109,7 +112,7 @@ const ContactForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-bold mb-2">メールアドレス <span className="text-[6px] text-red-500">※必須</span></label>
+            <label htmlFor="email" className="block text-[8px] md:text-sm font-bold mb-2">メールアドレス <span className="text-[6px] text-red-500">※必須</span></label>
             <input
               type="email"
               name="email"
@@ -120,7 +123,7 @@ const ContactForm = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="message" className="block text-sm font-bold mb-2">メッセージ (250文字以内) <span className="text-[6px] text-red-500">※必須</span></label>
+            <label htmlFor="message" className="block text-[8px] md:text-sm font-bold mb-2">メッセージ (250文字以内) <span className="text-[6px] text-red-500">※必須</span></label>
             <textarea
               name="message"
               value={formState.message}

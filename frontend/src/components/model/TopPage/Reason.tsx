@@ -14,12 +14,12 @@ const Reason = () => {
   
   const Box: React.FC<BoxProps> = ({ icon, title, description }) => {
     return (
-      <div className="shadow p-4 rounded-xl w-1/3">
+      <div className="shadow p-4 rounded-xl w-full md:w-1/3">
         <div className='flex justify-center items-center '>
           {icon}
         </div>
         <h1 className='text-center font-bold my-3'>{title}</h1>
-        <div className='text-sm'>
+        <div className='text-xs md:text-sm'>
           {description}
         </div>
       </div>
@@ -30,7 +30,7 @@ const Reason = () => {
     <section>
       <SectionHeader subtitle="- Reason" title="なぜNanmoが選ばれるのか"/>
 
-      <div className='flex flex-row w-full gap-x-4'>
+      <div className='flex flex-col gap-y-8 md:gay-y-0 md:flex-row w-full gap-x-4'>
         <Box
           icon={<FaRecycle size={30} />}
           title="効率的な収益化"

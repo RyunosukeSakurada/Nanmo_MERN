@@ -13,13 +13,13 @@ const AccordionItem = ({ question,answer }:AccordionProps) => {
   return (
     <div className='border-b border-zinc-500'>
       <button
-        className="flex justify-between w-full py-4 px-4 focus:outline-none"
+        className="flex justify-between w-full p-2 md:p-4 focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span>{question}</span>
-        <span>{isOpen ? <BiSolidUpArrow /> : <BiSolidDownArrow /> }</span>
+        <span className='text-[6px] md:text-base text-start'>{question}</span>
+        <span className='mt-1 md:mt-0'>{isOpen ? <BiSolidUpArrow /> : <BiSolidDownArrow /> }</span>
       </button>
-      {isOpen && <div className="py-3 px-4 bg-zinc-300">A. {answer}</div>}
+      {isOpen && <div className="py-1 md:py-3 px-2 md:px-4 bg-zinc-300 text-[6px] md:text-base">A. {answer}</div>}
     </div>
   );
 };
