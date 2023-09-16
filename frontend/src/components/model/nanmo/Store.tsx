@@ -10,7 +10,7 @@ const Store: React.FC<Props> = ({ product }) => {
   const isSoldOut = product.stocks === 0;
 
   return (
-    <div className={`bg-white p-4 border shadow-lg h-[280px] w-[250px] hover:scale-110 duration-300 overflow-hidden rounded-lg break-words flex flex-col justify-between ${isSoldOut ? 'relative' : ''}`}>
+    <div className={`bg-white p-4 border shadow-lg h-[280px] w-full sm:w-[250px] hover:scale-110 duration-300 overflow-hidden rounded-lg break-words flex flex-col justify-between ${isSoldOut ? 'relative' : ''}`}>
       <div>
         <div className='flex items-center gap-4'>
           <div>

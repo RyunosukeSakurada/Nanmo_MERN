@@ -29,7 +29,7 @@ const StoreList: React.FC = () => {
   }
 
   return (
-    <div className='grid grid-cols-3 gap-6 mt-16'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 md:gap-6 mt-16 mx-auto'>
       {products.length === 0 ? 
         <div>
           <p className="text-zinc-500 text-xl">商品がありません😫</p>

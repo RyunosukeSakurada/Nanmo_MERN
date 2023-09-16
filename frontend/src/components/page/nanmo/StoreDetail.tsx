@@ -174,25 +174,42 @@ const StoreDetail = () => {
       )}
 
       {!loading && product && (
-        <div className='bg-white rounded-lg p-4 mt-4 break-words relative'>
+        <div className='bg-white rounded-lg p-4 mt-4 break-words'>
           <div>
-            <div className='flex items-center gap-4'>
-              <div>
-                <img
-                  src= {product.store.storeLogo ? `http://localhost:4000/${product.store.storeLogo}` : "/images/logo.png"}
-                  alt={"ロゴ画像"}
-                  width={100}
-                  height={100}
-                  className='object-fit w-[100px] h-[100px] rounded-full'
-                />
+            <div className='flex justify-between items-center'>
+              <div className='flex items-center gap-4'>
+                <div>
+                  <img
+                    src= {product.store.storeLogo ? `http://localhost:4000/${product.store.storeLogo}` : "/images/logo.png"}
+                    alt={"ロゴ画像"}
+                    width={100}
+                    height={100}
+                    className='object-fit w-[70px] h-[70px] sm:w-[100px] sm:h-[100px] rounded-full'
+                  />
+                </div>
+                <div>
+                  <h1 className='text-base sm:text-2xl font-bold'>{product.store.storeName}</h1>
+                  <p className='text-[8px] sm:text-base'>{product.store.address} {product.store.detailedAddress}</p>
+                </div>
               </div>
-              <div>
-                <h1 className='text-2xl font-bold'>{product.store.storeName}</h1>
-                <p className=''>{product.store.address} {product.store.detailedAddress}</p>
+              <div className='hidden sm:block'>
+                {userInfo?.isStore || product.stocks <= 0 ? (
+                  <></>
+                ) : (
+                  <div className="flex items-center gap-x-4">
+                    {/* 数量操作のセクションを追加 */}
+                    <div className='flex items-center gap-4 md:mt-1'>
+                      <button onClick={decreaseQuantity}><AiOutlineMinus /></button>
+                      <span>{quantity}</span>
+                      <button onClick={increaseQuantity}><AiOutlinePlus /></button>
+                    </div>
+                    <Button onClick={handleOrder}>購入</Button>
+                  </div>
+                )}
               </div>
             </div>
             <div className='flex flex-col gap-y-1 mt-8'>
-              <div className='mb-4 flex gap-x-8 items-center'>
+              <div className='mb-4 flex flex-col md:flex-row gap-x-8 md:items-center'>
                 <span className='text-[12px]'>残り : <span className='bg-green-700 text-white px-2 py-1 rounded-md mr-1'>{product.stocks}</span>個</span>
                 {/* <span className="text-[12px]">ジャンル : <span className="border border-green-700 px-2 py-1 rounded-md">飲食店</span></span> */}
                 <span className='text-[12px]'>受取可能時間 : <span className='bg-green-700 text-white px-2 py-1 rounded-md mr-1'>{product.pickupDate}</span>{product.pickupTime.start} - {product.pickupTime.end}</span>
@@ -207,29 +224,32 @@ const StoreDetail = () => {
               <img 
                 src={`http://localhost:4000/${product.productImage}`} 
                 alt=""
-                className='w-[70%] h-[450px] mt-8 object-cover rounded'
+                className='w-full md:w-[70%] h-[450px] mt-8 object-cover rounded'
               />
             </div>
           ) : (<></>)}
 
-          <div className='flex justify-end items-center mt-8'>
-            {/* <p className='text-[12px] flex items-center gap-x-1'><CiStar size={25}/>3.8 (120)</p> */}
-            <p><span className='font-bold text-3xl'>¥{product.price}</span><span className='text-[16px] ml-1 line-through p-0.5'>¥{product.originalPrice}</span></p>
-          </div>
-
-          {userInfo?.isStore || product.stocks <= 0 ? (
-            <></>
-          ) : (
-            <div className="absolute top-[5%] right-[5%] flex items-center gap-x-4">
-              {/* 数量操作のセクションを追加 */}
-              <div className='flex items-center gap-4 mt-1'>
-                <button onClick={decreaseQuantity}><AiOutlineMinus /></button>
-                <span>{quantity}</span>
-                <button onClick={increaseQuantity}><AiOutlinePlus /></button>
-              </div>
-              <Button onClick={handleOrder}>購入</Button>
+          <div className='mt-8 flex flex-row items-center justify-between sm:justify-end'>
+            <div className='sm:hidden'>
+              {userInfo?.isStore || product.stocks <= 0 ? (
+                  <></>
+              ) : (
+                <div className="flex items-center gap-x-4">
+                    {/* 数量操作のセクションを追加 */}
+                    <div className='flex items-center gap-4 md:mt-1'>
+                      <button onClick={decreaseQuantity}><AiOutlineMinus /></button>
+                      <span>{quantity}</span>
+                      <button onClick={increaseQuantity}><AiOutlinePlus /></button>
+                    </div>
+                    <Button onClick={handleOrder}>購入</Button>
+                </div>
+              )}
             </div>
-          )}
+            <div className='flex justify-end items-center '>
+              {/* <p className='text-[12px] flex items-center gap-x-1'><CiStar size={25}/>3.8 (120)</p> */}
+              <p><span className='font-bold text-xl md:text-3xl'>¥{product.price}</span><span className='text-[8px] md:text-[16px] ml-1 line-through p-0.5'>¥{product.originalPrice}</span></p>
+            </div>
+          </div>
         </div>
       )}
 
