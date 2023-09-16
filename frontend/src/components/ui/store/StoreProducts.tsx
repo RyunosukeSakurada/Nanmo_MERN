@@ -79,7 +79,7 @@ const deleteProduct = async () => {
           <div className="flex justify-between">
             <p>{product.name}</p>
             <div className="flex gap-x-2">
-              <span className="text-[6px]">{product.isSold ? '売り切れ' : '販売中'}</span>
+              <span className="text-[6px]">{product.stocks === 0 ? '売り切れ' : '販売中'}</span>
               <span className="text-[6px] text-red-500 cursor-pointer"  onClick={showDeleteConfirmation}>削除</span>
             </div>
           </div>
