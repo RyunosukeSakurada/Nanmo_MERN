@@ -15,61 +15,61 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
 
   return (
     <div className="mb-6">
-      <div>
-        <h3 className="bold mb-2 text-sm text-zinc-500">Menu</h3>
+      <div className="flex flex-col p-4 lg:p-0">
+        <h3 className="bold mb-2 text-[6px] lg:text-sm text-zinc-500">Menu</h3>
         <nav className="flex flex-col gap-y-3">
           <li 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0"
             onClick={() => onTabSelect('home')} 
           >
-            <AiOutlineHome size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500">ホーム</span>
+            <AiOutlineHome className="mr-3 lg:mr-1 icon"/>
+            <span className="text-sm lg:text-md hover:text-zinc-500">ホーム</span>
           </li>
           <li 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0"
             onClick={() => onTabSelect('users')} 
           >
-            <AiOutlineUser size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500">ユーザー管理</span>
+            <AiOutlineUser className="mr-3 lg:mr-1 icon"/>
+            <span className="text-sm lg:text-md hover:text-zinc-500">ユーザー管理</span>
           </li>
           <li 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0"
             onClick={() => onTabSelect('contact')} 
           >
-            <AiOutlineMail size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500">
+            <AiOutlineMail className="mr-3 lg:mr-1 icon"/>
+            <span className="text-sm lg:text-md hover:text-zinc-500">
               お問い合わせ
             </span>
           </li>
           <li 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0"
             onClick={() => onTabSelect('approvedRequestTable')} 
           >
-            <AiOutlineCheckSquare size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500">
+            <AiOutlineCheckSquare className="mr-3 lg:mr-1 icon"/>
+            <span className="text-sm lg:text-md hover:text-zinc-500">
               店舗承認申請
             </span>
           </li>
           <li 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0"
             onClick={() => onTabSelect('order')} 
           >
-            <BiTransfer size={20} className="mr-3" />
-            <span className="text-md hover:text-zinc-500">取引履歴</span>
+            <BiTransfer className="mr-3 lg:mr-1 icon" />
+            <span className="text-sm lg:text-md hover:text-zinc-500">取引履歴</span>
           </li>
           <li 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0"
             onClick={() => onTabSelect('addAdmin')} 
           >
-            <AiOutlineKey size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500">Admin追加</span>
+            <AiOutlineKey className="mr-3 lg:mr-1 icon"/>
+            <span className="text-sm lg:text-md hover:text-zinc-500">Admin追加</span>
           </li>
           <li 
-            className="flex items-center cursor-pointer"
+            className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0"
             onClick={() => onTabSelect('faq')}
           >
-            <AiOutlineQuestionCircle size={20} className="mr-3"/>
-            <span className="text-md hover:text-zinc-500">FAQ</span>
+            <AiOutlineQuestionCircle className="mr-3 lg:mr-1 icon"/>
+            <span className="text-sm lg:text-md hover:text-zinc-500">FAQ</span>
           </li>
           {/* optional function */}
           {/* <li className="flex items-center cursor-pointer">
@@ -77,9 +77,9 @@ const Navbar: React.FC<NavbarProps> = ({ onTabSelect }) => {
             <span className="text-md hover:text-zinc-500">クーポン</span>
           </li> */}
           <Link to="/nanmo">
-            <li className="flex items-center cursor-pointer">
-              <RiFileList2Line size={20} className="mr-3" />
-              <span className="text-md hover:text-zinc-500">ストア</span>
+            <li className="flex items-center cursor-pointer bg-white p-4 lg:bg-transparent lg:p-0">
+              <RiFileList2Line  className="mr-3 lg:mr-1 icon" />
+              <span className="text-sm lg:text-md hover:text-zinc-500">ストア</span>
             </li>
           </Link>
         </nav>

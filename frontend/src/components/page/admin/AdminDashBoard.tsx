@@ -8,7 +8,7 @@ const AdminDashBoard = () => {
   const [selectedTab, setSelectedTab] = useState<TabSelection>('home');
 
   return (
-    <div className="flex flex-row min-h-screen">
+    <div className="flex flex-col lg:flex-row min-h-screen">
       <div className="flex-[1] p-4">
         <Sidebar onTabSelect={setSelectedTab}  />
       </div>

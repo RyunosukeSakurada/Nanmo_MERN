@@ -196,40 +196,42 @@ const StoreTable = () => {
           <h1 className="bold text-zinc-500">店舗ユーザーが存在しません</h1>
         </div>
       ) : ( 
-        <table className="min-w-full divide-y divide-gray-200 mt-8">
-          <thead>
-              <tr className="text-center">
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">一時利用停止</th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ブロック</th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">承認</th>
-                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
-              </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 text-center text-[12px]">
-            {stores.map(store => (
-              <tr key={store._id}>
-                <td className="px-6 py-4 whitespace-nowrap">{store._id}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{store.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{store.suspended.toString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{store.blocked.toString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{store.approved.toString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{new Date(store.createdAt).toLocaleDateString()}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <button onClick={() => handleEditRequest(store._id,store.email,store.suspended,store.blocked)} className="text-green-500">編集</button>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <button onClick={() => handleDeleteRequest(store._id)} className="text-red-500">削除</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 mt-8">
+            <thead>
+                <tr className="text-center">
+                    <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
+                    <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
+                    <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">一時利用停止</th>
+                    <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ブロック</th>
+                    <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">承認</th>
+                    <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
+                </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 text-center text-[12px]">
+              {stores.map(store => (
+                <tr key={store._id}>
+                  <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs">{store._id}</td>
+                  <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs">{store.email}</td>
+                  <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs">{store.suspended.toString()}</td>
+                  <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs">{store.blocked.toString()}</td>
+                  <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs">{store.approved.toString()}</td>
+                  <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs">{new Date(store.createdAt).toLocaleDateString()}</td>
+                  <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">
+                    <button onClick={() => handleEditRequest(store._id,store.email,store.suspended,store.blocked)} className="text-green-500">編集</button>
+                  </td>
+                  <td className="px-12 md:px-6 py-4 whitespace-nowrap">
+                    <button onClick={() => handleDeleteRequest(store._id)} className="text-red-500">削除</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       {isDeleteConfirmationOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[400px] break-words">
+          <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[300px] md:w-[400px] break-words">
             <h3 className="mb-4 text-center">本当にこの店舗を削除しますか？</h3>
             <div className="text-center">
               <button onClick={handleDeleteConfirmation} className="mr-4 bg-red-500 text-white px-4 py-2 rounded">削除</button>
@@ -240,34 +242,36 @@ const StoreTable = () => {
       )}
       {isEditingOpen && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[500px] break-words">
+            <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[350px] mdw-[500px] break-words">
                 <h3 className="mb-4 text-center">店舗ユーザーのステータスを更新</h3>
-                <table className="min-w-full divide-y divide-gray-200 mt-8">
-                    <thead>
-                        <tr className="text-center text-[8px]">
-                            <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">メールアドレス</th>
-                            <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">一時利用停止</th>
-                            <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">ブロック</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 text-center text-[8px]">
-                        <tr className="text-center">
-                            <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{editingStoreEmail}</td>
-                            <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
-                                <select value={editSuspended.toString()} onChange={(e) => setEditSuspended(e.target.value === "true")}>
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            </td>
-                            <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
-                                <select value={editBlocked.toString()} onChange={(e) => setEditBlocked(e.target.value === "true")}>
-                                    <option value="true">true</option>
-                                    <option value="false">false</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200 mt-8">
+                      <thead>
+                          <tr className="text-center text-[8px]">
+                              <th className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">メールアドレス</th>
+                              <th className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">一時利用停止</th>
+                              <th className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">ブロック</th>
+                          </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-200 text-center text-[8px]">
+                          <tr className="text-center">
+                              <td className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">{editingStoreEmail}</td>
+                              <td className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">
+                                  <select value={editSuspended.toString()} onChange={(e) => setEditSuspended(e.target.value === "true")}>
+                                      <option value="true">true</option>
+                                      <option value="false">false</option>
+                                  </select>
+                              </td>
+                              <td className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">
+                                  <select value={editBlocked.toString()} onChange={(e) => setEditBlocked(e.target.value === "true")}>
+                                      <option value="true">true</option>
+                                      <option value="false">false</option>
+                                  </select>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
                 <div className="flex justify-center items-center">
                     <button className="bg-green-700 text-white px-4 py-2 rounded-lg mt-4 mr-2" onClick={handleUpdateStoreStatus}>
                         確定

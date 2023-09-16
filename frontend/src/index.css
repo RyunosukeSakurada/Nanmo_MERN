@@ -27,3 +27,14 @@ section{
 li{
   list-style:none;
 }
+
+.icon {
+  font-size: 24px;
+}
+
+/* 750px以下の場合のサイズ */
+@media (min-width: 1024px) {
+  .icon {
+    font-size: 18px;
+  }
+}

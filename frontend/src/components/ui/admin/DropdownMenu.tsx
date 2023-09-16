@@ -24,7 +24,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ onTableSelect }) => {
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative mt-2 md:mt-0" ref={dropdownRef}>
       <button onClick={() => setShowDropdown(!showDropdown)} className="w-56 justify-between flex items-center gap-x-2 border py-1 px-4 rounded">
         <span className="text-[12px]">{selectedItem}</span>
         {showDropdown ? <MdArrowDropUp /> : <MdArrowDropDown />}

@@ -36,17 +36,17 @@ const AdminMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
   },[setUserInfo])
 
   return (
-    <div className="">
-      <div className="bg-white shadow rounded-lg p-4 flex items-center justify-between mb-6">
+    <div className="-mt-10 lg:mt-0">
+      <div className="bg-white shadow rounded-lg p-4 flex flex-col md:flex-row items-center justify-between mb-6">
         <div className="flex items-center">
-          <h1>Dashboard</h1>
-          <div className="bg-slate-100 py-2 px-4 rounded-lg flex items-center gap-x-2 ml-6">
-            <AiOutlineCalendar size={20}/>
-            <span className="text-sm">{formattedDate}</span>
+          <h1 className="text-[12px] md:text-base">Dashboard</h1>
+          <div className="bg-slate-100 py-1 md:py-2 px-2 md:px-4 rounded-lg flex items-center gap-x-2 ml-1 md:ml-6">
+            <AiOutlineCalendar className="icon"/>
+            <span className="text-[8px] md:text-sm">{formattedDate}</span>
           </div>
         </div>
         <div>
-          <p className="text-sm">{email}</p>
+          <p className="text-[8px] md:text-sm">{email}</p>
         </div>
       </div>
 

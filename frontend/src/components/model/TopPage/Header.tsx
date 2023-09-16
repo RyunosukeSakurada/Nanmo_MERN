@@ -98,7 +98,7 @@ const Header = () => {
         </div>
 
         {isOpen && (
-          <div className="md:hidden absolute top-[4rem] right-0 bg-slate-100 p-4 w-full">
+          <div className="md:hidden absolute top-[4rem] right-0 bg-slate-50 p-4 w-full">
             <Navbar />
             <div className="border-t border-black mt-4">
               {!email && (

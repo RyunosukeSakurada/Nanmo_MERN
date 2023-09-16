@@ -137,49 +137,51 @@ const BlockedTable = () => {
             <h1 className="bold text-zinc-500">ユーザーが存在しません</h1>
           </div>
         ) : ( 
-          <table className="min-w-full divide-y divide-gray-200 mt-8">
-            <thead>
-                <tr className="text-center">
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ユーザータイプ</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">一時利用停止</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ブロック</th>
-                    <th className="px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
-                </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 text-center text-[12px]">
-              {blockedEntities.map(entity => (
-                <tr key={entity._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{entity._id}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{entity.type}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{entity.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{entity.suspended.toString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{entity.blocked.toString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{new Date(entity.createdAt).toLocaleDateString()}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <button onClick={() => handleEditRequest(entity._id,entity.email,entity.blocked,entity.type)} className="text-green-500">編集</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200 mt-8">
+              <thead>
+                  <tr className="text-center">
+                      <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
+                      <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ユーザータイプ</th>
+                      <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
+                      <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">一時利用停止</th>
+                      <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">ブロック</th>
+                      <th className="px-12 md:px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
+                  </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 text-center text-[12px]">
+                {blockedEntities.map(entity => (
+                  <tr key={entity._id}>
+                    <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">{entity._id}</td>
+                    <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">{entity.type}</td>
+                    <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">{entity.email}</td>
+                    <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">{entity.suspended.toString()}</td>
+                    <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">{entity.blocked.toString()}</td>
+                    <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">{new Date(entity.createdAt).toLocaleDateString()}</td>
+                    <td className="px-12 md:px-6 py-4 text-[6px] md:text-xs whitespace-nowrap">
+                      <button onClick={() => handleEditRequest(entity._id,entity.email,entity.blocked,entity.type)} className="text-green-500">編集</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
         {isEditingOpen && (
           <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex items-center justify-center">
-              <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[500px] break-words">
+              <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[300px] md:w-[500px] break-words">
                   <h3 className="mb-4 text-center">ユーザーのステータスを更新</h3>
                   <table className="min-w-full divide-y divide-gray-200 mt-8">
                       <thead>
                           <tr className="text-center text-[8px]">
-                              <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">メールアドレス</th>
-                              <th className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">ブロック</th>
+                              <th className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">メールアドレス</th>
+                              <th className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">ブロック</th>
                           </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200 text-center text-[8px]">
                           <tr className="text-center">
-                              <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{editingEntityEmail}</td>
-                              <td className="px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
+                              <td className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">{editingEntityEmail}</td>
+                              <td className="px-2 py-3 text-[8px] md:text-xs font-medium tracking-wider text-gray-500">
                                   <select value={editBlocked.toString()} onChange={(e) => setEditBlocked(e.target.value === "true")}>
                                       <option value="true">true</option>
                                       <option value="false">false</option>

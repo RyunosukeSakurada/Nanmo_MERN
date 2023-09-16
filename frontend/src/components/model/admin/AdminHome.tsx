@@ -55,28 +55,28 @@ const AdminHome = () => {
   return (
     <div className="bg-white p-4 rounded-lg">
       <div className="flex flex-col gap-y-8">
-        <div className="flex flex-row items-center justify-between gap-x-8">
-          <div className="shadow w-1/2 p-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-x-8">
+          <div className="shadow w-full md:w-1/2 p-4">
             <p className="text-[12px] text-zinc-500">総利用者数</p>
             <div className="my-8 text-center">
               <p className="text-3xl">{userCount}<span className="text-[8px] ml-2">人</span></p>
             </div>
           </div>
-          <div className="shadow w-1/2 p-4">
+          <div className="shadow w-full md:w-1/2 p-4">
             <p className="text-[12px] text-zinc-500">総店舗数</p>
             <div className="my-8 text-center">
               <p className="text-3xl">{storeCount}<span className="text-[8px] ml-2">店舗</span></p>
             </div>
           </div>
         </div>
-        <div className="flex flex-row items-center justify-between gap-x-8">
-          <div className="shadow w-1/2 p-4">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-x-8">
+          <div className="shadow w-full md:w-1/2 p-4">
             <p className="text-[12px] text-zinc-500">総取引数</p>
             <div className="my-8 text-center">
               <p className="text-3xl">{orderCount}<span className="text-[8px] ml-2">回</span></p>
             </div>
           </div>
-          <div className="shadow w-1/2 p-4">
+          <div className="shadow w-full md:w-1/2 p-4">
             <p className="text-[12px] text-zinc-500">総売上金額</p>
             <div className="my-8 text-center">
               <p className="text-3xl">{totalOrderPrice}<span className="text-[8px] ml-2">円</span></p>

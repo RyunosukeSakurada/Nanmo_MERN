@@ -100,7 +100,7 @@ const Header = () => {
         </div>
 
         {isOpen &&(
-          <div className="md:hidden absolute top-[4rem] right-0 bg-slate-100 p-4 w-full z-20">
+          <div className="md:hidden absolute top-[4rem] right-0 bg-slate-50 p-4 w-full z-20">
             <div className="my-4 flex gap-x-4 justify-center items-center">
               {!email && (
                 <>
