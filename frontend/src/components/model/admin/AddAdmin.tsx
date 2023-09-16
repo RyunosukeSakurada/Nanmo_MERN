@@ -11,7 +11,7 @@ const AddAdmin = () => {
 
   return (
     <div className="bg-white p-4 rounded-lg">
-      <div className="flex items-center justify-between">
+      <div className="">
         <h3 className="bold">Admin追加</h3>
       </div>
 

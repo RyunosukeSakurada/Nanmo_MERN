@@ -36,7 +36,7 @@ const AdminMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
   },[setUserInfo])
 
   return (
-    <div className="-mt-10 lg:mt-0">
+    <div className="-mt-15 lg:mt-0">
       <div className="bg-white shadow rounded-lg p-4 flex flex-col md:flex-row items-center justify-between mb-6">
         <div className="flex items-center">
           <h1 className="text-[12px] md:text-base">Dashboard</h1>

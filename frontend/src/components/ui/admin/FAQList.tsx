@@ -66,20 +66,18 @@ const editFAQfailed = () => toast.error('FAQの編集に失敗しました',
 
   return (
     <div className='border-b border-zinc-500'>
-      <div
-        className="flex justify-between w-full py-4 px-4 focus:outline-none"
-      >
-        <span className="text-[12px]">{question}</span>
-        <div className="flex items-center gap-x-2">
+      <div className="flex flex-col sm:flex-row justify-between w-full py-4 px-4 focus:outline-none">
+        <span className="text-[6px] md:text-[12px]">{question}</span>
+        <div className="flex items-center gap-x-2 mt-2 sm:mt-0">
           <span onClick={() => setIsOpen(!isOpen)}>{isOpen ? <BiSolidUpArrow /> : <BiSolidDownArrow /> }</span>
-          <button className="bg-green-500 text-white px-2 text-[8px] rounded" onClick={() => setShowEditPopup(true)}>編集</button>
-          <button className="bg-red-500 text-white px-2 text-[8px] rounded" onClick={() => setShowDeletePopup(true)}>削除</button>
+          <button className="bg-green-500 text-white px-2 text-[6px] md:text-[8px] rounded" onClick={() => setShowEditPopup(true)}>編集</button>
+          <button className="bg-red-500 text-white px-2 text-[6px] md:text-[8px] rounded" onClick={() => setShowDeletePopup(true)}>削除</button>
         </div>
       </div>
-      {isOpen && <div className="py-3 px-4 bg-zinc-300 text-[8px]">A. {answer}</div>}
+      {isOpen && <div className="py-3 px-4 bg-zinc-300 text-[6px] md:text-[8px]">A. {answer}</div>}
       {showDeletePopup && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 ">
-          <div className="bg-white p-4 rounded-lg w-[400px] text-center">
+          <div className="bg-white p-4 rounded-lg w-[300px] md:w-[400px] text-center">
             <p>本当に削除しますか？</p>
             <div className="flex justify-center mt-8 gap-x-4">
               <button 
@@ -95,7 +93,7 @@ const editFAQfailed = () => toast.error('FAQの編集に失敗しました',
       )}
       {showEditPopup && (
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white p-4 rounded-lg w-[400px] text-center">
+        <div className="bg-white p-4 rounded-lg w-[300px] md:w-[400px] text-center">
           <p>FAQを編集</p>
           <textarea value={editQuestion} onChange={e => setEditQuestion(e.target.value)} className="border p-4 w-full my-2" />
           <textarea value={editAnswer} onChange={e => setEditAnswer(e.target.value)} className="border p-4 w-full my-2" />
