@@ -11,6 +11,11 @@ const StoreHome:React.FC<storeProps> = ({storeId}) => {
 
   useEffect(() => {
     const fetchOrders = async () => {
+      if (!storeId) {
+        console.error("storeId is not provided");
+        return;
+      }
+
       try {
         const response = await fetch(`http://localhost:4000/api/order/getOrdersByStore/${storeId}`);
         const orders = await response.json(); 
