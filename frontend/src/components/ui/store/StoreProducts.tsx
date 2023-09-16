@@ -105,7 +105,7 @@ const deleteProduct = async () => {
                 削除する
               </button>
               <button className="border text-gray-700 px-4 py-2 rounded-lg mt-4 ml-2" onClick={() => setIsDeleteConfirmOpen(false)}>
-                キャンセル
+                戻る
               </button>
             </div>
           </div>

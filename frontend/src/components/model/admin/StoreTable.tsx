@@ -277,7 +277,7 @@ const StoreTable = () => {
                         確定
                     </button>
                     <button className="border text-gray-700 px-4 py-2 rounded-lg mt-4 ml-2" onClick={() => setIsEditingOpen(false)}>
-                        キャンセル
+                        戻る
                     </button>
                 </div>
             </div>
