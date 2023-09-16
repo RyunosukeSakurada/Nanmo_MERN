@@ -38,7 +38,7 @@ const Header = () => {
   }
 
   return (
-    <header className="border-b border-zinc-700 w-full bg-zinc-200">
+    <header className="border-b border-zinc-700 w-full z-10 top-0 bg-zinc-200">
       <Wrapper className='flex items-center justify-between'>
         <div className="flex items-center">
           <Link to="/">

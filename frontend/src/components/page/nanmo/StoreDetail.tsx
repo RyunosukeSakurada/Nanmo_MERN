@@ -210,9 +210,9 @@ const StoreDetail = () => {
             </div>
             <div className='flex flex-col gap-y-1 mt-8'>
               <div className='mb-4 flex flex-col md:flex-row gap-x-8 md:items-center'>
-                <span className='text-[12px]'>残り : <span className='bg-green-700 text-white px-2 py-1 rounded-md mr-1'>{product.stocks}</span>個</span>
+                <span className='text-[8px] md:text-[12px]'>残り : <span className='bg-green-700 text-white px-2 py-1 rounded-md mr-1'>{product.stocks}</span>個</span>
                 {/* <span className="text-[12px]">ジャンル : <span className="border border-green-700 px-2 py-1 rounded-md">飲食店</span></span> */}
-                <span className='text-[12px]'>受取可能時間 : <span className='bg-green-700 text-white px-2 py-1 rounded-md mr-1'>{product.pickupDate}</span>{product.pickupTime.start} - {product.pickupTime.end}</span>
+                <span className='text-[8px] md:text-[12px]'>受取可能時間 : <span className='bg-green-700 text-white px-2 py-1 rounded-md mr-1'>{product.pickupDate}</span>{product.pickupTime.start} - {product.pickupTime.end}</span>
               </div>
               <p className='font-bold text-xl'>{product.name}</p>
               <p>{product.description}</p>
@@ -224,7 +224,7 @@ const StoreDetail = () => {
               <img 
                 src={`http://localhost:4000/${product.productImage}`} 
                 alt=""
-                className='w-full md:w-[70%] h-[450px] mt-8 object-cover rounded'
+                className='w-full sm:w-[70%] h-[250px] sm:h-[350px] md:h-[450px] mt-8 object-cover rounded'
               />
             </div>
           ) : (<></>)}
