@@ -116,16 +116,16 @@ const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId,app
           (
             <>
               <div className="mt-12 px-4">
-                <p>Q. 承認申請とは?</p>
-                <p className="mt-4 text-justify text-[12px]">A. 私たちのサービスの主な目的は、まだ食べられるのに売れ残り、廃棄の危機に瀕している食品をお客様にお得にお届けすることです。このような商品の取り扱いには、食品の安全性と品質を常に最前線に保つ責任が伴います。私たちはお客様に安全で品質の高い商品を提供するため、参加するすべての店舗様が当サービスの基準と価値観を共有していることを確認するための店舗申請を設けています。これは、私たちの共通の目的に向けて一緒に歩んでいくための第一歩です。</p>
+                <p className="text-[12px] md:text-base">Q. 承認申請とは?</p>
+                <p className="mt-4 text-justify text-[8px] md:text-[12px]">A. 私たちのサービスの主な目的は、まだ食べられるのに売れ残り、廃棄の危機に瀕している食品をお客様にお得にお届けすることです。このような商品の取り扱いには、食品の安全性と品質を常に最前線に保つ責任が伴います。私たちはお客様に安全で品質の高い商品を提供するため、参加するすべての店舗様が当サービスの基準と価値観を共有していることを確認するための店舗申請を設けています。これは、私たちの共通の目的に向けて一緒に歩んでいくための第一歩です。</p>
               </div>
               <div className="mt-12 px-4">
-                <p>Q.申請が承認されたら、何ができるの？</p>
+                <p className="text-[12px] md:text-base">Q.申請が承認されたら、何ができるの？</p>
                 {details.map((detail, index) => (
-                  <div key={index} className="mt-4 text-justify text-[12px]">
-                    <h2>{detail.title}</h2>
+                  <div key={index} className="mt-4 text-justify text-[8px] md:text-[12px]">
+                    <h2 className="text-[8px] md:text-[12px]">{detail.title}</h2>
                     <ul>
-                      <li>{detail.description}</li>
+                      <li className="text-[8px] md:text-[12px]">{detail.description}</li>
                     </ul>
                   </div>
                 ))}

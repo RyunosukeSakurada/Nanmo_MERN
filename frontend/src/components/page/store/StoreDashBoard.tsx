@@ -8,7 +8,7 @@ const StoreDashBoard = () => {
   const [selectedTab, setSelectedTab] = useState<TabSelectionForStore>('home');
 
   return (
-    <div className="flex flex-row min-h-screen">
+    <div className="flex flex-col lg:flex-row min-h-screen">
       <div className="flex-[1] p-4">
         <SidebarForStore onTabSelect={setSelectedTab}  />
       </div>

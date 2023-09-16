@@ -15,7 +15,7 @@ const ManageProducts: React.FC<ManageProductsProps> = ({approved}) => {
       <div className="">
         <h3 className="bold">商品管理</h3>
 
-        <div className="flex mt-8 gap-x-4">
+        <div className="flex flex-col md:flex-row gap-y-4 mt-8 gap-x-4">
           <AddProduct setUpdateProductList={setUpdateProductList} approved={approved}/>
           <StoreProductsList updateProductList={updateProductList} />
         </div>

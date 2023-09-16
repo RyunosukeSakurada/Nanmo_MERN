@@ -77,19 +77,19 @@ const deleteProduct = async () => {
       <div className="flex flex-col justify-between w-full overflow-hidden">
         <div>
           <div className="flex justify-between">
-            <p>{product.name}</p>
+            <p className="text-[12px] sm:text-base">{product.name}</p>
             <div className="flex gap-x-2">
               <span className="text-[6px]">{product.stocks === 0 ? '売り切れ' : '販売中'}</span>
               <span className="text-[6px] text-red-500 cursor-pointer"  onClick={showDeleteConfirmation}>削除</span>
             </div>
           </div>
           <p className="text-[6px] text-zinc-500 break-words whitespace-normal">{product.description}</p>
-          <span className="text-[6px] text-zinc-500">受け取り時間 : {product.pickupDate} {product.pickupTime.start} - {product.pickupTime.end}</span>
+          <p className="flex flex-col sm:flex-row text-[6px] text-zinc-500">受け取り時間 : <span className="-mt-3 sm:ml-1 sm:mt-0">{product.pickupDate} {product.pickupTime.start} - {product.pickupTime.end}</span></p>
         </div>
         
-        <div className='flex justify-between items-center'>
+        <div className='flex flex-col md:flex-row justify-between md:items-center'>
           <p className='text-[6px]'>在庫 : {product.stocks}</p>
-          <p><span className='font-bold text-lg'>¥{product.price}</span><span className='text-[10px] ml-1 line-through p-0.5'>¥{product.originalPrice}</span></p>
+          <p><span className='font-bold text-[12px] md:text-lg'>¥{product.price}</span><span className='text-[8px] md:text-[10px] ml-1 line-through p-0.5'>¥{product.originalPrice}</span></p>
         </div>
       </div>
       {isDeleteConfirmOpen && (
