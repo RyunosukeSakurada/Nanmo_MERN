@@ -188,7 +188,7 @@ const Payment = () => {
 
       {/* Orders表示 */}
       {!loading && (
-        <div className='flex flex-row gap-x-8 p-4 mt-8 max-w-[1000px] mx-auto'>
+        <div className='flex flex-col-reverse md:flex-row gap-y-8 gap-x-8 p-4 mt-8 max-w-[1000px] mx-auto'>
           <div className='flex-[2] flex flex-col bg-white rounded-lg p-4'>
             <p className="text-zinc-500 text-[8px] mb-4">注文</p>
 
@@ -202,11 +202,11 @@ const Payment = () => {
                       <img 
                         src={`http://localhost:4000/${item.product.productImage}`} 
                         alt="商品の画像"
-                        className='h-[80px] w-[80px] rounded-full'
+                        className='h-[50px] w-[50px] md:h-[80px] md:w-[80px] rounded-full'
                       />
                       <div className=''>
-                        <p className='text-xl'>商品名: {item.product.name}</p>
-                        <div className='flex gap-x-5'>
+                        <p className='text-[12px] md:text-xl'>商品名: {item.product.name}</p>
+                        <div className='flex flex-col md:flex-row gap-x-5 text-[8px] md:text-base'>
                           <p className='text-zinc-500'>数量: {item.quantity}</p>
                           <p className='text-zinc-500'>値段: {item.product.price * item.quantity}円</p>
                         </div>
