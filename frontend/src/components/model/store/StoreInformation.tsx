@@ -132,80 +132,80 @@ const StoreInformation: React.FC<StoreInfomationProps> = ({storeId, storeName,ad
       <div className="">
         <h3 className="bold">店舗情報</h3>
 
-        <div className="mt-6 flex gap-x-4">
+        <div className="mt-6 flex flex-col md:flex-row gap-x-4">
           <AddStoreLogo storeId={storeId}/>
 
           {/* 店舗情報 */}
-          <div className="flex-[2] flex flex-col gap-y-4 p-8 shadow relative">
-            <div className="absolute bottom-6 right-6">
-              <button 
-                className="border rounded-lg px-4 py-1 hover:shadow hover:text-zinc-500"
-                onClick={() => setIsEditing(true)}
-              >
-                編集
-              </button>
-            </div>
-
-            <div className="flex gap-x-8 items-center">
+          <div className="flex-[2] flex flex-col gap-y-4 p-8 shadow">
+            <div className="flex flex-col sm:flex-row gap-x-8 sm:items-center -mb-2 sm:mb-0">
               <div>
                 <span className="text-zinc-500 text-[8px]">店舗名</span>
-                <p>{storeName}</p>
+                <p className="text-[12px] md:text-base">{storeName}</p>
               </div>
-              <div>
+              <div className="mt-1 sm:mt-0">
                 <span className="text-zinc-500 text-[8px]">郵便番号</span>
-                <p>{postalCode}</p>
+                <p className="text-[12px] md:text-base">{postalCode}</p>
               </div>
             </div>
             <div>
               <span className="text-zinc-500 text-[8px]">住所</span>
-              <p>{address}</p>
+              <p className="text-[12px] md:text-base">{address}</p>
             </div>
             <div>
               <span className="text-zinc-500 text-[8px]">ビル/マンション</span>
-              <p>{detailedAddress}</p>
+              <p className="text-[12px] md:text-base">{detailedAddress}</p>
             </div>
             <div>
               <span className="text-zinc-500 text-[8px]">メールアドレス</span>
-              <p>{email}</p>
+              <p className="text-[12px] md:text-base">{email}</p>
+            </div>
+
+            <div className="flex justify-end ">
+              <button 
+                  className="w-fit border rounded-lg px-4 py-1 hover:shadow hover:text-zinc-500"
+                  onClick={() => setIsEditing(true)}
+                >
+                  編集
+              </button>
             </div>
           </div>
         </div>
       </div>
       {isEditing && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[500px] break-words">
+          <div className="bg-white p-8 rounded-lg shadow-lg text-start relative w-[300px] sm:w-[350px] md:w-[500px] break-words">
             <h3 className="mb-4 text-center">店舗情報を編集</h3>
             
             <div className="mb-4">
               <label className="block text-xs font-medium tracking-wider text-gray-500">店舗名</label>
-              <input value={editedStoreInfo.storeName} onChange={e => handleChange(e, 'storeName')} className="mt-2 p-1 w-full border rounded" />
+              <input value={editedStoreInfo.storeName} onChange={e => handleChange(e, 'storeName')} className="mt-2 p-1 w-full border rounded text-[12px] md:text-base" />
             </div>
 
             <div className="mb-4">
               <label className="block text-xs font-medium tracking-wider text-gray-500">住所</label>
-              <input value={editedStoreInfo.address} onChange={e => handleChange(e, 'address')} className="mt-2 p-1 w-full border rounded" />
+              <input value={editedStoreInfo.address} onChange={e => handleChange(e, 'address')} className="mt-2 p-1 w-full border rounded text-[12px] md:text-base" />
             </div>
 
             <div className="mb-4">
               <label className="block text-xs font-medium tracking-wider text-gray-500">ビル/マンション</label>
-              <input value={editedStoreInfo.detailedAddress} onChange={e => handleChange(e, 'detailedAddress')} className="mt-2 p-1 w-full border rounded" />
+              <input value={editedStoreInfo.detailedAddress} onChange={e => handleChange(e, 'detailedAddress')} className="mt-2 p-1 w-full border rounded text-[12px] md:text-base" />
             </div>
 
             <div className="mb-4">
               <label className="block text-xs font-medium tracking-wider text-gray-500">郵便番号</label>
-              <input value={editedStoreInfo.postalCode} onChange={e => handleChange(e, 'postalCode')} className="mt-2 p-1 w-full border rounded" />
+              <input value={editedStoreInfo.postalCode} onChange={e => handleChange(e, 'postalCode')} className="mt-2 p-1 w-full border rounded text-[12px] md:text-base" />
             </div>
 
             <div className="mb-4">
               <label className="block text-xs font-medium tracking-wider text-gray-500">メールアドレス</label>
-              <input value={editedStoreInfo.email} onChange={e => handleChange(e, 'email')} className="mt-2 p-1 w-full border rounded" />
+              <input value={editedStoreInfo.email} onChange={e => handleChange(e, 'email')} className="mt-2 p-1 w-full border rounded text-[12px] md:text-base" />
             </div>
 
             <div className="flex justify-center items-center">
               <Button className="bg-green-700 text-white px-4 py-2 rounded-lg mt-4 mr-2" onClick={handleSave}>
                 確定
               </Button>
-              <Button className="border text-gray-700 px-4 py-2 rounded-lg mt-4 ml-2" onClick={() => setIsEditing(false)}>
+              <Button className="text-gray-700 px-4 py-2 rounded-lg mt-4 ml-2" onClick={() => setIsEditing(false)}>
                 戻る
               </Button>
             </div>

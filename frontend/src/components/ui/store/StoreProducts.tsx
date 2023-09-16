@@ -80,7 +80,11 @@ const deleteProduct = async () => {
             <p className="text-[12px] sm:text-base">{product.name}</p>
             <div className="flex gap-x-2">
               <span className="text-[6px]">{product.stocks === 0 ? '売り切れ' : '販売中'}</span>
-              <span className="text-[6px] text-red-500 cursor-pointer"  onClick={showDeleteConfirmation}>削除</span>
+              {product.stocks === 0 ? (
+                <></>
+              ) : (
+                <span className="text-[6px] text-red-500 cursor-pointer"  onClick={showDeleteConfirmation}>削除</span>
+              )}
             </div>
           </div>
           <p className="text-[6px] text-zinc-500 break-words whitespace-normal">{product.description}</p>

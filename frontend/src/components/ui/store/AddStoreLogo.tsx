@@ -93,7 +93,7 @@ const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
       <img 
           src={`http://localhost:4000/${storeLogo}`|| "../../../../images/logo.png"}
           alt="" 
-          className="rounded-full w-[300px] h-[300px] mx-auto"
+          className="rounded-full w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] mx-auto"
       />
       <form className="flex flex-col mt-4 gap-y-4 p-4" onSubmit={uploadStoreLogo}>
         <input 
