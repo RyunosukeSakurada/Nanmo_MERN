@@ -13,17 +13,17 @@ const ContactItem: React.FC<ContactItemProps> = ({ contact, toggleReadStatus, to
 
     return (
         <div className="mt-8">
-          <div className="border p-4 shadow flex items-center justify-between">
-            <div className="flex">
+          <div className="border p-4 shadow flex flex-row items-center justify-between">
+            <div className="flex flex-col md:flex-row">
               <div className="flex gap-x-2">
-                <button onClick={() => toggleReadStatus(contact._id)} className={`border rounded-lg px-2 py-1 ${contact.isRead ? 'bg-green-500' : 'bg-red-500'} text-white`}>
+                <button onClick={() => toggleReadStatus(contact._id)} className={`text-xs md:text-base border rounded-lg px-2 py-1 ${contact.isRead ? 'bg-green-500' : 'bg-red-500'} text-white`}>
                   {contact.isRead ? '既読' : '未読'}
                 </button>
-                <button onClick={() => toggleHandleStatus(contact._id)} className={`border rounded-lg px-2 py-1 ${contact.isHandled ? 'bg-green-500' : 'bg-red-500'} text-white`}>
+                <button onClick={() => toggleHandleStatus(contact._id)} className={`text-xs md:text-base border rounded-lg px-2 py-1 ${contact.isHandled ? 'bg-green-500' : 'bg-red-500'} text-white`}>
                   {contact.isHandled ? '対処済み' : '未対処'}
                 </button>
               </div>
-              <div className="ml-8 flex items-center gap-x-4 text-[12px]">
+              <div className="md:ml-8 flex flex-col sm:flex-row sm:items-center gap-x-2 md:gap-x-4 text-[6px] md:text-[12px]">
                 <p>{contact.storeName}</p>
                 <p>{contact.name} 様</p>
                 <p>{contact.email}</p>
@@ -31,7 +31,11 @@ const ContactItem: React.FC<ContactItemProps> = ({ contact, toggleReadStatus, to
             </div>
           <span onClick={() => setIsOpen(!isOpen)}>{isOpen ? <BiSolidUpArrow /> : <BiSolidDownArrow /> }</span>
         </div>
-        {isOpen && <div className="py-3 px-4 bg-zinc-300">{contact.message}</div>}
+        {isOpen && <div className="py-3 px-4 bg-zinc-300 overflow-hidden text-[6px] md:text-base">
+          <div className="break-words whitespace-normal">
+            {contact.message}
+          </div>
+        </div>}
       </div>
     );
 };
