@@ -84,35 +84,37 @@ const AddAdminInput: React.FC<{ onAdminAdded: (admin:Admin) => void }>  = ({ onA
   return (
     <div className='mt-6'>
       <ToastContainer />
-      <form onSubmit={addAdmin} className='flex justify-between'>
-        <div className='flex items-center gap-x-12'>
-          <div>
+      <form onSubmit={addAdmin} className='flex flex-col md:flex-row justify-between'>
+        <div className='flex flex-col sm:flex-row sm:items-center gap-x-8'>
+          <div className='flex flex-col md:flex-row'>
             <label className='text-[8px]'>メールアドレス: </label>
             <input 
               type="email" 
               name="email" 
               required 
-              className="px-2 py-1 rounded border border-gray-300 text-[12px] w-60" 
+              className="px-2 py-1 rounded border border-gray-300 text-[12px] w-60 sm:w-40 md:w-60" 
               value={email}
               onChange={e => setEmail(e.target.value)}
             />
           </div>
-          <div className="relative">
+          <div className='flex flex-col md:flex-row'>
             <label className='text-[8px]'>パスワード: </label>
-            <input 
-                type={showPassword ? "text" : "password"} 
-                name="password" 
-                required 
-                className="px-2 py-1 rounded border border-gray-300 text-[12px] w-60" 
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-              />
-              <button type="button" onClick={togglePasswordVisibility} className="absolute right-2 top-4 -translate-y-1/2 ">
-                {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye /> }
-              </button>
+            <div>
+              <input 
+                  type={showPassword ? "text" : "password"} 
+                  name="password" 
+                  required 
+                  className="px-2 py-1 rounded border border-gray-300 text-[12px] w-60 sm:w-40 md:w-60" 
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+                <button type="button" onClick={togglePasswordVisibility} className="">
+                  {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye /> }
+                </button>
+            </div>
           </div>
         </div>
-        <button type="submit" className="flex items-center border py-1 px-4 rounded text-[8px] hover:bg-slate-100">追加</button>
+        <button type="submit" className="w-fit flex items-center border py-1 px-4 rounded text-[8px] hover:bg-slate-100 mt-2 md:mt-0">追加</button>
       </form>
     </div>
   );

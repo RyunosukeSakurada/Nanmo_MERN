@@ -71,24 +71,26 @@ useEffect(() => {
           <h1 className="bold text-zinc-500">Adminが存在しません</h1>
         </div>
       ) : ( 
-        <table className="min-w-full divide-y divide-gray-200 mt-8">
-          <thead>
-              <tr className="text-center">
-                  <th className="w-1/3 px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
-                  <th className="w-1/3 px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
-                  <th className="w-1/3 px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
-              </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 text-center text-[12px]">
-            {admins.map(admin => (
-              <tr key={admin._id}>
-                <td className="w-1/3 px-6 py-4 whitespace-nowrap">{admin._id}</td>
-                <td className="w-1/3 px-6 py-4 whitespace-nowrap">{admin.email}</td>
-                <td className="w-1/3 px-6 py-4 whitespace-nowrap">{new Date(admin.createdAt).toLocaleDateString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 mt-8">
+            <thead>
+                <tr className="text-center">
+                    <th className="w-1/3 px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">id</th>
+                    <th className="w-1/3 px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">メールアドレス</th>
+                    <th className="w-1/3 px-6 py-3 text-xs font-medium tracking-wider text-gray-500 uppercase">作成日</th>
+                </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200 text-center text-[12px]">
+              {admins.map(admin => (
+                <tr key={admin._id}>
+                  <td className="w-1/3 px-6 py-4 whitespace-nowrap">{admin._id}</td>
+                  <td className="w-1/3 px-6 py-4 whitespace-nowrap">{admin.email}</td>
+                  <td className="w-1/3 px-6 py-4 whitespace-nowrap">{new Date(admin.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
   </>
   )
