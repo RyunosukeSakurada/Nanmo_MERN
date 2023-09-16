@@ -15,7 +15,6 @@ const FAQForm: React.FC<FAQFormProps> = () => {
   const [question, setQuestion] = useState('');
   const [answer, setAnswer] = useState('');
 
-
   //toastify
   const addFAQSuccess = () => toast.success('FAQの追加に成功しました 🎉', 
     {

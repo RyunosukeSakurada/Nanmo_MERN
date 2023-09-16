@@ -22,7 +22,6 @@ const StoreHome:React.FC<storeProps> = ({storeId}) => {
 
         // 総取引数の計算
         setOrderCount(orders.length);
-        console.log(orders);
         
         // 総売上金額の計算
         let totalAmount = 0;

@@ -6,21 +6,25 @@ const ContactSchema = new mongoose.Schema({
     type: String,
     min: 1,
     required: true,
+    unique:false
   },
   storeName:{
     type: String,
     min: 1,
     required: true,
+    unique:false
   },
   email:{
     type:String,
     required: true,
+    unique:false
   },
   message:{
     type: String,
     min: 1,
     max:250,
     required: true,
+    unique:false
   },
   isRead:{
     type:Boolean,

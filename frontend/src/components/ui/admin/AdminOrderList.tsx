@@ -8,7 +8,6 @@ const AdminOrderList = () => {
       const fetchOrders = async () => {
         const response = await fetch('http://localhost:4000/api/order/getAllOrders');
         const data = await response.json();
-        console.log(data);
         
         setOrders(data);
       }

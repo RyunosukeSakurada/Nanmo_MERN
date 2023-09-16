@@ -39,7 +39,6 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
       }).then(response => {
         response.json().then(userInfo => {
           setUserInfo(userInfo)
-          console.log(userInfo);
         })
       })
     },[setUserInfo])

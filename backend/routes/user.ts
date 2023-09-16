@@ -182,7 +182,6 @@ router.post("/submitContact", async (req: Request, res: Response) => {
   }
 });
 
-
 //店舗情報の更新
 router.put("/updateStore/:storeId", async (req: Request, res: Response) => {
   try {
