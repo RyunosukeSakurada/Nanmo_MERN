@@ -22,7 +22,7 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
     if (!req.file) {
       return res.status(400).json({ message: "ファイルがアップロードされていません" });
     }
-
+    //ファイルの元の名前から拡張子を取得し、ファイルのパスに追加
     const { originalname, path } = req.file;
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
@@ -59,7 +59,6 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
 router.get("/getProducts", async (req: Request, res: Response) => {
   res.json(await Product.find().populate('store', 'storeName address detailedAddress storeLogo -_id'))
 })
-
 
 // 特定の商品の取得
 router.get("/getProduct/:id", async (req: Request, res: Response) => {
@@ -108,24 +107,26 @@ router.delete("/deleteProduct/:id", async (req: Request, res: Response) => {
 // Productのstocksを更新
 router.put("/updateProductStock/:productId", async (req: Request, res: Response) => {
   try {
+    //URLからproductIdを取得
     const { productId } = req.params;
+    //リクエストボディからquantityを取得
     const { quantity } = req.body;
 
     const product = await Product.findById(productId);
-
     if (!product) {
       return res.status(404).json({ message: "製品が見つかりません" });
     }
 
+    //在庫が足りない場合
     if (product.stocks - quantity < 0) {
       return res.status(400).json({ message: "在庫が足りません" });
     }
-
+    //在庫を指定された数量だけ減少
     product.stocks -= quantity;
+    //在庫が更新された製品情報をデータベースに保存
     await product.save();
 
     return res.status(200).json(product);
-
   } catch (error) {
     console.error("Error when updating product stocks: ", error);
     return res.status(500).json({ message: "製品の在庫の更新に失敗しました", error: (error as any).message });

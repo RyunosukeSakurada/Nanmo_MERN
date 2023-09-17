@@ -4,7 +4,6 @@ import multer from "multer";
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store")
-const Order = require("../models/Order");
 const Contact = require("../models/Contact");
 const uploadMiddleware = multer({dest: 'uploads/'})
 const fs = require("fs")
@@ -25,7 +24,6 @@ router.get("/userslist", async (req: Request, res: Response) => {
   }
 });
 
-
 //全店舗ユーザーの情報を取得
 router.get("/storeslist", async (req: Request, res: Response) => {
   try {
@@ -36,7 +34,7 @@ router.get("/storeslist", async (req: Request, res: Response) => {
   }
 });
 
-
+//全adminuserの取得
 router.get("/adminusers", async (req: Request, res: Response) => {
   try {
     const adminUsers = await User.find({ isAdmin: true }).lean().exec();
@@ -46,29 +44,34 @@ router.get("/adminusers", async (req: Request, res: Response) => {
   }
 });
 
-
+//一時利用停止ユーザーの取得
 router.get("/suspendedusers", async (req: Request, res: Response) => {
   try {
     const suspendedUsers = await User.find({ suspended: true }).lean().exec();
     const suspendedStores = await Store.find({ suspended: true }).lean().exec();
 
+    //ユーザーオブジェクトにtypeプロパティを追加
     suspendedUsers.forEach((user: { type: string; }) => user.type = '一般ユーザー');
     suspendedStores.forEach((store: { type: string; }) => store.type = '店舗ユーザー');
 
+    //一時停止されたユーザーと店舗のリストを結合
     return res.status(200).json([...suspendedUsers, ...suspendedStores]);
   } catch (error) {
     return res.status(500).json({ message: "サーバーエラー", error });
   }
 });
 
+//ブロックユーザーの取得
 router.get("/blockedusers", async (req: Request, res: Response) => {
   try {
     const blockedUsers = await User.find({ blocked: true }).lean().exec();
     const blockedStores = await Store.find({ blocked: true }).lean().exec();
 
+    //ユーザーオブジェクトにtypeプロパティを追加
     blockedUsers.forEach((user: { type: string; }) => user.type = '一般ユーザー');
     blockedStores.forEach((store: { type: string; }) => store.type = '店舗ユーザー');
 
+    //一時停止されたユーザーと店舗のリストを結合
     return res.status(200).json([...blockedUsers, ...blockedStores]);
   } catch (error) {
     return res.status(500).json({ message: "サーバーエラー", error });
@@ -98,7 +101,6 @@ router.delete("/deletestore/:storeId", async (req: Request, res: Response) => {
   }
 });
 
-
 // 店舗の承認申請ステータスを更新
 router.put("/requestapproval/:storeId", async (req: Request, res: Response) => {
   try {
@@ -112,7 +114,11 @@ router.put("/requestapproval/:storeId", async (req: Request, res: Response) => {
       return res.status(400).json({ message: "承認申請はすでに送信されています" });
     }
     
-    const updatedStore = await Store.findByIdAndUpdate(storeId, { requested: true }, { new: true });
+    const updatedStore = await Store.findByIdAndUpdate(
+      storeId, 
+      { requested: true }, 
+      { new: true }
+    );
     return res.status(200).json(updatedStore);
   } catch (error) {
     return res.status(500).json({ message: "承認申請の処理に失敗しました", error });
@@ -120,7 +126,7 @@ router.put("/requestapproval/:storeId", async (req: Request, res: Response) => {
 });
 
 
-// 店舗の承認申請ステータスを確認
+//店舗の承認申請ステータスを確認
 router.get("/checkapproval/:storeId", async (req: Request, res: Response) => {
   try {
     const { storeId } = req.params;
@@ -142,7 +148,6 @@ router.put("/approveStore/:storeId", async (req: Request, res: Response) => {
     const { storeId } = req.params;
 
     const updatedStore = await Store.findByIdAndUpdate(storeId, { approved: true }, { new: true });
-
     if (!updatedStore) {
       return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
     }
@@ -157,10 +162,8 @@ router.put("/approveStore/:storeId", async (req: Request, res: Response) => {
 router.put("/declineStore/:storeId", async (req: Request, res: Response) => {
   try {
     const { storeId } = req.params;
-
     // requestDeclined を true にし、requested を false に設定
     const updatedStore = await Store.findByIdAndUpdate(storeId, { requestDeclined: true, requested: false }, { new: true });
-
     if (!updatedStore) {
       return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
     }
@@ -209,7 +212,6 @@ router.put("/updateStore/:storeId", async (req: Request, res: Response) => {
     }
 
     const updatedStore = await Store.findByIdAndUpdate(storeId, updatedData, { new: true });
-
     if (!updatedStore) {
       return res.status(404).json({ message: "指定された店舗が見つかりませんでした" });
     }
@@ -247,11 +249,11 @@ router.post("/uploadStoreLogo/:storeId", uploadMiddleware.single('file'), async 
   }
 });
 
+//特定の店舗ユーザーのロゴを取得
 router.get("/getStoreLogo/:storeId", async (req: Request, res: Response) => {
   try {
     const storeId = req.params.storeId;
     const store = await Store.findById(storeId);
-
     if (!store) {
       return res.status(404).json({ message: "指定された店舗が見つかりません" });
     }

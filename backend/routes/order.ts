@@ -17,6 +17,7 @@ router.post("/createOrder", async (req: Request, res: Response) => {
 router.get("/getOrdersByUser/:userId", async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
+    //Orderモデルを使って、指定されたユーザーIDに関連するstatusが'pending'の注文を検索
     const orders = await Order.find({ user: userId, status: 'pending' }).populate('items.product');
     return res.status(200).json(orders);
   } catch (error) {
@@ -28,7 +29,8 @@ router.get("/getOrdersByUser/:userId", async (req: Request, res: Response) => {
 //店舗ユーザーのIDに基づいてorderを取得
 router.get("/getOrdersByStore/:storeId", async (req: Request, res: Response) => {
   try {
-    const { storeId } = req.params;
+    const { storeId } = req.params
+    //Orderモデルを使って、指定された店舗ユーザーIDに関連する注文を検索
     const orders = await Order.find({ store: storeId}).populate('items.product').populate('user'); ;
     return res.status(200).json(orders);
   } catch (error) {
@@ -45,7 +47,9 @@ router.put("/updateOrderStatus/:orderId", async (req: Request, res: Response) =>
     if(!order) {
       return res.status(404).json({ message: "注文が見つかりません" });
     }
+    //orderのステータスをdoneに更新
     order.status = 'done';
+    //更新された注文情報をデータベースに保存
     await order.save();
     return res.status(200).json(order);
   } catch (error) {

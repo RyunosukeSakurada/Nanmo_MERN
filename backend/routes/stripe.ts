@@ -13,8 +13,7 @@ router.post("/payment", async (req:Request, res:Response) => {
             currency: 'jpy',
             payment_method: paymentId,
             confirm: true,
-            // 追加: return_urlの指定
-            return_url: 'http://localhost:5173/payment-success' // このURLは実際の完了ページのURLに変更してください。
+            return_url: 'http://localhost:5173/payment-success'
         });
 
         if(paymentIntent.status === 'succeeded') {

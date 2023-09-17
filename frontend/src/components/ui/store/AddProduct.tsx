@@ -20,6 +20,7 @@ const AddProduct = ({ setUpdateProductList, approved }: Props) => {
   const [pickupTimeStart, setPickupTimeStart] = useState("");
   const [pickupTimeEnd, setPickupTimeEnd] = useState("");
 
+  //notify
   const notifySuccess = () => toast.success('商品の追加に成功しました 🎉', 
   {
     position: "bottom-right",
@@ -32,22 +33,23 @@ const AddProduct = ({ setUpdateProductList, approved }: Props) => {
     theme: "light",
   }
 );
-const notifyFail = () => toast.error('商品の追加に失敗しました 😫', 
-  {
-    position: "bottom-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-  }
-);
+  const notifyFail = () => toast.error('商品の追加に失敗しました 😫', 
+    {
+      position: "bottom-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    }
+  );
 
   async function addNewProduct(e: { preventDefault: () => void }) {
     e.preventDefault();
     
+    //受け取り時間でのエラーを防ぐ
     if (parseInt(pickupTimeStart) >= parseInt(pickupTimeEnd)) {
       notifyFail();
       toast.error('開始時間は終了時間より早くなければなりません', {
@@ -62,7 +64,7 @@ const notifyFail = () => toast.error('商品の追加に失敗しました 😫'
       });
       return;
     }
-
+    //ストックが0未満になるのを防ぐ
     if(parseInt(stocks) < 0){
       notifyFail();
       toast.error('在庫数は1以上でなければなりません', {
@@ -100,7 +102,7 @@ const notifyFail = () => toast.error('商品の追加に失敗しました 😫'
   
       if (response.ok) {
         notifySuccess();
-        // Clear the form
+        //formを空にする
         setName("");
         setDescription("");
         setFiles(null);
