@@ -12,6 +12,8 @@ interface UserInfo {
   storeName?:string;
   requestDeclined?:boolean;
   id:string
+  blocked?:boolean;
+  suspended?:boolean;
 }
 
 interface UserContextProps {

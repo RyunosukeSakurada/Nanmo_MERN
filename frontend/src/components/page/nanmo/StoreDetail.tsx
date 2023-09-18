@@ -47,7 +47,6 @@ const StoreDetail = () => {
       try {
         const response = await fetch(`http://localhost:4000/api/product/getProduct/${id}`);
         const data = await response.json();
-        console.log(data);
         setProduct(data);
         setLoading(false);
       } catch (error) {
@@ -92,8 +91,6 @@ const StoreDetail = () => {
           }]
         };
 
-        console.log("Sending order:", order);
-
         const response = await fetch(`http://localhost:4000/api/order/createOrder`, {
           method: "POST",
           headers: {
@@ -107,7 +104,7 @@ const StoreDetail = () => {
           console.log("注文が完了しました");
           Success();
 
-          // todo : 注文が成功したら、Productのstocksからquantityをマイナスする
+          //orderに成功したらそのquantity分stocksからマイナスする
           try {
             const updateStocksResponse = await fetch(`http://localhost:4000/api/product/updateProductStock/${product._id}`, {
               method: "PUT",
@@ -154,7 +151,6 @@ const StoreDetail = () => {
     return <Navigate to={redirect} />;
   }
 
-
   return (
     <div>
       <ToastContainer />
@@ -193,7 +189,9 @@ const StoreDetail = () => {
                 </div>
               </div>
               <div className='hidden sm:block'>
-                {userInfo?.isStore || product.stocks <= 0 ? (
+                {userInfo?.blocked || userInfo?.suspended ? (
+                  <p className="mt-6 text-red-500 text-[6px]">一時利用停止もしくはブロック中。購入できません。</p>
+                ) :userInfo?.isStore || product.stocks <= 0 ? (
                   <></>
                 ) : (
                   <div className="flex items-center gap-x-4">
@@ -229,9 +227,11 @@ const StoreDetail = () => {
             </div>
           ) : (<></>)}
 
-          <div className='mt-8 flex flex-row items-center justify-between sm:justify-end'>
+          <div className='mt-8 flex flex-col sm:flex-row items-center justify-between sm:justify-end'>
             <div className='sm:hidden'>
-              {userInfo?.isStore || product.stocks <= 0 ? (
+              {userInfo?.blocked || userInfo?.suspended ? (
+                  <p className="text-red-500 text-[6px]">一時利用停止もしくはブロック中。購入できません。</p>
+              ) :userInfo?.isStore || product.stocks <= 0 ? (
                   <></>
               ) : (
                 <div className="flex items-center gap-x-4">

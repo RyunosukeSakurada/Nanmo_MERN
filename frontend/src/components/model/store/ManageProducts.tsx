@@ -5,9 +5,11 @@ import StoreProductsList from "../../ui/store/StoreProductsList"
 
 interface ManageProductsProps {
   approved?: boolean;
+  blocked?:boolean;
+  suspended?:boolean;
 }
 
-const ManageProducts: React.FC<ManageProductsProps> = ({approved}) => {
+const ManageProducts: React.FC<ManageProductsProps> = ({approved,blocked,suspended}) => {
   const [updateProductList, setUpdateProductList] = useState<boolean>(false);
 
   return (
@@ -16,7 +18,7 @@ const ManageProducts: React.FC<ManageProductsProps> = ({approved}) => {
         <h3 className="bold">商品管理</h3>
 
         <div className="flex flex-col md:flex-row gap-y-4 mt-8 gap-x-4">
-          <AddProduct setUpdateProductList={setUpdateProductList} approved={approved}/>
+          <AddProduct setUpdateProductList={setUpdateProductList} approved={approved} blocked={blocked} suspended={suspended}/>
           <StoreProductsList updateProductList={updateProductList} />
         </div>
       </div>

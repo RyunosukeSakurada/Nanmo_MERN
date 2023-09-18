@@ -26,7 +26,8 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
     const storeId = userInfo?.id;
     const approved = userInfo?.approved;
     const requestDeclined = userInfo?.requestDeclined;
-
+    const blocked = userInfo?.blocked
+    const suspended = userInfo?.suspended
     const address = userInfo?.address;
     const detailedAddress = userInfo?.detailedAddress;
     const storeName = userInfo?.storeName;
@@ -61,7 +62,7 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
 
       <div>
         {selectedTab === 'home' && <StoreHome storeId={storeId}/>}
-        {selectedTab === 'products' && <ManageProducts approved={approved} />}
+        {selectedTab === 'products' && <ManageProducts approved={approved} blocked={blocked} suspended={suspended} />}
         {selectedTab === 'approvalRequest' && <StoreApprovalRequest storeId={storeId} approved={approved} requestDeclined={requestDeclined}/>}
         {selectedTab === 'storeInformation' && <StoreInformation storeId={storeId} email={email} address={address} detailedAddress={detailedAddress} storeName={storeName} postalCode={postalCode} />}
         {selectedTab === 'order' && <StoreOrder storeId={storeId}/>}

@@ -25,6 +25,8 @@ interface LoginRequest {
   approved?:boolean;
   requestDeclined?:boolean;
   storeLogo?:string,
+  blocked?:boolean,
+  suspended?:boolean,
 }
 
 export interface TokenPayload {
@@ -35,6 +37,8 @@ export interface TokenPayload {
   approved?:boolean;
   requestDeclined?:boolean;
   storeLogo?:string,
+  blocked?:boolean,
+  suspended?:boolean,
 }
 
 interface FAQRequest {
@@ -100,7 +104,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
       // ハッシュ化されたパスワードを検証
       const passOk = await bcrypt.compare(password, userDoc.password)
       if(passOk){
-        jwt.sign({id:userDoc._id, email,isAdmin: userDoc.isAdmin, isStore: false,},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
+        jwt.sign({id:userDoc._id, email,isAdmin: userDoc.isAdmin, isStore: false, blocked:userDoc.blocked, suspended:userDoc.suspended},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           //クッキーにセットされてクライアントに返す
           res.cookie('token', token).json({
@@ -109,6 +113,8 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
             type: 'user',
             isAdmin: userDoc.isAdmin,
             isStore: userDoc.isStore,
+            blocked:userDoc.blocked, 
+            suspended:userDoc.suspended,
           });
         })
         return; 
@@ -132,6 +138,8 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
           postalCode:storeDoc.postalCode,
           storeName:storeDoc.storeName,
           storeLogo:storeDoc.storeLogo,
+          blocked:storeDoc.blocked,
+          suspended:storeDoc.suspended,
         },SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           //クッキーにセットされてクライアントに返す
@@ -144,6 +152,8 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
             requestDeclined:storeDoc.requestDeclined,
             storeName:storeDoc.storeName,
             storeLogo:storeDoc.storeLogo,
+            blocked:storeDoc.blocked,
+            suspended:storeDoc.suspended,
           });
         })
         return; 

@@ -6,10 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 interface Props {
   approved?: boolean;
+  suspended?:boolean;
+  blocked?:boolean;
   setUpdateProductList: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddProduct = ({ setUpdateProductList, approved }: Props) => {
+const AddProduct = ({ setUpdateProductList, approved,blocked,suspended }: Props) => {
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [files, setFiles] = useState<FileList | null>(null);
@@ -123,7 +125,9 @@ const AddProduct = ({ setUpdateProductList, approved }: Props) => {
     <div className="flex-[1]">
       <ToastContainer />
     <span className="text-zinc-500">新規商品の追加</span>
-      {!approved ? (
+      {!blocked || !suspended ? (
+        <p className="mt-6 text-red-500 text-[12px]">Nanmo運営からあなたのアカウントは一時利用停止もしくはブロックをされています。詳細はお問い合わせください</p>
+      ) : !approved ? (
         <>
           <p className="mt-6 text-zinc-500 text-[12px]">この機能は店舗承認申請を許可された後利用可能です</p>
         </>
