@@ -10,7 +10,7 @@ const StoreOrderList:React.FC<storeProps> = ({storeId}) => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const response = await fetch(`http://localhost:4000/api/order/getOrdersByStore/${storeId}`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/order/getOrdersByStore/${storeId}`);
       const data = await response.json();
       console.log(data);
       

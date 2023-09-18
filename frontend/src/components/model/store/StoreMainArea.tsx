@@ -35,7 +35,7 @@ const StoreMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
 
       
     useEffect(() => {
-      fetch("http://localhost:4000/api/auth/profile",{
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/profile`,{
         credentials:"include",
       }).then(response => {
         response.json().then(userInfo => {

@@ -96,7 +96,7 @@ const AddProduct = ({ setUpdateProductList, approved,blocked,suspended }: Props)
     }
 
     try {
-      const response = await fetch('http://localhost:4000/api/product/addProduct',{
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/product/addProduct`,{
         method: 'POST',
         body: data,
         credentials: 'include',

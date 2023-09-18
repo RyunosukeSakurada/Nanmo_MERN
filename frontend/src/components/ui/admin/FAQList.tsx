@@ -47,7 +47,7 @@ const editFAQfailed = () => toast.error('FAQの編集に失敗しました',
 
   const handleEdit = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/auth/editfaq/${_id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/editfaq/${_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: editQuestion, answer: editAnswer })
@@ -61,7 +61,7 @@ const editFAQfailed = () => toast.error('FAQの編集に失敗しました',
     } catch (error) {
       editFAQfailed()
     }
-    setShowEditPopup(false); // ポップアップを閉じる
+    setShowEditPopup(false); 
   };
 
   return (
@@ -147,7 +147,7 @@ const FAQList = () => {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/auth/getfaqs');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/getfaqs`);
         const data = await response.json();
         setFaqs(data);
       } catch (error) {
@@ -159,7 +159,7 @@ const FAQList = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/auth/deletefaq/${id}`, { method: 'DELETE' });
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/deletefaq/${id}`, { method: 'DELETE' });
       if (response.status === 200) {
         setFaqs(prev => prev.filter(faq => faq._id !== id));
         deleteFAQSuccess()

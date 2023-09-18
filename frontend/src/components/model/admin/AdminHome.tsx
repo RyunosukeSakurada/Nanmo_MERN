@@ -10,7 +10,7 @@ const AdminHome = () => {
     const fetchData = async () => {
       try {
         // 総利用者数を取得
-        const userRes = await fetch('http://localhost:4000/api/auth/userscount');
+        const userRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/userscount`);
         const userData = await userRes.json();
         if (userRes.ok) {
           setUserCount(userData.count);
@@ -19,7 +19,7 @@ const AdminHome = () => {
         }
 
         // 総店舗数を取得
-        const storeRes = await fetch('http://localhost:4000/api/auth/storescount');
+        const storeRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/storescount`);
         const storeData = await storeRes.json();
         if (storeRes.ok) {
           setStoreCount(storeData.count);
@@ -28,7 +28,7 @@ const AdminHome = () => {
         }
 
         // 取引数を取得
-        const orderRes = await fetch('http://localhost:4000/api/auth/orderscount');
+        const orderRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/orderscount`);
         const orderData = await orderRes.json();
         if (orderRes.ok) {
           setOrderCount(orderData.count);
@@ -36,7 +36,7 @@ const AdminHome = () => {
           console.error('APIからの店舗数の取得に失敗:', orderData.message);
         }
 
-        const totalRes = await fetch('http://localhost:4000/api/auth/totalorderprice');
+        const totalRes = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/totalorderprice`);
         const totalData = await totalRes.json();
         if (totalRes.ok) {
           setTotalOrderPrice(totalData.total);

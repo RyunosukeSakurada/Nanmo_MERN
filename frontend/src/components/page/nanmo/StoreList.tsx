@@ -11,7 +11,7 @@ const StoreList: React.FC = () => {
     const getProducts = async () => {
       try {
         setLoading(true)
-        const response = await fetch("http://localhost:4000/api/product/getProducts");
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/product/getProducts`);
         const data = await response.json();
         console.log(data);
         setProducts(data);

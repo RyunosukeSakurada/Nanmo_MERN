@@ -41,7 +41,7 @@ const deleteProductfailed = () => toast.error('商品の削除に失敗しまし
 
 const deleteProduct = async () => {
   try {
-    const response = await fetch(`http://localhost:4000/api/product/deleteProduct/${product._id}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/product/deleteProduct/${product._id}`, {
       method: 'DELETE',
       credentials: 'include',
     });
@@ -71,7 +71,7 @@ const deleteProduct = async () => {
     <div className="flex gap-x-4 shadow-lg p-4">
       <ToastContainer />
       <img 
-        src={`http://localhost:4000/${product.productImage}`}
+        src={`${import.meta.env.VITE_API_BASE_URL}/${product.productImage}`}
         className="w-[100px] h-[100px] rounded-lg object-cover"
       />
       <div className="flex flex-col justify-between w-full overflow-hidden">

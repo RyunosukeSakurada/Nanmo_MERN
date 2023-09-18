@@ -58,7 +58,7 @@ const ContactForm = () => {
 
   const handleConfirmation = async () => {
     try {
-        const response = await fetch('http://localhost:4000/api/user/submitContact', {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/submitContact`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

@@ -45,7 +45,7 @@ const StoreDetail = () => {
     const getProduct = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:4000/api/product/getProduct/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/product/getProduct/${id}`);
         const data = await response.json();
         setProduct(data);
         setLoading(false);
@@ -91,7 +91,7 @@ const StoreDetail = () => {
           }]
         };
 
-        const response = await fetch(`http://localhost:4000/api/order/createOrder`, {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/order/createOrder`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
@@ -106,7 +106,7 @@ const StoreDetail = () => {
 
           //orderに成功したらそのquantity分stocksからマイナスする
           try {
-            const updateStocksResponse = await fetch(`http://localhost:4000/api/product/updateProductStock/${product._id}`, {
+            const updateStocksResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/product/updateProductStock/${product._id}`, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json"
@@ -220,7 +220,7 @@ const StoreDetail = () => {
           {product.productImage ? (
             <div className='flex items-center justify-center'>
               <img 
-                src={`http://localhost:4000/${product.productImage}`} 
+                src={`${import.meta.env.VITE_API_BASE_URL}/${product.productImage}`} 
                 alt=""
                 className='w-full sm:w-[70%] h-[250px] sm:h-[350px] md:h-[450px] mt-8 object-cover rounded'
               />

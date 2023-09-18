@@ -30,7 +30,7 @@ const Accordion = () => {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/auth/getfaqs');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/getfaqs`);
         const data = await response.json();
         setFaqs(data);
       } catch (error) {

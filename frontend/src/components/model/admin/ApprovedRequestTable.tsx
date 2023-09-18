@@ -43,7 +43,7 @@ const ApprovedRequestTable = () => {
     async function fetchStores() {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:4000/api/user/storeslist');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/storeslist`);
         if (!response.ok) {
           throw new Error('店舗の情報の取得に失敗しました。');
         }
@@ -65,7 +65,7 @@ const ApprovedRequestTable = () => {
   //承認申請を許可する
   const handleApprove = async (storeId: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/user/approveStore/${storeId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/approveStore/${storeId}`, {
         method: 'PUT'
       });
   
@@ -89,7 +89,7 @@ const ApprovedRequestTable = () => {
   //承認申請を却下する
   const handleDecline = async (storeId: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/user/declineStore/${storeId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/declineStore/${storeId}`, {
         method: 'PUT'
       });
   

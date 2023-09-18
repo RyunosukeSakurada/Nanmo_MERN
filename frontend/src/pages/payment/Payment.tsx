@@ -66,7 +66,7 @@ const Payment = () => {
   );
 
   const getCurrentUser = async () => {
-    const response = await fetch(`http://localhost:4000/api/auth/profile`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/profile`, {
       credentials: 'include', 
     });
     const data = await response.json();
@@ -79,7 +79,7 @@ const Payment = () => {
 
   const updateOrderStatus = async (orderId: string) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/order/updateOrderStatus/${orderId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/order/updateOrderStatus/${orderId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -105,7 +105,7 @@ const Payment = () => {
 
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:4000/api/order/getOrdersByUser/${user.id}`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/order/getOrdersByUser/${user.id}`);
         const data = await response.json();
         setOrders(data);
         setLoading(false);
@@ -146,7 +146,7 @@ const Payment = () => {
       }, 0);
     }, 0) * 100; 
 
-    const response = await fetch(`http://localhost:4000/api/stripe/payment`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/stripe/payment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -200,7 +200,7 @@ const Payment = () => {
                   {order.items.map(item => (
                     <div key={item.product._id} className='flex flex-row gap-x-4 p-4 shadow items-center'>
                       <img 
-                        src={`http://localhost:4000/${item.product.productImage}`} 
+                        src={`${import.meta.env.VITE_API_BASE_URL}/${item.product.productImage}`} 
                         alt="商品の画像"
                         className='h-[50px] w-[50px] md:h-[80px] md:w-[80px] rounded-full'
                       />

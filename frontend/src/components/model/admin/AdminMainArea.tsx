@@ -26,7 +26,7 @@ const AdminMainArea: React.FC<MainAreaProps>  = ({ selectedTab }) => {
   const email = userInfo?.email
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/auth/profile",{
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/profile`,{
       credentials:"include",
     }).then(response => {
       response.json().then(userInfo => {

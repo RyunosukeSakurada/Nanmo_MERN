@@ -63,7 +63,7 @@ const BlockedTable = () => {
     async function fetchBlockedEntities() {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:4000/api/user/blockedusers', {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/blockedusers`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         });
@@ -96,8 +96,8 @@ const BlockedTable = () => {
 
   const handleUpdateEntityStatus = async () => {
     const endpoint = editingEntityType === '一般ユーザー'
-      ? `http://localhost:4000/api/auth/updateuserstatus/${editingEntityId}`
-      : `http://localhost:4000/api/auth/updatestorestatus/${editingEntityId}`;
+      ? `${import.meta.env.VITE_API_BASE_URL}/api/auth/updateuserstatus/${editingEntityId}`
+      : `${import.meta.env.VITE_API_BASE_URL}/api/auth/updatestorestatus/${editingEntityId}`;
     
     try {
       const res = await fetch(endpoint, {

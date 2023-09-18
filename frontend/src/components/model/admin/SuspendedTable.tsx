@@ -63,7 +63,7 @@ const SuspendedTable = () => {
     async function fetchSuspendedEntities() {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:4000/api/user/suspendedusers', {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/suspendedusers`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         });
@@ -97,8 +97,8 @@ const SuspendedTable = () => {
 
   const handleUpdateEntityStatus = async () => {
     const endpoint = editingEntityType === '一般ユーザー'
-      ? `http://localhost:4000/api/auth/updateuserstatus/${editingEntityId}`
-      : `http://localhost:4000/api/auth/updatestorestatus/${editingEntityId}`;
+      ? `${import.meta.env.VITE_API_BASE_URL}/api/auth/updateuserstatus/${editingEntityId}`
+      : `${import.meta.env.VITE_API_BASE_URL}/api/auth/updatestorestatus/${editingEntityId}`;
     
     try {
       const res = await fetch(endpoint, {

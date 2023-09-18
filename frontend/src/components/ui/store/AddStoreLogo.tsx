@@ -36,7 +36,7 @@ const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
   // storeLogoの取得
   const fetchStoreLogo = useCallback(async () => {   // useCallbackで関数をメモ化
     try {
-      const response = await fetch(`http://localhost:4000/api/user/getStoreLogo/${storeId}`);
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/getStoreLogo/${storeId}`);
       const data = await response.json();
   
       if (data.storeLogo) {
@@ -65,7 +65,7 @@ const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
     }
   
     try {
-      const response = await fetch(`http://localhost:4000/api/user/uploadStoreLogo/${storeId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/uploadStoreLogo/${storeId}`, {
         method: 'POST',
         body: data,
         credentials: 'include',
@@ -91,7 +91,7 @@ const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
     <div className="flex-[1] p-4 flex flex-col justify-center shadow">
       <ToastContainer />
       <img 
-          src={`http://localhost:4000/${storeLogo}`|| "../../../../images/logo.png"}
+          src={`${import.meta.env.VITE_API_BASE_URL}/${storeLogo}`|| "../../../../images/logo.png"}
           alt="" 
           className="rounded-full w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] mx-auto"
       />

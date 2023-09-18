@@ -17,7 +17,7 @@ const StoreHome:React.FC<storeProps> = ({storeId}) => {
       }
 
       try {
-        const response = await fetch(`http://localhost:4000/api/order/getOrdersByStore/${storeId}`);
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/order/getOrdersByStore/${storeId}`);
         const orders = await response.json(); 
 
         // 総取引数の計算

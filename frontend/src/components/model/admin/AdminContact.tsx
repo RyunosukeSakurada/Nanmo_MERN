@@ -44,14 +44,14 @@ const AdminContact: React.FC = () => {
     const [contacts, setContacts] = useState<Contact[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:4000/api/auth/getAllContacts")
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/getAllContacts`)
             .then(response => response.json())
             .then(data => setContacts(data))
             .catch(error => console.error("API Error:", error));
     }, []);
 
     const toggleReadStatus = (contactId: string) => {
-      fetch(`http://localhost:4000/api/auth/toggleReadStatus/${contactId}`, {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/toggleReadStatus/${contactId}`, {
         method: "POST",
       })
       .then(response => response.json())
@@ -65,7 +65,7 @@ const AdminContact: React.FC = () => {
     }
   
     const toggleHandleStatus = (contactId: string) => {
-      fetch(`http://localhost:4000/api/auth/toggleHandleStatus/${contactId}`, {
+      fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/toggleHandleStatus/${contactId}`, {
         method: "POST",
       })
       .then(response => response.json())
@@ -91,3 +91,4 @@ const AdminContact: React.FC = () => {
 }
 
 export default AdminContact;
+

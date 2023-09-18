@@ -74,7 +74,7 @@ const StoreInformation: React.FC<StoreInfomationProps> = ({storeId, storeName,ad
 
   const logout = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/auth/logout`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`, {
         method: "POST",
       });
 
@@ -101,7 +101,7 @@ const StoreInformation: React.FC<StoreInfomationProps> = ({storeId, storeName,ad
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/api/user/updateStore/${storeId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/updateStore/${storeId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -92,7 +92,7 @@ const StoreTable = () => {
     async function fetchStores() {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:4000/api/user/storeslist', {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/storeslist`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         });
@@ -118,7 +118,7 @@ const StoreTable = () => {
   // 店舗削除機能
   const deleteStore = async (id: string) => { 
     try {
-      const res = await fetch(`http://localhost:4000/api/user/deletestore/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/deletestore/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -159,7 +159,7 @@ const StoreTable = () => {
 
   const handleUpdateStoreStatus = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/api/auth/updatestorestatus/${targetStoreId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/updatestorestatus/${targetStoreId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

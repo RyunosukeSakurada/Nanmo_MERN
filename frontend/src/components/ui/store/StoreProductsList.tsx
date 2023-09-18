@@ -19,7 +19,7 @@ const StoreProductsList = ({ updateProductList }:Props) => {
   useEffect(() => {
     const getProducts = async () => {
       try {
-        const response = await fetch('http://localhost:4000/api/product/getProductsByStore', {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/product/getProductsByStore`, {
           method: 'GET',
           credentials: 'include',
         });

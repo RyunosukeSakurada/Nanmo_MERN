@@ -6,7 +6,7 @@ const AdminOrderList = () => {
 
   useEffect(() => {
       const fetchOrders = async () => {
-        const response = await fetch('http://localhost:4000/api/order/getAllOrders');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/order/getAllOrders`);
         const data = await response.json();
         
         setOrders(data);

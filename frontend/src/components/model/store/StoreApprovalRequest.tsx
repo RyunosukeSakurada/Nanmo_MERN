@@ -64,7 +64,7 @@ const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId,app
       }
   
       //店舗承認申請がすでに送信されているかを確認
-      const checkResponse = await fetch(`http://localhost:4000/api/user/checkapproval/${storeId}`);
+      const checkResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/checkapproval/${storeId}`);
       const checkData = await checkResponse.json();
   
       if (!checkResponse.ok) {
@@ -81,7 +81,7 @@ const StoreApprovalRequest: React.FC<StoreApprovalRequestProps> = ({ storeId,app
       }
   
       //店舗承認申請をする
-      const response = await fetch(`http://localhost:4000/api/user/requestapproval/${storeId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/requestapproval/${storeId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' }
       });

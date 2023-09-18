@@ -83,7 +83,7 @@ const UserTable = () => {
     async function fetchUsers() {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:4000/api/user/userslist', {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/userslist`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' }
         });
@@ -110,7 +110,7 @@ const UserTable = () => {
   // ユーザー削除機能
   const deleteUser = async (id: string) => { 
     try {
-      const res = await fetch(`http://localhost:4000/api/user/deleteuser/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/deleteuser/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -153,7 +153,7 @@ const UserTable = () => {
 
   const handleUpdateUserStatus = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/api/auth/updateuserstatus/${targetUserId}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/updateuserstatus/${targetUserId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

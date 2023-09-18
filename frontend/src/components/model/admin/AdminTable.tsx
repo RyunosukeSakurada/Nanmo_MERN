@@ -33,7 +33,7 @@ useEffect(() => {
   async function fetchAdmins() {
     try {
       setLoading(true);
-      const res = await fetch('http://localhost:4000/api/user/adminusers', {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/user/adminusers`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
       });

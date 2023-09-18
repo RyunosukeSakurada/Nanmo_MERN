@@ -17,7 +17,7 @@ const Header = () => {
 
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/auth/profile",{
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/profile`,{
       credentials:"include",
     }).then(response => {
       response.json().then(userInfo => {
@@ -27,7 +27,7 @@ const Header = () => {
   },[setUserInfo])
 
   function logout(){
-    fetch("http://localhost:4000/api/auth/logout",{
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/api/auth/logout`,{
       credentials:'include',
       method: 'POST',
     })
