@@ -22,7 +22,7 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors({credentials:true ,origin:"https://nanmo-mern.vercel.app/"}));
+app.use(cors({credentials:true ,origin:"https://nanmo-mern.vercel.app"}));
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
