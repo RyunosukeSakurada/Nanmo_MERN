@@ -40,3 +40,4 @@ app.get("/",(res,req) => {
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 
+module.exports = app;
