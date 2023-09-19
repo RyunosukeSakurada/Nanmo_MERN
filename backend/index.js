@@ -33,4 +33,10 @@ app.use("/api/order", orderRoute)
 app.use('/uploads', express.static(__dirname + '/uploads'));
   
 
+app.get("/",(res,req) => {
+  res.json("Hello");
+});
+
+
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
+
