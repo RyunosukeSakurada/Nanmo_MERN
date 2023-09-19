@@ -18,7 +18,7 @@ mongoose
   .then(() => {
     console.log("DBと接続中...");
   })
-  .catch((error: Error) => {
+  .catch((error) => {
     console.log(error.message)
   })
 
