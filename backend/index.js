@@ -3,11 +3,11 @@ const app = express();
 const PORT = 4000;
 const mongoose = require('mongoose')
 require("dotenv").config();
-const authRoute = require('./routes/auth')
-const userRoute = require('./routes/user')
-const productRoute = require('./routes/product')
-const stripeRoute = require('./routes/stripe')
-const orderRoute = require('./routes/order')
+const authRoute = require('./src/routes/auth')
+const userRoute = require('./src/routes/user')
+const productRoute = require('./src/routes/product')
+const stripeRoute = require('./src/routes/stripe')
+const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
