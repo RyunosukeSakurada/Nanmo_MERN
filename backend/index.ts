@@ -11,6 +11,7 @@ const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const path = require('path')
+const pathToUploads = path.join(process.cwd(),'src','uploads');
 
 // DB接続
 mongoose
@@ -30,8 +31,6 @@ app.use("/api/user", userRoute)
 app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
-
-const pathToUploads = path.join(process.cwd(),'src','uploads');
 app.use('/uploads', express.static(pathToUploads));
   
 
