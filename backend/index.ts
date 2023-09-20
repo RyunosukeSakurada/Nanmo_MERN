@@ -10,7 +10,7 @@ const stripeRoute = require('./src/routes/stripe')
 const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-
+const path = require('path')
 
 // DB接続
 mongoose
@@ -30,7 +30,9 @@ app.use("/api/user", userRoute)
 app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
-app.use('/uploads', express.static(__dirname + '/uploads'));
+
+const pathToUploads = path.join(process.cwd(),'src','uploads');
+app.use('/uploads', express.static(pathToUploads));
   
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))

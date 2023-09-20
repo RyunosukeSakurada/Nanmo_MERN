@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import multer from "multer";
 import { TokenPayload } from "./auth";
+import path from 'path'
 
 const router = require("express").Router();
-const uploadMiddleware = multer({dest: 'uploads/'})
 const fs = require("fs")
 const Product = require("../models/Product");
 const jwt = require('jsonwebtoken');
 const SECRET_TOKEN = "fmcnirweruiqedkjfchf813";
+const pathToUploads = path.join(process.cwd(),'src','uploads');
+const uploadMiddleware = multer({dest: pathToUploads})
 
 
 declare module 'express' {

@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
 import multer from "multer";
+import path from 'path'
+
 
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store")
 const Contact = require("../models/Contact");
-const uploadMiddleware = multer({dest: 'uploads/'})
+const pathToUploads = path.join(process.cwd(),'src','uploads');
+const uploadMiddleware = multer({dest: pathToUploads})
 const fs = require("fs")
 
 declare module 'express' {
