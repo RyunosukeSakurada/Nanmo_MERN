@@ -13,7 +13,7 @@ router.post("/payment", async (req:Request, res:Response) => {
             currency: 'jpy',
             payment_method: paymentId,
             confirm: true,
-            return_url: 'http://localhost:5173/payment-success'
+            return_url: `${process.env.ORIGIN_URL}/payment-success`
         });
 
         if(paymentIntent.status === 'succeeded') {
