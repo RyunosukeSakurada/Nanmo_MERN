@@ -8,9 +8,8 @@ const fs = require("fs")
 const Product = require("../models/Product");
 const jwt = require('jsonwebtoken');
 const SECRET_TOKEN = "fmcnirweruiqedkjfchf813";
-const pathToUploads = path.join(process.cwd(),'Nanmo_MERN', 'backend','src','uploads');
+const pathToUploads = path.join(process.cwd(), 'src', 'uploads');
 const uploadMiddleware = multer({dest: pathToUploads})
-
 
 declare module 'express' {
     interface Request {

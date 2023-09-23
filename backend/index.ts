@@ -1,3 +1,6 @@
+import multer from 'multer';
+import path from 'path';
+
 const express = require('express')
 const app = express();
 const PORT = 4000;
@@ -10,8 +13,7 @@ const stripeRoute = require('./src/routes/stripe')
 const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const path = require('path')
-const pathToUploads = path.join(process.cwd(),'Nanmo_MERN','backend','src','uploads');
+const pathToUploads = path.join(process.cwd(), 'src', 'uploads');
 
 // DB接続
 mongoose
@@ -23,7 +25,7 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors({credentials:true ,origin:"https://nanmo-mern.vercel.app"}));
+app.use(cors({credentials:true ,origin: process.env.ORIGIN_URL }));
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
@@ -32,6 +34,8 @@ app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 app.use('/uploads', express.static(pathToUploads));
+
+app.use("/", (_,res) => res.send({ msg: "Health check OK"}))
   
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
