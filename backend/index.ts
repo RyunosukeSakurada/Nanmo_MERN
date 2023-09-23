@@ -35,7 +35,6 @@ app.use("/api/order", orderRoute)
 app.use('/uploads', express.static(pathToUploads));
 
 app.use("/", (_,res) => res.send({ msg: "Health check OK"}))
-  
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 

@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "index.ts",
   "scripts": {
     "dev": "nodemon index.ts"
@@ -27,5 +26,6 @@
     "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17",
     "@types/multer": "^1.4.7"
-  }
+  },
+  "description": ""
 }
