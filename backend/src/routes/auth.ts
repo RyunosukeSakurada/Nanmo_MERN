@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store");
