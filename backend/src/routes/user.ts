@@ -232,11 +232,11 @@ router.post("/uploadStoreLogo/:storeId", uploadMiddleware.single('file'), async 
       return res.status(400).json({ message: "ファイルがアップロードされていません" });
     }
 
-    const { originalname, path } = req.file;
+    const { originalname, path: oldPath } = req.file;
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
-    const newPath = path + "." + ext;
-    fs.renameSync(path, newPath);
+    const newPath = oldPath + "." + ext;
+    await fs.rename(oldPath, newPath);
 
     const storeId = req.params.storeId;
     const updatedStore = await Store.findByIdAndUpdate(storeId, { storeLogo: newPath }, { new: true });
@@ -244,10 +244,9 @@ router.post("/uploadStoreLogo/:storeId", uploadMiddleware.single('file'), async 
     if (!updatedStore) {
       return res.status(404).json({ message: "指定された店舗が見つかりません" });
     }
-
     res.json(updatedStore);
   } catch (error) {
-    return res.status(500).json({ message: "店舗のロゴの更新に失敗しました" });
+    return res.status(500).json({ message: "店舗のロゴの更新に失敗しました", error });
   }
 });
 
