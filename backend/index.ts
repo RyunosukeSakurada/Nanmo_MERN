@@ -13,7 +13,7 @@ const stripeRoute = require('./src/routes/stripe')
 const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const pathToUploads = path.join(process.cwd(), 'src', 'uploads');
+const pathToUploads = path.join(process.cwd(),'backend','src', 'uploads');
 
 // DB接続
 mongoose
