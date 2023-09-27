@@ -15,6 +15,8 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser')
 const pathToUploads = path.join(process.cwd(),'backend','src','uploads');
 
+console.log(process.cwd());
+
 // DB接続
 mongoose
   .connect(process.env.MONGO_URL)
