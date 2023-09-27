@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 const router = require("express").Router();
-const stripe = require('stripe')(process.env.STRIPE_KEY);
+const stripe = require('stripe')(process.env.STRIPE_KEY);66
 
 router.post("/payment", async (req:Request, res:Response) => {
     try {

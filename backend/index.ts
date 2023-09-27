@@ -1,4 +1,5 @@
 import path from 'path';
+import { Request, Response } from 'express';
 
 const express = require('express')
 const app = express();
@@ -34,7 +35,7 @@ app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 app.use('/uploads', express.static(pathToUploads));
 
-app.use("/", (_,res) => res.send({ msg: "Health check OK"}))
+app.use("/", (_: Request, res: Response) => res.send({ msg: "Health check OK"}));
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 
