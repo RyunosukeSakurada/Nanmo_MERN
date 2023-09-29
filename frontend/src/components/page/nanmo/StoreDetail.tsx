@@ -221,7 +221,7 @@ const StoreDetail = () => {
             <div className='flex items-center justify-center'>
               <img 
                 src={`${import.meta.env.VITE_API_BASE_URL}/${product.productImage}`} 
-                alt=""
+                alt="商品画像"
                 className='w-full sm:w-[70%] h-[250px] sm:h-[350px] md:h-[450px] mt-8 object-cover rounded'
               />
             </div>

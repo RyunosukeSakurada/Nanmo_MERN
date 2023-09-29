@@ -37,7 +37,7 @@ app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 app.use('/uploads', express.static(pathToUploads));
 
-app.use("/", (_: Request, res: Response) => res.send({ msg: "Health check OK"}));
+app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 

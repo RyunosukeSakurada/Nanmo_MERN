@@ -73,6 +73,7 @@ const deleteProduct = async () => {
       <img 
         src={`${import.meta.env.VITE_API_BASE_URL}/${product.productImage}`}
         className="w-[100px] h-[100px] rounded-lg object-cover"
+        alt="商品画像"
       />
       <div className="flex flex-col justify-between w-full overflow-hidden">
         <div>
