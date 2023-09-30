@@ -11,6 +11,7 @@ interface Props {
 const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
   const [files, setFiles] = useState<FileList | null>(null);
   const [storeLogo, setStoreLogo] = useState<string>("");
+  
   const notifySuccess = () => toast.success('ロゴのアップロードに成功しました 🎉', {
     position: "bottom-right",
     autoClose: 5000,
@@ -48,11 +49,11 @@ const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
     } catch (error) {
       console.error("ロゴの取得に失敗しました:", error);
     }
-  }, [storeId]);  // useCallbackの依存関係にstoreIdを追加
+  }, [storeId]);  
   
   useEffect(() => {
     fetchStoreLogo();
-  }, [fetchStoreLogo]);  // useEffectの依存関係にfetchStoreLogoを追加
+  }, [fetchStoreLogo]); 
   
 
   
@@ -77,7 +78,7 @@ const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
         if(setUpdateStoreLogo){
           setUpdateStoreLogo((prev: boolean) => !prev);
         }
-        fetchStoreLogo();  // ここでロゴを再取得
+        fetchStoreLogo(); 
       } else {
         notifyFail();
       }
@@ -91,7 +92,7 @@ const AddStoreLogo = ({ setUpdateStoreLogo,storeId }: Props) => {
     <div className="flex-[1] p-4 flex flex-col justify-center shadow">
       <ToastContainer />
       <img 
-          src={`${import.meta.env.VITE_API_BASE_URL}/${storeLogo}`|| "../../../../images/logo.png"}
+          src={`${storeLogo}`|| "../../../../images/logo.png"}
           alt="" 
           className="rounded-full w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] mx-auto"
       />

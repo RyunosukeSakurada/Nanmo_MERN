@@ -176,7 +176,7 @@ const StoreDetail = () => {
               <div className='flex items-center gap-4'>
                 <div>
                   <img
-                    src= {product.store.storeLogo ? `http://localhost:4000/${product.store.storeLogo}` : "/images/logo.png"}
+                    src= {product.store.storeLogo ? `${product.store.storeLogo}` : "/images/logo.png"}
                     alt={"ロゴ画像"}
                     width={100}
                     height={100}
@@ -220,7 +220,7 @@ const StoreDetail = () => {
           {product.productImage ? (
             <div className='flex items-center justify-center'>
               <img 
-                src={`${import.meta.env.VITE_API_BASE_URL}/${product.productImage}`} 
+                src={product.productImage}
                 alt="商品画像"
                 className='w-full sm:w-[70%] h-[250px] sm:h-[350px] md:h-[450px] mt-8 object-cover rounded'
               />

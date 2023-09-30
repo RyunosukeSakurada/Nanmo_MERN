@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import multer from "multer";
 import { TokenPayload } from "./auth";
-import path from 'path'
+import { uploadToCloudinary } from "../../cloudinary";
 
 const router = require("express").Router();
-const fs = require("fs")
 const Product = require("../models/Product");
 const jwt = require('jsonwebtoken');
 const SECRET_TOKEN = "fmcnirweruiqedkjfchf813";
-const pathToUploads = path.join(process.cwd(),'src','uploads');
-const uploadMiddleware = multer({dest: pathToUploads})
+
+const storage = multer.memoryStorage(); 
+const uploadMiddleware = multer({ storage }); 
 
 declare module 'express' {
     interface Request {
@@ -18,17 +18,14 @@ declare module 'express' {
 }
 
 //商品の追加
-router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request, res: Response) => {
+router.post("/addProduct", uploadMiddleware.single('file') , async (req: Request, res: Response) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "ファイルがアップロードされていません" });
     }
-    //ファイルの元の名前から拡張子を取得し、ファイルのパスに追加
-    const { originalname, path } = req.file;
-    const parts = originalname.split(".");
-    const ext = parts[parts.length - 1];
-    const newPath = path + "." + ext;
-    fs.renameSync(path, newPath);
+    
+    // Cloudinaryにファイルをアップロード
+    const imageUrl = await uploadToCloudinary(req.file.buffer); 
 
     const {token} = req.cookies;
     jwt.verify(token, SECRET_TOKEN, {}, async(err:Error, info: TokenPayload) => {
@@ -37,7 +34,7 @@ router.post("/addProduct", uploadMiddleware.single('file'), async (req: Request,
       const productDoc = await Product.create({
         name,
         description,
-        productImage: newPath,
+        productImage: imageUrl,
         stocks,
         price,
         originalPrice,

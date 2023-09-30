@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import multer from "multer";
-import path from 'path'
+import { uploadToCloudinary } from "../../cloudinary";
 
 const router = require("express").Router();
 const User = require("../models/User");
 const Store = require("../models/Store")
 const Contact = require("../models/Contact");
-const pathToUploads = path.join(process.cwd(),'src','uploads');
-const uploadMiddleware = multer({dest: pathToUploads})
-const fs = require("fs")
+
+const storage = multer.memoryStorage(); 
+const uploadMiddleware = multer({ storage }); 
+
 
 declare module 'express' {
   interface Request {
@@ -232,14 +233,11 @@ router.post("/uploadStoreLogo/:storeId", uploadMiddleware.single('file'), async 
       return res.status(400).json({ message: "ファイルがアップロードされていません" });
     }
 
-    const { originalname, path: oldPath } = req.file;
-    const parts = originalname.split(".");
-    const ext = parts[parts.length - 1];
-    const newPath = oldPath + "." + ext;
-    await fs.rename(oldPath, newPath);
+    // Cloudinaryにファイルをアップロード
+    const imageUrl = await uploadToCloudinary(req.file.buffer); 
 
     const storeId = req.params.storeId;
-    const updatedStore = await Store.findByIdAndUpdate(storeId, { storeLogo: newPath }, { new: true });
+    const updatedStore = await Store.findByIdAndUpdate(storeId, { storeLogo: imageUrl }, { new: true });
 
     if (!updatedStore) {
       return res.status(404).json({ message: "指定された店舗が見つかりません" });

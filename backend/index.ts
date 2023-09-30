@@ -1,4 +1,3 @@
-import path from 'path';
 import { Request, Response } from 'express';
 
 const express = require('express')
@@ -13,7 +12,6 @@ const stripeRoute = require('./src/routes/stripe')
 const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
-const pathToUploads = path.join(process.cwd(),'src','uploads');
 
 console.log(process.cwd());
 
@@ -35,7 +33,6 @@ app.use("/api/user", userRoute)
 app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
-app.use('/uploads', express.static(pathToUploads));
 
 app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
 

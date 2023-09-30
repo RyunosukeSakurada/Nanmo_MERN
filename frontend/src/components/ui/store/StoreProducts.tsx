@@ -71,7 +71,7 @@ const deleteProduct = async () => {
     <div className="flex gap-x-4 shadow-lg p-4">
       <ToastContainer />
       <img 
-        src={`${import.meta.env.VITE_API_BASE_URL}/${product.productImage}`}
+        src={product.productImage}
         className="w-[100px] h-[100px] rounded-lg object-cover"
         alt="商品画像"
       />

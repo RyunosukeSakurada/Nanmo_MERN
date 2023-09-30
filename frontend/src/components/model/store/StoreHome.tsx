@@ -37,7 +37,9 @@ const StoreHome:React.FC<storeProps> = ({storeId}) => {
       }
     };
 
-    fetchOrders();
+    if(storeId){
+      fetchOrders();
+    }
   }, [storeId]);
 
   return (
