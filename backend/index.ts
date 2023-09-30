@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 const express = require('express')
 const app = express();
-const PORT = process.env.VITE_API_URL;
+const PORT = 4000;
 const mongoose = require('mongoose')
 require("dotenv").config();
 const authRoute = require('./src/routes/auth')
@@ -24,7 +24,7 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors({credentials:true ,origin: process.env.ORIGIN_URL }));
+app.use(cors({credentials:true}));
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
