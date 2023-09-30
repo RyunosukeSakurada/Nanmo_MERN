@@ -13,7 +13,6 @@ const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
-console.log(process.cwd());
 
 // DB接続
 mongoose
