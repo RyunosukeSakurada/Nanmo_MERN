@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 const express = require('express')
 const app = express();
-const PORT = 4000;
+const PORT = process.env.VITE_API_URL;
 const mongoose = require('mongoose')
 require("dotenv").config();
 const authRoute = require('./src/routes/auth')
