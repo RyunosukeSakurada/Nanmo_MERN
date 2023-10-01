@@ -24,7 +24,7 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors({credentials:true ,origin: '*' }));
+app.use(cors({credentials:true ,origin: process.env.ORIGIN_URL }));
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
@@ -33,7 +33,7 @@ app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 
-app.use("/", cors(), (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
+app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 
