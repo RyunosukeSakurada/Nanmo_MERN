@@ -24,7 +24,16 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors({credentials:true ,origin: process.env.ORIGIN_URL }));
+app.use((req:Request, res:Response, next: () => void) => {
+    res.header("Access-Control-Allow-Origin", process.env.ORIGIN_URL);
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
+  
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
@@ -34,7 +43,6 @@ app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 
 app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
-console.log("ORIGIN URL:", process.env.ORIGIN_URL);
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 
