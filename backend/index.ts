@@ -34,6 +34,7 @@ app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 
 app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
+console.log("ORIGIN URL:", process.env.ORIGIN_URL);
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 
