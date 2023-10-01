@@ -33,7 +33,7 @@ app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 
-app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
+app.use("/", cors(), (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 
