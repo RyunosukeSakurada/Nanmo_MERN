@@ -23,7 +23,7 @@ mongoose
     console.log(error.message)
   })
 
-app.use((req, res, next) => {
+app.use((req:Request, res:Response, next: any) => {
   const allowedOrigins = [process.env.ORIGIN_URL]; // これは配列として複数のオリジンも指定可能です。
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
