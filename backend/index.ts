@@ -36,10 +36,10 @@ app.use((req:Request, res:Response, next: any) => {
 app.use(express.json())
 app.use(cookieParser())
 app.use("api/auth", authRoute)
-app.use("/api/user", userRoute)
-app.use("/api/product", productRoute)
-app.use("/api/stripe", stripeRoute)
-app.use("/api/order", orderRoute)
+app.use("api/user", userRoute)
+app.use("api/product", productRoute)
+app.use("api/stripe", stripeRoute)
+app.use("api/order", orderRoute)
 
 app.use("/", (_req: Request, res: Response) => res.send({ msg: `Health check OK ${process.env.ORIGIN_URL}`}));
 
