@@ -24,7 +24,7 @@ mongoose
   })
 
 app.use((req:Request, res:Response, next: any) => {
-  const allowedOrigins = [process.env.ORIGIN_URL]; // これは配列として複数のオリジンも指定可能です。
+  const allowedOrigins = [process.env.ORIGIN_URL]; 
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     cors({ origin: true, credentials: true })(req, res, next);
@@ -35,7 +35,7 @@ app.use((req:Request, res:Response, next: any) => {
 
 app.use(express.json())
 app.use(cookieParser())
-app.use("/api/auth", authRoute)
+app.use("api/auth", authRoute)
 app.use("/api/user", userRoute)
 app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
