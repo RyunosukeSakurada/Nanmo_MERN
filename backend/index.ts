@@ -23,7 +23,16 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors({credentials:true ,origin: process.env.ORIGIN_URL }));
+app.use((req, res, next) => {
+  const allowedOrigins = [process.env.ORIGIN_URL]; // これは配列として複数のオリジンも指定可能です。
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    cors({ origin: true, credentials: true })(req, res, next);
+  } else {
+    cors({ origin: false, credentials: true })(req, res, next);
+  }
+});
+
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
@@ -32,16 +41,10 @@ app.use("/api/product", productRoute)
 app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 
+console.log('====================================');
+console.log(process.env.ORIGIN_URL );
+console.log('====================================');
+
 app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
 
-app.use((req: Request, res: Response, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://nanmo-mern-frontend.vercel.app");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
-
