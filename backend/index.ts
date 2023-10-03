@@ -13,7 +13,6 @@ const orderRoute = require('./src/routes/order')
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
-
 // DB接続
 mongoose
   .connect(process.env.MONGO_URL)
@@ -34,6 +33,15 @@ app.use("/api/stripe", stripeRoute)
 app.use("/api/order", orderRoute)
 
 app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
+
+app.use((req: Request, res: Response, next: () => void) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://nanmo-mern-frontend.vercel.app");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 app.listen(PORT, ()=> console.log("サーバーが起動しました"))
 
