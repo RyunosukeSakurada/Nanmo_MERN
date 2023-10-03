@@ -34,7 +34,7 @@ app.use("/api/order", orderRoute)
 
 app.use("/", (_req: Request, res: Response) => res.send({ msg: "Health check OK"}));
 
-app.use((req: Request, res: Response, next: () => void) => {
+app.use((req: Request, res: Response, next) => {
   res.setHeader("Access-Control-Allow-Origin", "https://nanmo-mern-frontend.vercel.app");
   res.header(
     "Access-Control-Allow-Headers",
