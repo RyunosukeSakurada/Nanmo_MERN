@@ -45,7 +45,6 @@ const deleteProduct = async () => {
       method: 'DELETE',
       credentials: 'include',
     });
-
     const data = await response.json();
 
     if (data.message) {
