@@ -41,11 +41,13 @@ mongoose
 //   next();
 //   })
 
-  app.use(function(req:Request, res:Response, next:NextFunction) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+  // app.use(function(req:Request, res:Response, next:NextFunction) {
+  //   res.header("Access-Control-Allow-Origin", "*");
+  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  //   next();
+  // });
+
+  app.use(cors({ origin: 'https://nanmo-mern-frontend.vercel.app' , credentials :  true,  methods: 'GET,PUT,POST,OPTIONS', allowedHeaders: 'Content-Type,Authorization' }));
 
 // app.use((req:Request, res:Response, next:NextFunction) => {
 //   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
