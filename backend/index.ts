@@ -33,6 +33,8 @@ app.use((req:Request, res:Response, next:NextFunction) => {
   }
 });
 
+
+
 app.use(express.json())
 app.use(cookieParser())
 app.use("/api/auth", authRoute)
