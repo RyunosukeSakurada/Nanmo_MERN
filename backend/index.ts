@@ -23,23 +23,29 @@ mongoose
     console.log(error.message)
   })
 
-app.use((req:Request, res:Response, next:NextFunction) => {
-  const allowedOrigins = [process.env.ORIGIN_URL]; 
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    cors({ origin: true, credentials: true })(req, res, next);
-  } else {
-    cors({ origin: false, credentials: true })(req, res, next);
-  }
-});
+// app.use((req:Request, res:Response, next:NextFunction) => {
+//   const allowedOrigins = [process.env.ORIGIN_URL]; 
+//   const origin = req.headers.origin;
+//   if (allowedOrigins.includes(origin)) {
+//     cors({ origin: true, credentials: true })(req, res, next);
+//   } else {
+//     cors({ origin: false, credentials: true })(req, res, next);
+//   }
+// });
 
-app.use(function (req:Request, res:Response, next:NextFunction) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://nanmo-mern-frontend.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  res.setHeader('Access-Control-Allow-Credentials', "true");
+// app.use(function (req:Request, res:Response, next:NextFunction) {
+//   res.setHeader('Access-Control-Allow-Origin', 'https://nanmo-mern-frontend.vercel.app');
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//   res.setHeader('Access-Control-Allow-Credentials', "true");
+//   next();
+//   })
+
+  app.use(function(req:Request, res:Response, next:NextFunction) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
-  })
+});
 
 // app.use((req:Request, res:Response, next:NextFunction) => {
 //   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
