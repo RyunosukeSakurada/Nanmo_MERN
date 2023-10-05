@@ -23,7 +23,6 @@ mongoose
     console.log(error.message)
   })
 
-app.use(cors());
 app.use((req:Request, res:Response, next:NextFunction) => {
   const allowedOrigins = [process.env.ORIGIN_URL]; 
   const origin = req.headers.origin;
@@ -33,6 +32,14 @@ app.use((req:Request, res:Response, next:NextFunction) => {
     cors({ origin: false, credentials: true })(req, res, next);
   }
 });
+
+app.use(function (req:Request, res:Response, next:NextFunction) {
+  res.setHeader('Access-Control-Allow-Origin', 'https://nanmo-mern-frontend.vercel.app');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', "true");
+  next();
+  })
 
 // app.use((req:Request, res:Response, next:NextFunction) => {
 //   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
