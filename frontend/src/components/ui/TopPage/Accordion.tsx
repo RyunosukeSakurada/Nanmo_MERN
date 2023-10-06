@@ -35,6 +35,9 @@ const Accordion = () => {
         if (!Array.isArray(data)) {
           console.error("Expected data to be an array but received:", data);
         }
+        console.log('====================================');
+        console.log(data);
+        console.log('====================================');
         setFaqs(data);
       } catch (error) {
         console.error("FAQの取得に失敗:", error);

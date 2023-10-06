@@ -23,6 +23,8 @@ mongoose
     console.log(error.message)
   })
 
+
+
 app.use((req:Request, res:Response, next:NextFunction) => {
   const allowedOrigins = [process.env.ORIGIN_URL]; 
   const origin = req.headers.origin;
