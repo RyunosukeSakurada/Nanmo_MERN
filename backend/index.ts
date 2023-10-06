@@ -1,16 +1,16 @@
+require("dotenv").config();
+const cors = require('cors');
 import { Request, Response, NextFunction } from 'express';
 
 const express = require('express')
 const app = express();
 const PORT = 4000;
 const mongoose = require('mongoose')
-require("dotenv").config();
 const authRoute = require('./src/routes/auth')
 const userRoute = require('./src/routes/user')
 const productRoute = require('./src/routes/product')
 const stripeRoute = require('./src/routes/stripe')
 const orderRoute = require('./src/routes/order')
-const cors = require('cors');
 const cookieParser = require('cookie-parser')
 
 // DB接続
