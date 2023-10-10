@@ -20,7 +20,7 @@ mongoose
     console.log("DBと接続中...");
   })
   .catch((error: { message: any; }) => {
-    console.log(error.message)
+    console.log("mongoose error" + error.message)
   })
 
 
