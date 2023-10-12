@@ -97,7 +97,6 @@ router.post("/register", async(req: Request, res: Response) => {
 router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
   try {
     const { email, password } = req.body;
-
     // メールアドレスでユーザーを検索
     const userDoc = await User.findOne({ email });
     if (userDoc) {
@@ -120,7 +119,6 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
         return; 
       }
     }
-
     // メールアドレスで店舗ユーザーを検索
     const storeDoc = await Store.findOne({ email });
     if (storeDoc) {
@@ -199,6 +197,9 @@ router.post("/addadmin", async(req: Request<UserRequest>, res: Response) => {
 //token認証
 router.get("/profile", async(req: Request, res: Response) => {
   const {token} = req.cookies;
+  if (!token) {
+    return res.status(401).json({ error: 'Not logged in' });
+  }
   jwt.verify(token, SECRET_TOKEN, {}, (err:Error, info:string) => {
     if (err) {
       return res.status(401).json({ error: 'Invalid token' });
@@ -206,6 +207,7 @@ router.get("/profile", async(req: Request, res: Response) => {
     res.json(info);
   });
 });
+
 
 // 一般ユーザーの状態の更新(Admin Dashboard)
 router.put("/updateuserstatus/:userId", async (req: Request, res: Response) => {
