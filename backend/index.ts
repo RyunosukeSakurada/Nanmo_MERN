@@ -31,6 +31,7 @@ app.use(cors({
 
 app.use(express.json())
 app.use(cookieParser())
+app.set("trust proxy", 1);
 app.use("/api/auth", authRoute)
 app.use("/api/user", userRoute)
 app.use("/api/product", productRoute)

@@ -280,7 +280,7 @@ router.get("/getfaqs", async (req: Request<FAQRequest>, res: Response) => {
 
 //FAQの削除
 router.delete("/deletefaq/:id", async (req: Request, res: Response) => {
-  const id = req.params.id; //Express.jsのリクエストオブジェクトの一部で、URLの名前付きルートパラメータの値を含む
+  const id = req.params.id; 
   try {
     await FAQ.findByIdAndDelete(id);
     return res.status(200).json({ message: "FAQが削除されました" });
