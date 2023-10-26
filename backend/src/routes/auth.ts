@@ -106,7 +106,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
         jwt.sign({id:userDoc._id, email,isAdmin: userDoc.isAdmin, isStore: false, blocked:userDoc.blocked, suspended:userDoc.suspended},SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           //クッキーにセットされてクライアントに返す
-          res.cookie('token', token).json({
+          res.cookie('token', token, { secure: true, httpOnly: true }).json({
             id:userDoc._id,
             email,
             type: 'user',
@@ -141,7 +141,7 @@ router.post("/login", async(req: Request<LoginRequest>, res: Response)=> {
         },SECRET_TOKEN,{expiresIn: "7d"},(err:Error, token: TokenPayload) => {
           if (err) throw err;
           //クッキーにセットされてクライアントに返す
-          res.cookie('token', token).json({
+          res.cookie('token', token, { secure: true, httpOnly: true }).json({
             id:storeDoc._id,
             email,
             type: 'store',
