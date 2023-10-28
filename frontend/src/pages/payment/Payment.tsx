@@ -200,7 +200,7 @@ const Payment = () => {
                   {order.items.map(item => (
                     <div key={item.product._id} className='flex flex-row gap-x-4 p-4 shadow items-center'>
                       <img 
-                        src={`${import.meta.env.VITE_API_BASE_URL}/${item.product.productImage}`} 
+                        src={`${item.product.productImage}`} 
                         alt="商品の画像"
                         className='h-[50px] w-[50px] md:h-[80px] md:w-[80px] rounded-full'
                       />
