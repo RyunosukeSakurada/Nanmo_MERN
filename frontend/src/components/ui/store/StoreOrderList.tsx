@@ -49,7 +49,7 @@ const StoreOrderList:React.FC<storeProps> = ({storeId}) => {
                   <td className="px-12 md:px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
                     {order.items.map(item => `${item.product.price * item.quantity}円`).join(', ')}
                   </td>
-                  <td className="px-12 md:px-2 py-3 text-xs font-medium tracking-wider text-gray-500">order.status</td>
+                  <td className="px-12 md:px-2 py-3 text-xs font-medium tracking-wider text-gray-500">{order.status}</td>
                   <td className="px-12 md:px-2 py-3 text-xs font-medium tracking-wider text-gray-500">
                     {new Date(order.createdAt).toLocaleDateString()}
                   </td>
